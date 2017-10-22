@@ -4,8 +4,9 @@ Python Aplication Template
 Licence: GPLv3
 """
 
+import os
+
 class InstanceConfig(object):
-    DEBUG = False
-    TESTING = False
-    SECRET_KEY = "dfsdfsdbfhsdfs"
-    DATABASE_URI = 'mysql://user@localhost/foo'
+    TESTING = os.environ.get("TESTING", False)
+    SECRET_KEY = os.environ.get("SECRET_KEY", "baseFlaskSecretKey")
+    DATABASE_URI = os.environ.get("MONGO_URL", False)
