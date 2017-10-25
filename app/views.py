@@ -5,6 +5,7 @@ Licence: GPLv3
 """
 
 from .models.control import Control
+from .models.checker import Checker
 import datetime
 from app import app
 
@@ -15,6 +16,11 @@ def main():
 @app.route("/crawler/<datacenter>")
 def info(datacenter):
     return "info %s" % datacenter
+
+@app.route("/crawler/<datacenter>/check", methods=['PUT'])
+def check(datacenter):
+    Checker = Checker(datacenter, request.data)
+    return Checker.check()
 
 @app.route("/crawler/<datacenter>/full")
 def full(datacenter):
@@ -27,7 +33,7 @@ def parcial(datacenter):
     now = (datetime.datetime.now())
     return control.parcial(now)
 
-@app.route("/crawler/<uuid:datacenter>/single/<instance_id>")
+@app.route("/crawler/<datacenter>/single/<instance_id>")
 def single(datacenter, instance_id):
     control = Control(datacenter)
     return control.single(instance_id)
