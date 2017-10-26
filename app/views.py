@@ -4,36 +4,20 @@ Python Routes
 Licence: GPLv3
 """
 
-from .models.control import Control
-from .models.checker import Checker
-import datetime
+from flask_restful import Api
 from app import app
+from flask import jsonify
 
-@app.route("/")
-def main():
-    return "Hello Worldd2!"
+from .controller.discovery import DiscoveryApp
+from .controller.crawler import CrawlerApp
+from .controller.checker import CheckerApp
 
-@app.route("/crawler/<datacenter>")
-def info(datacenter):
-    return "info %s" % datacenter
+api = Api(app)
 
-@app.route("/crawler/<datacenter>/check", methods=['PUT'])
-def check(datacenter):
-    Checker = Checker(datacenter, request.data)
-    return Checker.check()
+api.add_resource(DiscoveryApp, '/')
+api.add_resource(CrawlerApp, '/crawler/<datacenter>')
+api.add_resource(CheckerApp, '/crawler/<datacenter>/check')
 
-@app.route("/crawler/<datacenter>/full")
-def full(datacenter):
-    control = Control(datacenter)
-    return control.full()
-
-@app.route("/crawler/<datacenter>/parcial")
-def parcial(datacenter):
-    control = Control(datacenter)
-    now = (datetime.datetime.now())
-    return control.parcial(now)
-
-@app.route("/crawler/<datacenter>/single/<instance_id>")
-def single(datacenter, instance_id):
-    control = Control(datacenter)
-    return control.single(instance_id)
+@app.errorhandler(404)
+def error(e):
+    return jsonify({'error': 'Resource not found'})

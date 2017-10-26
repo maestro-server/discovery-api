@@ -5,8 +5,21 @@ Licence: GPLv3
 """
 
 import os
+from dotenv import load_dotenv, find_dotenv
 
-class InstanceConfig(object):
+load_dotenv(find_dotenv())
+
+class Config(object):
     TESTING = os.environ.get("TESTING", False)
-    SECRET_KEY = os.environ.get("SECRET_KEY", "baseFlaskSecretKey")
+    SECRETJWT = os.environ.get("SECRETJWT", "baseFlaskSecretKey")
     DATABASE_URI = os.environ.get("MONGO_URL", False)
+
+
+class ProductionConfig(Config):
+    pass
+
+class DevelopmentConfig(Config):
+    DEBUG = True
+
+class TestingConfig(Config):
+    TESTING = True
