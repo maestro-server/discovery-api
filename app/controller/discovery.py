@@ -3,4 +3,7 @@ from flask_restful import Resource
 
 class DiscoveryApp(Resource):
     def get(self):
-        return {'hello': 'world'}
+        return {
+            'name': 'Discovery API',
+            'version': '0.10'
+        }
