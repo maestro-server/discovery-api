@@ -7,12 +7,4 @@ class Jwt(object):
 
     @staticmethod
     def decode(encoded):
-
-        try:
-            response = jwt.decode(encoded, app.config['SECRETJWT'], algorithms=['HS256'])
-        except DecodeError:
-            response = {'error': 'Invalid Decode', 'status': 403}
-        except:
-            response = {'error': 'Jwt decode error', 'status': 500}
-
-        return response
+        return jwt.decode(encoded, app.config['SECRETJWT'], algorithms=['HS256'])

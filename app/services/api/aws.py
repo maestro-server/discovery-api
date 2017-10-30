@@ -3,20 +3,25 @@ import boto3
 
 class AWS(object):
 
-    def __init__(self, access):
+    def __init__(self, access, regions):
         self.access = access
+        self.regions = regions
 
-    def credencials(self):
-        self.client = boto3.client(
-            'ec2',
+    def credencials(self, caller, region):
+        print(caller)
+        return boto3.client(
+            caller,
             aws_access_key_id=self.access['access'],
-            aws_secret_access_key=self.access['secret']
+            aws_secret_access_key=self.access['secret'],
+            region_name=region
         )
 
-    def validate(self, require):
-        self.credencials()
-        s3 = self.client.describe_instances(
-            DryRun=True,
-        )
-        print(s3)
-        return 'aws'
+    def execute(self, require):
+        for region in self.regions:
+            print(region)
+            #client = self.credencials(require['caller'], region)
+            print(require)
+            return require
+            #return client.describe_instances(
+            #    DryRun=True,
+            #)

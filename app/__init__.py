@@ -11,6 +11,12 @@ app = Flask(__name__)
 app.config.from_object('instance.config.Config')
 
 client = MongoClient(app.config['DATABASE_URI'])
-db = client['maestro']
+db = client[app.config['DATABASE_NAME']]
+
+try:
+    client.server_info() # Forces a call.
+    print("Mongo Online")
+except pymongo.errors.ServerSelectionTimeoutError as err:
+    print("server is down.", err)
 
 from app import views

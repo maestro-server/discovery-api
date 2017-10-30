@@ -13,6 +13,7 @@ class Config(object):
     TESTING = os.environ.get("TESTING", False)
     SECRETJWT = os.environ.get("SECRETJWT", "baseFlaskSecretKey")
     DATABASE_URI = os.environ.get("MONGO_URL", False)
+    DATABASE_NAME = os.environ.get("MONGO_DATABASE", False)
 
 
 class ProductionConfig(Config):

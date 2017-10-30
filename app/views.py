@@ -19,8 +19,12 @@ api = Api(app)
 
 api.add_resource(DiscoveryApp, '/')
 api.add_resource(Crawler, '/crawler')
-api.add_resource(CrawlerDcs, '/crawler/<datacenter>')
-api.add_resource(CrawlerApps, '/crawler/<datacenter>/<type>/<instance>/<task>')
+api.add_resource(CrawlerDcs, '/crawler/<datacenter>', '/crawler/<datacenter>/')
+api.add_resource(CrawlerApps,
+                 '/crawler/<datacenter>/<instance>/<task>',
+                 '/crawler/<datacenter>/<instance>/<task>/',
+                 '/crawler/<datacenter>/<instance>/<task>/<type>',
+                 '/crawler/<datacenter>/<instance>/<task>/<type>/')
 
 @app.errorhandler(404)
 def error(e):
