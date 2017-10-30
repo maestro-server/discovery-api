@@ -1,11 +1,16 @@
 
 from flask_restful import Resource
-from app.error.factoryInvalid import FactoryInvalid
-from app.models import Adminer, Providers
-from app.services.jwt import Jwt
-from jwt.exceptions import DecodeError
-
 from app.services.factory import FactoryAPI
+from app.services.tasker import Tasker
+
+from app.models import Adminer, Providers
+from app.libs.jwt import Jwt
+
+from jwt.exceptions import DecodeError
+from app.error.factoryInvalid import FactoryInvalid
+from app.error.clientMaestroError import ClientMaestroError
+
+
 
 class CrawlerApps(Resource):
     def get(self, datacenter, instance, task, type='parcial'):
@@ -21,7 +26,8 @@ class CrawlerApps(Resource):
         if not require:
             return FactoryInvalid.responseInvalid('This task is not allowed')
 
-        conn = Providers().get(instance, len='.conn')
+        Provider = Providers(instance)
+        conn = Provider.get(len='.conn')
         if not conn:
             return FactoryInvalid.responseInvalid('This instance dont have a valid connection.')
 
@@ -32,11 +38,25 @@ class CrawlerApps(Resource):
         except Exception as error:
             return FactoryInvalid.responseInvalid(str(error), 500)
 
+        return self.crawlerFactory(Provider, task, access, datacenter, require)
+
+
+    def crawlerFactory(self, Provider, task, access, datacenter, require):
         try:
             success = FactoryAPI(access=access, dc=datacenter).execute(require)
+            Tasker.execute('insert', success)
+
+            return Provider.markSucess(task)\
+                .updateState('Success crawler, dc %s with regions %s' % (datacenter, ' '.join(access['regions'])))
+
+        except ClientMaestroError as error:
+            Provider.markError(task)\
+                .updateState(str(error))
+
+            return FactoryInvalid.responseInvalid({'msg': str(error), 'name': error.__class__.__name__}, 403)
+
         except Exception as error:
-            return FactoryInvalid.responseInvalid(str(error), 403)
+            Provider.markWarning(task) \
+                .updateState(str(error))
 
-
-
-        return success
+            return FactoryInvalid.responseInvalid({'msg': str(error), 'name': error.__class__.__name__}, 500)

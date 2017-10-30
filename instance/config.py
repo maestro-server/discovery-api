@@ -5,6 +5,7 @@ Licence: GPLv3
 """
 
 import os
+from app.libs.jsonEncoder import DateTimeEncoder
 from dotenv import load_dotenv, find_dotenv
 
 load_dotenv(find_dotenv())
@@ -14,6 +15,7 @@ class Config(object):
     SECRETJWT = os.environ.get("SECRETJWT", "baseFlaskSecretKey")
     DATABASE_URI = os.environ.get("MONGO_URL", False)
     DATABASE_NAME = os.environ.get("MONGO_DATABASE", False)
+    RESTFUL_JSON = {'cls': DateTimeEncoder}
 
 
 class ProductionConfig(Config):
