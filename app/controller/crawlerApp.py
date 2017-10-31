@@ -9,7 +9,7 @@ from app.libs.jwt import Jwt
 from jwt.exceptions import DecodeError
 from app.error.factoryInvalid import FactoryInvalid
 from app.error.clientMaestroError import ClientMaestroError
-
+from app.error.missingError import MissingError
 
 
 class CrawlerApps(Resource):
@@ -49,7 +49,7 @@ class CrawlerApps(Resource):
             return Provider.markSucess(task)\
                 .updateState('Success crawler, dc %s with regions %s' % (datacenter, ' '.join(access['regions'])))
 
-        except ClientMaestroError as error:
+        except (ClientMaestroError, MissingError) as error:
             Provider.markError(task)\
                 .updateState(str(error))
 

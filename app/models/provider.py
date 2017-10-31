@@ -16,7 +16,7 @@ class Providers(Model):
         return self
 
     def markError(self, task):
-        self.state = 'error'
+        self.state = 'danger'
         self.task = task
         return self
 

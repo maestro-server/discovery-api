@@ -46,7 +46,6 @@ class AWS(Connector):
     def execute(self, resource):
         try:
             output = getattr(self.__client, resource)(
-                DryRun=True,
                 Filters=self.__filter,
                 InstanceIds=self.__instance_ids,
                 MaxResults=self.__max_result
