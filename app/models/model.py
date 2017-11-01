@@ -1,4 +1,5 @@
 
+import datetime
 from app import db
 from pydash.objects import get
 from bson.objectid import ObjectId
@@ -23,9 +24,13 @@ class Model(object):
         if not self.__id:
             raise MissingError('id', 'Id not setted')
 
+        data = {**data, **self.makeUpdateAt()}
         set = {'$set': data}
         result = self.col.update_one(self.makeObjectId(), set)
         return result.raw_result
+
+    def makeUpdateAt(self):
+        return {'updated_at': datetime.datetime.utcnow()}
 
     def makeObjectId(self):
         return {'_id': ObjectId(self.__id)}

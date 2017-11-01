@@ -7,27 +7,28 @@ from app.error.clientMaestroError import ClientMaestroError
 from botocore.exceptions import ClientError
 
 class AWS(Connector):
-    __filter = []
-    __instance_ids = []
-    __max_result = 10
-    __next_token = None
+    __params = {'MaxResults': 10}
     __path_result = 'Reservations'
 
     def __init__(self, access, region):
         self.__access = access
         self.__region = region
 
-    def setFilters(self, filters):
-        self.__filter = filters
+    def setParams(self, key, val):
+        self.__params[key] = val
+        return self
 
-    def setInstanceIds(self, ids):
-        self.__instance_ids = ids
+    def setFilters(self, val):
+        self.setParams('Filters', val)
+        return self
 
-    def setMaxResults(self, qtd):
-        self.__max_result = qtd
+    def setMaxResults(self, val):
+        self.setParams('MaxResults', val)
+        return self
 
-    def setNextToken(self, token):
-        self.__next_token = token
+    def setNextToken(self, val):
+        self.setParams('NextToken', val)
+        return self
 
 
     def credencials(self, command):
@@ -45,12 +46,7 @@ class AWS(Connector):
 
     def execute(self, resource):
         try:
-            output = getattr(self.__client, resource)(
-                Filters=self.__filter,
-                InstanceIds=self.__instance_ids,
-                MaxResults=self.__max_result
-            )
-
+            output = getattr(self.__client, resource)(**self.__params)
             return get(output, self.__path_result)
 
         except ClientError as error:
