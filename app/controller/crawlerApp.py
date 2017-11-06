@@ -21,7 +21,7 @@ class CrawlerApps(Resource):
             'task': task
         }
 
-    def put(self, datacenter, instance, task, type='parcial'):
+    def put(self, datacenter, instance, task):
         require = Adminer().getOptions('providers', len='.permissions.%s.%s' % (datacenter, task))
         if not require:
             return FactoryInvalid.responseInvalid('This task is not allowed')
