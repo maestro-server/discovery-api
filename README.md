@@ -1,2 +1,13 @@
+FLASK_DEBUG=1
+FLASK_APP=run.py
 
-PORT
+TESTING=False
+SECRETJWT='secret'
+
+PORT=5000
+MONGO_URL='mongodb://localhost'
+MONGO_DATABASE='maestro-client'
+
+CELERY_BROKER_URL="amqp://localhost:5672"
+CELERY_RESULT_BACKEND="redis://localhost:6379/0"
+CELERYD_TASK_TIME_LIMIT=30

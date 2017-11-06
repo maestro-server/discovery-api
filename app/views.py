@@ -13,8 +13,6 @@ from .controller.crawler import Crawler
 from .controller.crawlerDcs import CrawlerDcs
 from .controller.crawlerApp import CrawlerApps
 
-
-
 api = Api(app)
 
 api.add_resource(DiscoveryApp, '/')

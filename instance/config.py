@@ -16,7 +16,8 @@ class Config(object):
     DATABASE_URI = os.environ.get("MONGO_URL", False)
     DATABASE_NAME = os.environ.get("MONGO_DATABASE", False)
     RESTFUL_JSON = {'cls': DateTimeEncoder}
-
+    CELERY_BROKER_URL = os.environ.get("CELERY_BROKER_URL", False)
+    CELERY_RESULT_BACKEND = os.environ.get("CELERY_RESULT_BACKEND", False)
 
 class ProductionConfig(Config):
     pass

@@ -1,0 +1,14 @@
+version: '2'
+
+services:
+  rabbitmq:
+    hostname: "discovery-rabbit"
+    image: rabbitmq:3-management
+    ports:
+      - "15672:15672"
+      - "5672:5672"
+
+  redis:
+    image: redis
+    ports:
+      - "6379:6379"
