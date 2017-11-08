@@ -5,13 +5,8 @@
   "main": "run.py",
   "scripts": {
     "server": "FLASK_APP=run.py FLASK_DEBUG=1 flask run",
-<<<<<<< HEAD
     "celery": "celery -A app.celery worker -E --loglevel=info",
     "save": "pip freeze > requirements.txt ",
-=======
-    "celery": "celery flower -A app.celery worker --loglevel=info",
-    "save": "pip freeze > requirements.txt",
->>>>>>> 3b1b0ef9804dae8cf0f924742213222710681a5f
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
