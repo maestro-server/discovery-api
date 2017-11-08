@@ -18,6 +18,7 @@ class Config(object):
     RESTFUL_JSON = {'cls': DateTimeEncoder}
     CELERY_BROKER_URL = os.environ.get("CELERY_BROKER_URL", False)
     CELERY_RESULT_BACKEND = os.environ.get("CELERY_RESULT_BACKEND", False)
+    CELERY_TASK_ROUTES = ([{'scan.*': {'queue': 'scan'}}])
 
 class ProductionConfig(Config):
     pass

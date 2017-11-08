@@ -1,34 +1,21 @@
 
+import os
 from app import celery
-from app.services.factory import FactoryAPI
-from app.models import Providers
-
-from app.libs.jwt import Jwt
-from jwt.exceptions import DecodeError
-
-from app.error import FactoryInvalid, ClientMaestroError, MissingError
+from app.services.translater import TranslateAPI
+from .insert import task_insert
 
 
-@celery.task(name="scan.api", queue="scan")
-def task_scan(task, connector, region, commands, filter=[], pagination=[]):
-    try:
-        access = Jwt.decode(connector['conn'])
-    except DecodeError as error:
-        return FactoryInvalid.responseInvalid(str(error), 403)
-    except Exception as error:
-        return FactoryInvalid.responseInvalid(str(error), 500)
 
+@celery.task(name="translate.api", bind=True)
+def task_translate(self, conn_id, commands, provider, result):
+    limit = os.environ.get("MAESTRO_TRANSLATE_QTD", 100)
 
-    Provider = Providers(connector['_id'])
-    try:
-        FactoryAPI(access=access, dc=connector['provider'], region=region).execute(commands)
-        return Provider.markSucess(task).updateState('Crawler Success')
+    Translater = TranslateAPI(provider, commands['access'], limit)
 
-    except (ClientMaestroError, MissingError) as error:
-        Provider.markError(task).updateState(str(error))
-        return FactoryInvalid.responseInvalid({'msg': str(error), 'name': error.__class__.__name__}, 403)
+    for batch in Translater.translate(result['result']):
+        print(len(batch))
 
-    except Exception as error:
-        Provider.markWarning(task).updateState(str(error))
-        return FactoryInvalid.responseInvalid({'msg': str(error), 'name': error.__class__.__name__}, 500)
+    print(commands)
 
+    key = task_insert.delay(conn_id, result)
+    return {'name': self.request.task, 'insert-id': str(key), 'conn_id': conn_id, 'provider': provider, 'commands': commands}

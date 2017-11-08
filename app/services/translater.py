@@ -12,12 +12,15 @@ class TranslateAPI(object):
         self.limit = limit
 
     def translate(self, result):
-        i = 0
+        x = 1
+        i = 1
         total = len(result)
 
         while x <= total:
-            x = i * self.limit
-            yield result[x:self.limit]
+            x = (i * int(self.limit))
+            i = i + 1
+            print(i, x)
+            yield result[1:100]
 
     def exec(self):
         provider = self.able[self.dc]

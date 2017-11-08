@@ -1,15 +1,7 @@
 
 from abc import ABC, abstractmethod
 
-class Connector(ABC):
+class Mapper(ABC):
     @abstractmethod
-    def credencials(self):
-        pass
-
-    @abstractmethod
-    def select(self):
-        pass
-
-    @abstractmethod
-    def execute(self):
+    def translate(self):
         pass

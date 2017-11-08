@@ -1,15 +1,9 @@
 
 from flask_restful import Resource
-from app.services.factory import FactoryAPI
-from app.services.tasker import Tasker
-
 from app.models import Adminer, Providers
-from app.libs.jwt import Jwt
 
-from jwt.exceptions import DecodeError
 from app.error.factoryInvalid import FactoryInvalid
-from app.error.clientMaestroError import ClientMaestroError
-from app.error.missingError import MissingError
+from app.tasks import task_scan
 
 
 class CrawlerApps(Resource):
@@ -26,37 +20,23 @@ class CrawlerApps(Resource):
         if not require:
             return FactoryInvalid.responseInvalid('This task is not allowed')
 
+        return self.crawlerFactory(instance, task, require)
+
+
+    def crawlerFactory(self, instance, task, require):
         Provider = Providers(instance)
-        conn = Provider.get(len='.conn')
-        if not conn:
+        connector = Provider.get()
+        if not connector['conn']:
             return FactoryInvalid.responseInvalid('This instance dont have a valid connection.')
 
         try:
-            access = Jwt.decode(conn)
-        except DecodeError as error:
-            return FactoryInvalid.responseInvalid(str(error), 403)
-        except Exception as error:
-            return FactoryInvalid.responseInvalid(str(error), 500)
+            for commands in require:
+                for region in connector['regions']:
+                    key = task_scan.delay(connector['conn'], str(connector['_id']), connector['provider'], region, commands)
+                    return str(key)
 
-        return self.crawlerFactory(Provider, task, access, datacenter, require)
-
-
-    def crawlerFactory(self, Provider, task, access, datacenter, require):
-        try:
-            success = FactoryAPI(access=access, dc=datacenter).execute(require)
-            Tasker.execute('insert', success)
-
-            return Provider.markSucess(task)\
-                .updateState('Success crawler, dc %s with regions %s' % (datacenter, ' '.join(access['regions'])))
-
-        except (ClientMaestroError, MissingError) as error:
-            Provider.markError(task)\
-                .updateState(str(error))
-
-            return FactoryInvalid.responseInvalid({'msg': str(error), 'name': error.__class__.__name__}, 403)
+            return Provider.markWarning(task).updateState('In progress. %s' % key)
 
         except Exception as error:
-            Provider.markWarning(task) \
-                .updateState(str(error))
-
+            Provider.markWarning(task).updateState(str(error))
             return FactoryInvalid.responseInvalid({'msg': str(error), 'name': error.__class__.__name__}, 500)
