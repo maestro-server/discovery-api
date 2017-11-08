@@ -5,20 +5,19 @@ class Providers(Model):
     state = 'warning'
     task = ''
 
-    def markWarning(self, task):
-        self.state = 'warning'
+    def markStatus(self, status, task):
+        self.state = status
         self.task = task
         return self
+
+    def markWarning(self, task):
+        return self.markStatus(self, 'warning', task)
 
     def markSucess(self, task):
-        self.state = 'success'
-        self.task = task
-        return self
+        return self.markStatus(self, 'success', task)
 
     def markError(self, task):
-        self.state = 'danger'
-        self.task = task
-        return self
+        return self.markStatus(self, 'danger', task)
 
     def updateState(self, msg = None):
         path = 'process.%s' % self.task
