@@ -32,7 +32,7 @@ class CrawlerApps(Resource):
         try:
             for commands in require:
                 for region in connector['regions']:
-                    key = task_scan.delay(connector['conn'], str(connector['_id']), connector['provider'], region, commands)
+                    key = task_scan.delay(connector['conn'], str(connector['_id']), task, connector['provider'], region, commands)
                     return str(key)
 
             return Provider.markWarning(task).updateState('In progress. %s' % key)
