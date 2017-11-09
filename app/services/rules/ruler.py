@@ -1,28 +1,20 @@
 
-from abc import ABC, abstractmethod
 from pydash.objects import get
 
-class Mapper(ABC):
+class Ruler(object):
 
-    def __init__(self, command):
-        self.command = command
+    @staticmethod
+    def switch(source, batch, default=None):
+        return get(batch, source, default)
 
-    def switch(self, source, batch):
-        return get(batch, source)
-
-    def arrCatcher(self, source, batch):
+    @staticmethod
+    def arrCatcher(source, batch):
         list = get(batch, source['field'], [])
         for item in list:
             if item[source['sKey']].lower() == source['s'].lower():
                 return item[source['catcher']]
 
-
-    def fctStorage(self, source, batch):
-        pass
-
-    def fctAuth(self, source, batch):
-        pass
-
-    @abstractmethod
-    def translate(self):
-        pass
+    @staticmethod
+    def switchOptions(source, batch):
+        sts = get(batch, source['field'])
+        return get(source['options'], sts, source['default'])

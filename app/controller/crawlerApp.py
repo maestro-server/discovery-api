@@ -4,6 +4,7 @@ from app.models import Adminer, Providers
 
 from app.error.factoryInvalid import FactoryInvalid
 from app.tasks import task_scan
+from pydash.objects import pick
 
 
 class CrawlerApps(Resource):
@@ -32,7 +33,11 @@ class CrawlerApps(Resource):
         try:
             for commands in require:
                 for region in connector['regions']:
-                    key = task_scan.delay(connector['conn'], str(connector['_id']), task, connector['provider'], region, commands)
+                    conn = {
+                        **pick(connector, ['conn', 'provider', 'dc']),
+                        **{'region': region}
+                    }
+                    key = task_scan.delay(conn, str(connector['_id']), task, commands)
                     return str(key)
 
             return Provider.markWarning(task).updateState('In progress. %s' % key)

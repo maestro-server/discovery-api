@@ -1,6 +1,7 @@
 
 
 from .mapper import Mapper
+from app.services.rules.aws import RulerAWS
 
 class MapperAWS(Mapper):
 
@@ -10,11 +11,10 @@ class MapperAWS(Mapper):
 
         oper = self.mapp()
         for key, item in oper.items():
-            res = getattr(self, item['call'])(item['source'], data)
+            res = getattr(RulerAWS, item['call'])(item['source'], data)
 
             if not res == None:
                 translate[key] = res
-                print("translate", res)
 
         return translate
 
@@ -31,8 +31,23 @@ class MapperAWS(Mapper):
                 'ipv4_private': {'call': 'switch', 'source': 'PrivateIpAddress'},
                 'ipv4_public': {'call': 'switch', 'source': 'PublicIpAddress'},
                 'dns_public': {'call': 'switch', 'source': 'PublicDnsName'},
+                'dns_private': {'call': 'switch', 'source': 'PrivateDnsName'},
                 'storage': {'call': 'fctStorage', 'source': 'BlockDeviceMappings'},
-                'auth': {'call': 'fctAuth', 'source': 'KeyName'}
+                'auth': {'call': 'fctAuth', 'source': 'KeyName'},
+                'tags': {'call': 'fctTags', 'source': 'Tags'},
+                'ebs_optimized': {'call': 'switch', 'source': 'EbsOptimized'},
+                'status': {'call': 'switchOptions',
+                           'source': {'field': 'State.Name',
+                                      'options': {'running': 'Active', 'pending': 'Active', 'stopping': 'Avaliable', 'stopped': 'Avaliable'},
+                                      'default': None
+                                      }},
+                'active': {'call': 'switchOptions',
+                           'source': {'field': 'State.Name',
+                                      'options': {'shutting-down': False, 'terminated': False},
+                                      'default': True
+                                      }},
+                'datacenters': {'call': 'fctDc',
+                                'source': {**self.conn}}
             }
         }
 

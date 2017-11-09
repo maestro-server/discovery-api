@@ -4,24 +4,9 @@ from pydash.objects import get
 
 class Mapper(ABC):
 
-    def __init__(self, command):
+    def __init__(self, command, conn):
         self.command = command
-
-    def switch(self, source, batch):
-        return get(batch, source)
-
-    def arrCatcher(self, source, batch):
-        list = get(batch, source['field'], [])
-        for item in list:
-            if item[source['sKey']].lower() == source['s'].lower():
-                return item[source['catcher']]
-
-
-    def fctStorage(self, source, batch):
-        pass
-
-    def fctAuth(self, source, batch):
-        pass
+        self.conn = conn
 
     @abstractmethod
     def translate(self):

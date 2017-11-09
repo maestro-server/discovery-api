@@ -1,4 +1,5 @@
 
+import os
 import boto3
 from .connector import Connector
 from pydash.objects import get
@@ -7,7 +8,7 @@ from app.error.clientMaestroError import ClientMaestroError
 from botocore.exceptions import ClientError
 
 class AWS(Connector):
-    __params = {'MaxResults': 10}
+    __params = {'MaxResults': int(os.environ.get("MAESTRO_SCAN_QTD", 100))}
     __path_result = 'Reservations'
 
     def __init__(self, access, region):
