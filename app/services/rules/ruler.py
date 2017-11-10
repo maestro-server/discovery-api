@@ -1,7 +1,35 @@
 
+import re
 from pydash.objects import get
 
+from app.models.model import Model
+
 class Ruler(object):
+
+    @staticmethod
+    def searchID(key, rule):
+        id = re.search('_id', key)
+
+        if id:
+            return Ruler.makeObjectId(key, rule)
+
+        return rule
+
+    @staticmethod
+    def makeObjectId(key, rule):
+        if isinstance(rule, list):
+            arr = map(lambda x: Ruler.searchID(key, x), rule)
+            return list(arr)
+
+        return Model.castObjectId(rule)
+
+    @staticmethod
+    def translateLists(key, rule):
+        if isinstance(rule, list):
+            rule = {'$in': rule}
+
+        return rule
+
 
     @staticmethod
     def switch(source, batch, default=None):
