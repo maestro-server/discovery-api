@@ -12,13 +12,20 @@ class Model(object):
         self.col = db[name]
         self.__id = id
 
-    def getAll(self, filter):
-        list = self.col.find(filter)
+    def getAll(self, filter = {}, limit = 10, skip = 0):
+        print(filter)
 
-    def get(self, len=''):
-        list = self.col.find(self.makeObjectId())
-        if list:
-            return get(list, '[0]%s' % len)
+        result = self.col.find(filter)\
+            .limit(limit)\
+            .skip(skip)
+
+        return list(result)
+
+    def count(self, filter = {}):
+        return self.col.count(filter)
+
+    def get(self):
+        return self.col.find_one(self.makeObjectId(self.__id))
 
     def update(self, data):
         if not self.__id:
@@ -26,11 +33,15 @@ class Model(object):
 
         data = {**data, **self.makeUpdateAt()}
         set = {'$set': data}
-        result = self.col.update_one(self.makeObjectId(), set)
+        result = self.col.update_one(self.makeObjectId(self.__id), set)
         return result.raw_result
 
     def makeUpdateAt(self):
         return {'updated_at': datetime.datetime.utcnow()}
 
-    def makeObjectId(self):
-        return {'_id': ObjectId(self.__id)}
+    def makeObjectId(self, id):
+        return {'_id': Model.castObjectId(id)}
+
+    @staticmethod
+    def castObjectId(id):
+        return ObjectId(id)

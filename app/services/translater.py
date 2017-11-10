@@ -1,24 +1,19 @@
 
-from app.services.api.aws import AWS
-from app.services.api.openstack import OpenStack
+from app.services.translate.aws import MapperAWS
 
 
 class TranslateAPI(object):
-    able = {'AWS': AWS, 'OpenStack': OpenStack}
+    able = {'AWS': MapperAWS}
 
-    def __init__(self, provider, entity, limit):
-        self.entity = entity
-        self.provider = provider
-        self.limit = limit
+    def __init__(self, provider, entity, task, conn={}):
+        self.task = task
+        self.provider = self.able[provider](entity, conn)
 
-    def translate(self, result):
-        i = 0
-        total = len(result)
+    def translate(self, data):
+        result = []
 
-        while x <= total:
-            x = i * self.limit
-            yield result[x:self.limit]
+        for item in data:
+            tt = self.provider.translate(item)
+            result.append(tt)
 
-    def exec(self):
-        provider = self.able[self.dc]
-        return provider(self.entity, self.provider).translate()
+        return result

@@ -5,10 +5,7 @@ from app.models import Providers
 
 class ConnectionApp(Resource):
     def get(self, instance):
-        conn = Provider.get()
-        print(instance)
-
-        return conn
+        return Providers(instance).get()
 
     def patch(self, instance):
         valid = connValidate().validate()

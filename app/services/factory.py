@@ -1,33 +1,22 @@
 
 from app.services.api.aws import AWS
 from app.services.api.openstack import OpenStack
-from pydash.objects import get
-from app.error.missingError import MissingError
 
 class FactoryAPI(object):
+
     able = {'AWS': AWS, 'OpenStack': OpenStack}
 
-    def __init__(self, access, dc):
+    def __init__(self, access, dc, region):
         self.access = access
         self.dc = dc
-        self.regions = self.getRegions(access)
+        self.region = self.translateRegion(region)
 
-        if not self.regions:
-            raise MissingError(self.regions, 'Dont have any region in this connnection')
+    def translateRegion(self, data):
+        return data.split(' ')[0]
 
-    def getRegions(self, data):
-        rgs = get(data, 'regions', [])
-        return list(map(lambda e: e.split(' ')[0], rgs))
-
-    def execute(self, require):
-        result = []
-
-        for commands in require:
-            for region in self.regions:
-                res = self.exec(region, commands['access'], commands['command'])
-                result.append({'cmd': commands, 'region': region, 'result': res})
-
-        return result
+    def execute(self, commands):
+        res = self.exec(self.region, commands['access'], commands['command'])
+        return {'cmd': commands, 'region': self.region, 'result': res}
 
     def exec(self, region, resource, command):
         provider = self.able[self.dc]

@@ -1,15 +1,13 @@
 
 from abc import ABC, abstractmethod
+from pydash.objects import get
 
-class Connector(ABC):
-    @abstractmethod
-    def credencials(self):
-        pass
+class Mapper(ABC):
 
-    @abstractmethod
-    def select(self):
-        pass
+    def __init__(self, command, conn):
+        self.command = command
+        self.conn = conn
 
     @abstractmethod
-    def execute(self):
+    def translate(self):
         pass
