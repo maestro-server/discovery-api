@@ -8,12 +8,13 @@ from app.error.clientMaestroError import ClientMaestroError
 from botocore.exceptions import ClientError
 
 class AWS(Connector):
-    __params = {'MaxResults': int(os.environ.get("MAESTRO_SCAN_QTD", 100))}
-    __path_result = 'Reservations'
 
     def __init__(self, access, region):
         self.__access = access
         self.__region = region
+
+        self.__params = {'MaxResults': int(os.environ.get("MAESTRO_SCAN_QTD", 100))}
+        self.__path_result = 'Reservations'
 
     def setParams(self, key, val):
         self.__params[key] = val
