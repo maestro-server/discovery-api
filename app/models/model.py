@@ -1,8 +1,8 @@
 
 import datetime
 from app import db
-from pydash.objects import get
 from bson.objectid import ObjectId
+from pymongo import UpdateOne
 from app.error.missingError import MissingError
 
 class Model(object):
@@ -13,8 +13,6 @@ class Model(object):
         self.__id = id
 
     def getAll(self, filter = {}, limit = 10, skip = 0):
-        print(filter)
-
         result = self.col.find(filter)\
             .limit(limit)\
             .skip(skip)
@@ -25,7 +23,7 @@ class Model(object):
         return self.col.count(filter)
 
     def get(self):
-        return self.col.find_one(self.makeObjectId(self.__id))
+        return self.col.find_one(Model.makeObjectId(self.__id))
 
     def update(self, data):
         if not self.__id:
@@ -33,14 +31,26 @@ class Model(object):
 
         data = {**data, **self.makeUpdateAt()}
         set = {'$set': data}
-        result = self.col.update_one(self.makeObjectId(self.__id), set)
+        result = self.col.update_one(Model.makeObjectId(self.__id), set)
         return result.raw_result
+
+    def batch_update(self, data):
+        requests = []
+        for item in data:
+            obj = {**item['data'], **self.makeUpdateAt()}
+            cal = UpdateOne(item['filter'], {'$set': obj}, upsert=True)
+            requests.append(cal)
+
+        result = self.col.bulk_write(requests)
+        return result.bulk_api_result
 
     def makeUpdateAt(self):
         return {'updated_at': datetime.datetime.utcnow()}
 
-    def makeObjectId(self, id):
-        return {'_id': Model.castObjectId(id)}
+    @staticmethod
+    def makeObjectId(id):
+        if id:
+            return {'_id': Model.castObjectId(id)}
 
     @staticmethod
     def castObjectId(id):

@@ -8,10 +8,3 @@ class DcServerSingleApp(Resource):
         return {
             'items': Servers(id_server).get()
         }
-
-    def put(self, id_datacenter, id_server):
-
-        return {
-            'id_datacenter': id_datacenter,
-            'id_server': id_server
-        }

@@ -11,13 +11,13 @@ class Providers(Model):
         return self
 
     def markWarning(self, task):
-        return self.markStatus(self, 'warning', task)
+        return self.markStatus('warning', task)
 
     def markSucess(self, task):
-        return self.markStatus(self, 'success', task)
+        return self.markStatus('success', task)
 
     def markError(self, task):
-        return self.markStatus(self, 'danger', task)
+        return self.markStatus('danger', task)
 
     def updateState(self, msg = None):
         path = 'process.%s' % self.task

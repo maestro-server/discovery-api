@@ -10,6 +10,6 @@ class DateTimeEncoder(json.JSONEncoder):
         if isinstance(obj, ObjectId):
             return str(obj)
         if isinstance(obj, datetime.datetime):
-            return int(mktime(obj.timetuple()))
+            return obj.isoformat()
 
         return json.JSONEncoder.default(self, obj)

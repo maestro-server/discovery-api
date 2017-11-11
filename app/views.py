@@ -19,11 +19,7 @@ api.add_resource(DcServersApp, '/datacenters/<id_datacenter>/servers')
 api.add_resource(DcServerSingleApp, '/datacenters/<id_datacenter>/servers/<id_server>')
 
 api.add_resource(CrawlerDcs, '/crawler/<datacenter>', '/crawler/<datacenter>/')
-api.add_resource(CrawlerApps,
-                 '/crawler/<datacenter>/<instance>/<task>',
-                 '/crawler/<datacenter>/<instance>/<task>/',
-                 '/crawler/<datacenter>/<instance>/<task>/<type>',
-                 '/crawler/<datacenter>/<instance>/<task>/<type>/')
+api.add_resource(CrawlerApps, '/crawler/<datacenter>/<instance>/<task>', '/crawler/<datacenter>/<instance>/<task>/')
 
 @app.errorhandler(404)
 def error(e):

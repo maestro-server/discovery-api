@@ -8,10 +8,9 @@ from pydash.objects import pick
 
 
 class CrawlerApps(Resource):
-    def get(self, datacenter, instance, task, type='parcial'):
+    def get(self, datacenter, instance, task):
         return {
             'datacenter': datacenter,
-            'type': type,
             'instance': instance,
             'task': task
         }

@@ -8,7 +8,7 @@ class Ruler(object):
 
     @staticmethod
     def searchID(key, rule):
-        id = re.search('_id', key)
+        id = re.search('\._id', key)
 
         if id:
             return Ruler.makeObjectId(key, rule)
