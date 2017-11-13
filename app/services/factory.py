@@ -22,6 +22,5 @@ class FactoryAPI(object):
     def exec(self, region, resource, command):
         provider = self.able[self.dc]
         return provider(self.access, region)\
-            .
             .select(command)\
             .execute(resource)
