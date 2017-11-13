@@ -47,7 +47,11 @@ class MapperAWS(Mapper):
                                       'default': True
                                       }},
                 'datacenters': {'call': 'fctDc',
-                                'source': {**self.conn}}
+                                'source': {**self.conn}},
+                'owner': {'call': 'fctOwner',
+                                'source': {**self.conn}},
+                'roles': {'call': 'fctRoles',
+                          'source': {**self.conn}}
             }
         }
 

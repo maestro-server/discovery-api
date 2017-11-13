@@ -11,7 +11,7 @@ from app.services.rules.ruler import Ruler
 
 
 class DcServersApp(Resource):
-    def get(self, id_datacenter):
+    def get(self, id_datacenter = None):
         req = request.args.to_dict()
         pagination = defaults(req, {'limit': os.environ.get("MAESTRO_TRANSLATE_QTD", 50), 'skip': 0})
         limit = int(pagination['limit'])
@@ -33,23 +33,23 @@ class DcServersApp(Resource):
             'items': Servers().getAll(args, limit, skip)
         }
 
-    def put(self, id_datacenter):
+    def put(self, id_datacenter = None):
         data = request.get_json(force=True)
+
 
         format = []
         for item in data['body']:
             id = get(item, '_id')
             id = Servers.makeObjectId(id)
 
-            item = omit(item, ['_id', 'created_at', 'updated_at', 'roles', 'owner'])
+            item = omit(item, ['_id', 'created_at', 'updated_at'])
             item = map_values_deep(item, self.updaterIds)
 
             format.append({
                 'filter': id,
                 'data': item
             })
-
-        return Servers().batch_update(format)
+        return Servers().batch_process(format)
 
     def updaterIds(self, data, path):
         last = path[-1]

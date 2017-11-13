@@ -1,14 +1,13 @@
 
-import re
+import re, os, requests
 from pydash.objects import get
-
 from app.models.model import Model
 
 class Ruler(object):
 
     @staticmethod
     def searchID(key, rule):
-        id = re.search('\._id', key)
+        id = re.search('(^_id)|(\._id)', key)
 
         if id:
             return Ruler.makeObjectId(key, rule)
@@ -46,3 +45,21 @@ class Ruler(object):
     def switchOptions(source, batch):
         sts = get(batch, source['field'])
         return get(source['options'], sts, source['default'])
+
+    @staticmethod
+    def fctOwner(source, batch):
+        return {
+            'refs': 'providers',
+            'name': Ruler.switch('dc', source),
+            '_id': Ruler.switch('id', source)
+        }
+
+    @staticmethod
+    def fctRoles(source, batch):
+        id = Ruler.switch('id', source)
+        url = os.environ.get("DISCOVERY_URL", "localhost")
+
+        resource = requests.get("http://%s/providers/%s" % (url, id))
+        content = resource.json()
+
+        return get(content, 'roles')

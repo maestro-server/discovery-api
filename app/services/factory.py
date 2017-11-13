@@ -6,9 +6,10 @@ class FactoryAPI(object):
 
     able = {'AWS': AWS, 'OpenStack': OpenStack}
 
-    def __init__(self, access, dc, region):
+    def __init__(self, access, dc, region, options = {}):
         self.access = access
         self.dc = dc
+        self.options = options
         self.region = self.translateRegion(region)
 
     def translateRegion(self, data):
@@ -21,5 +22,6 @@ class FactoryAPI(object):
     def exec(self, region, resource, command):
         provider = self.able[self.dc]
         return provider(self.access, region)\
+            .
             .select(command)\
             .execute(resource)

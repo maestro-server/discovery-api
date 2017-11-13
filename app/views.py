@@ -8,14 +8,16 @@ from flask_restful import Api
 from app import app
 from flask import jsonify
 
-from .controller import DiscoveryApp, Crawler, ConnectionApp, DcServersApp, DcServerSingleApp, CrawlerDcs, CrawlerApps
+from .controller import *
 
 api = Api(app)
 
 api.add_resource(DiscoveryApp, '/')
 api.add_resource(Crawler, '/crawler')
 api.add_resource(ConnectionApp, '/connection/<instance>', '/connection/<instance>/')
-api.add_resource(DcServersApp, '/datacenters/<id_datacenter>/servers')
+
+api.add_resource(DcProvidersApp, '/providers/<id_conn>')
+api.add_resource(DcServersApp, '/datacenters/<id_datacenter>/servers', '/servers')
 api.add_resource(DcServerSingleApp, '/datacenters/<id_datacenter>/servers/<id_server>')
 
 api.add_resource(CrawlerDcs, '/crawler/<datacenter>', '/crawler/<datacenter>/')

@@ -2,7 +2,7 @@
 import datetime
 from app import db
 from bson.objectid import ObjectId
-from pymongo import UpdateOne
+from pymongo import InsertOne, UpdateOne
 from app.error.missingError import MissingError
 
 class Model(object):
@@ -34,11 +34,16 @@ class Model(object):
         result = self.col.update_one(Model.makeObjectId(self.__id), set)
         return result.raw_result
 
-    def batch_update(self, data):
+    def batch_process(self, data):
         requests = []
         for item in data:
             obj = {**item['data'], **self.makeUpdateAt()}
-            cal = UpdateOne(item['filter'], {'$set': obj}, upsert=True)
+
+            if item['filter']:
+                cal = UpdateOne(item['filter'], {'$set': obj})
+            else:
+                cal = InsertOne(obj)
+
             requests.append(cal)
 
         result = self.col.bulk_write(requests)
