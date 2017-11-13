@@ -1,12 +1,12 @@
 
-
+from pydash.objects import get
 from .mapper import Mapper
 from app.services.rules.aws import RulerAWS
 
 class MapperAWS(Mapper):
 
     def translate(self, data):
-        data = data['Instances'][0]
+        data = get(data, self._result_path)
         translate = {}
 
         oper = self.mapp()

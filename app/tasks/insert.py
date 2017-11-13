@@ -25,13 +25,8 @@ def task_insert(self, conn_id, task, result):
 
     body = MergeAPI(content).merge(result)
 
-
     path = FactoryURL.make(path="servers")
     resource = requests.put(path, json={'body': body})
-
-    print(resource.text)
-
-
 
     return {'name': self.request.task, 'conn_id': conn_id, 'task': task, 'result': resource.text}
 

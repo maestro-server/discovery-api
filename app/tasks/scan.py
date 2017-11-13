@@ -9,7 +9,7 @@ from .translate import task_translate
 
 
 @celery.task(name="scan.api", bind=True)
-def task_scan(self, conn, id, task, commands, filter=[], pagination=[]):
+def task_scan(self, conn, id, task, commands):
     access = Jwt.decode(conn['conn'])
 
     try:

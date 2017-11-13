@@ -29,9 +29,11 @@ class CrawlerApps(Resource):
         if not connector['conn']:
             return FactoryInvalid.responseInvalid('This instance dont have a valid connection.')
 
+
         try:
             for commands in require:
                 for region in connector['regions']:
+
                     conn = {
                         **pick(connector, ['conn', 'provider', 'dc']),
                         **{'region': region}

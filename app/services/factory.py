@@ -16,11 +16,14 @@ class FactoryAPI(object):
         return data.split(' ')[0]
 
     def execute(self, commands):
-        res = self.exec(self.region, commands['access'], commands['command'])
+        res = self.exec(region=self.region, commands=commands)
         return {'cmd': commands, 'region': self.region, 'result': res}
 
-    def exec(self, region, resource, command):
+    def exec(self, region, commands):
         provider = self.able[self.dc]
-        return provider(self.access, region)\
-            .select(command)\
-            .execute(resource)
+
+        return provider(self.access, region, commands)\
+            .setPathResult(commands['result_path'])\
+            .batchParams(commands['vars'])\
+            .select(commands['command'])\
+            .execute(commands['access'])

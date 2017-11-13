@@ -8,6 +8,11 @@ class Mapper(ABC):
     def __init__(self, command, conn):
         self.command = command
         self.conn = {**conn, **self.getProvider(conn['id'])}
+        self._result_path = ""
+
+    def setResultPath(self, data):
+        self._result_path = data
+        return self
 
     def getProvider(self, id):
         path = FactoryURL.make(path="providers/%s" % id)

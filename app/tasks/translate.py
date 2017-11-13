@@ -12,7 +12,7 @@ def task_translate(self, conn, conn_id, commands, task, result):
     insert_id = []
 
     connection = {**conn, 'id': conn_id}
-    Translater = TranslateAPI(conn['provider'], commands['access'], task, connection)
+    Translater = TranslateAPI(conn['provider'], commands['access'], task, connection, commands)
 
     for batch in BatchAPI(limit).batch(result['result']):
         translate = Translater.translate(batch)
