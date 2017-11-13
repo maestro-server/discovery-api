@@ -1,5 +1,5 @@
 
-import re, os, requests
+import re
 from pydash.objects import get
 from app.models.model import Model
 
@@ -51,15 +51,9 @@ class Ruler(object):
         return {
             'refs': 'providers',
             'name': Ruler.switch('dc', source),
-            '_id': Ruler.switch('id', source)
+            '_id': Ruler.switch('_id', source)
         }
 
     @staticmethod
     def fctRoles(source, batch):
-        id = Ruler.switch('id', source)
-        url = os.environ.get("DISCOVERY_URL", "localhost")
-
-        resource = requests.get("http://%s/providers/%s" % (url, id))
-        content = resource.json()
-
-        return get(content, 'roles')
+        return get(source, 'roles')

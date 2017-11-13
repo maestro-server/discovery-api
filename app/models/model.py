@@ -5,6 +5,8 @@ from bson.objectid import ObjectId
 from pymongo import InsertOne, UpdateOne
 from app.error.missingError import MissingError
 
+from pydash.objects import assign
+
 class Model(object):
 
     def __init__(self, id=None):
@@ -37,11 +39,12 @@ class Model(object):
     def batch_process(self, data):
         requests = []
         for item in data:
-            obj = {**item['data'], **self.makeUpdateAt()}
+            obj = assign(item['data'], self.makeDateAt(key='updated_at'))
 
             if item['filter']:
                 cal = UpdateOne(item['filter'], {'$set': obj})
             else:
+                obj = assign(item['data'], self.makeDateAt(key='created_at'))
                 cal = InsertOne(obj)
 
             requests.append(cal)
@@ -49,8 +52,8 @@ class Model(object):
         result = self.col.bulk_write(requests)
         return result.bulk_api_result
 
-    def makeUpdateAt(self):
-        return {'updated_at': datetime.datetime.utcnow()}
+    def makeDateAt(self, key):
+        return {key: datetime.datetime.utcnow()}
 
     @staticmethod
     def makeObjectId(id):
