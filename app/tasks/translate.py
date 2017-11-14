@@ -2,7 +2,7 @@
 import os
 from app import celery
 from app.services.translater import TranslateAPI
-from app.services.batcher import BatchAPI
+from app.services.iterators.iTranslate import IteratorTranslate
 from .insert import task_insert
 
 
@@ -14,10 +14,9 @@ def task_translate(self, conn, conn_id, options, task, result):
     connection = {**conn, 'id': conn_id}
     Translater = TranslateAPI(conn['provider'], options, task, connection)
 
-    for batch in BatchAPI(limit).batch(result['result']):
+    for batch in IteratorTranslate(limit).batch(result):
         translate = Translater.translate(batch)
         key = task_insert.delay(conn_id, task, translate, options)
-        return key
         insert_id.append(str(key))
 
     return {'name': self.request.task, 'insert-id': insert_id, 'conn_id': conn_id, 'task': task, 'options': options}

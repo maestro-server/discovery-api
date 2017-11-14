@@ -1,4 +1,5 @@
 
+from pydash import get
 from app.services.translate.aws import MapperAWS
 
 
@@ -8,7 +9,7 @@ class TranslateAPI(object):
     def __init__(self, provider, options, task, conn={}):
         self.task = task
         self.provider = self.able[provider](options['access'], conn)\
-            .setResultPath(options['single_result_path'])
+            .setResultPath(get(options, 'single_result_path', ''))
 
     def translate(self, data):
         result = []

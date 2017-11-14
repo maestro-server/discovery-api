@@ -39,7 +39,6 @@ class CrawlerApps(Resource):
                         **{'region': region}
                     }
                     key = task_scan.delay(conn, str(connector['_id']), task, commands)
-                    return str(key)
 
             return Provider.markWarning(task).updateState('In progress. %s' % key)
 

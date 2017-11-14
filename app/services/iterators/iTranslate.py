@@ -1,5 +1,5 @@
 
-class BatchAPI(object):
+class IteratorTranslate(object):
     def __init__(self, limit):
         self.limit = int(limit)
 

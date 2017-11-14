@@ -2,6 +2,7 @@
 import re
 from pydash.objects import get
 from app.models.model import Model
+from app.services.iterators.iRuler import IteratorRuler
 
 class Ruler(object):
 
@@ -60,3 +61,8 @@ class Ruler(object):
     @staticmethod
     def fctRoles(source, batch):
         return get(source, 'roles')
+
+    @staticmethod
+    def batch(source, batch):
+        items = source.items()
+        return IteratorRuler().batch(items=items, Ruler=Ruler, source=batch)

@@ -35,6 +35,7 @@ class DcApp(Resource):
         data = request.get_json(force=True)
 
         format = []
+
         for item in data['body']:
             id = get(item, '_id')
             id = self.entity().makeObjectId(id)
@@ -50,4 +51,7 @@ class DcApp(Resource):
 
     def updaterIds(self, data, path):
         last = path[-1]
-        return Ruler.searchID(last, data)
+        if isinstance(last, str):
+            return Ruler.searchID(last, data)
+
+        return data

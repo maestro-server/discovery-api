@@ -5,32 +5,35 @@ from pydash.utilities import identity
 
 class MergeAPI(object):
 
-    def __init__(self, base = None):
-        self.base = base
+    def __init__(self, content = None, key_comparer = 'name'):
+        self.content = content
         self.inserted = []
+        self.key = key_comparer
+        self.omit = ['created_at', 'roles', 'owner']
 
     def merge(self, insert):
-        if not isinstance(self.base, list):
+        if not isinstance(self.content, list):
             return insert
 
-        for item in self.base:
-            dc_id = get(item, 'datacenters.instance_id')
+        for item in self.content:
+            dc_id = get(item, self.key)
 
             for key, find in enumerate(insert):
                 if self.assign(find, dc_id):
-                    created = omit(insert[key], ['created_at', 'roles', 'owner'])
+                    created = omit(insert[key], self.omit)
                     insert[key] = merge_with(item, created, MergeAPI.merger_with)
                     break
 
         return insert
 
     def assign(self, data, dc_id):
-        return get(data, 'datacenters.instance_id') == dc_id
+        return get(data, self.key) == dc_id
 
     @staticmethod
     def merger_with(obj_value, src_value, key, obj, source):
         if isinstance(obj_value, list) and isinstance(src_value, list):
-            return MergeAPI.list_merge(obj_value, src_value)
+            if len(obj_value) > 0 and len(src_value) > 0:
+                return MergeAPI.list_merge(obj_value, src_value)
 
         if isinstance(obj_value, dict) and isinstance(src_value, dict):
             return MergeAPI.dict_merge(obj_value, src_value)

@@ -14,7 +14,11 @@ def task_scan(self, conn, conn_id, task, options):
 
     try:
         result = FactoryAPI(access=access, dc=conn['provider'], region=conn['region']).execute(options)
-        key = task_translate.delay(conn, conn_id, options, task, result)
+
+        if not result['result']:
+            raise ValueError('Empty result')
+
+        key = task_translate.delay(conn, conn_id, options, task, result['result'])
 
         return {
             'name': self.request.task,

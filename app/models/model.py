@@ -31,7 +31,6 @@ class Model(object):
         if not self.__id:
             raise MissingError('id', 'Id not setted')
 
-        data = {**data, **self.makeUpdateAt()}
         set = {'$set': data}
         result = self.col.update_one(Model.makeObjectId(self.__id), set)
         return result.raw_result
