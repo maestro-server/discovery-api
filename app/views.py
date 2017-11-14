@@ -17,8 +17,8 @@ api.add_resource(Crawler, '/crawler')
 api.add_resource(ConnectionApp, '/connection/<instance>', '/connection/<instance>/')
 
 api.add_resource(DcProvidersApp, '/providers/<id_conn>')
-api.add_resource(DcServersApp, '/datacenters/<id_datacenter>/servers', '/servers')
-api.add_resource(DcServerSingleApp, '/datacenters/<id_datacenter>/servers/<id_server>')
+api.add_resource(DcServersApp, '/servers')
+api.add_resource(DcApplicationApp, '/applications')
 
 api.add_resource(CrawlerDcs, '/crawler/<datacenter>', '/crawler/<datacenter>/')
 api.add_resource(CrawlerApps, '/crawler/<datacenter>/<instance>/<task>', '/crawler/<datacenter>/<instance>/<task>/')

@@ -6,4 +6,4 @@ from .discovery import DiscoveryApp
 from .connection import ConnectionApp
 from .dcServers import DcServersApp
 from .dcProviders import DcProvidersApp
-from .dcServersSingle import DcServerSingleApp
+from .dcApplications import DcApplicationApp

@@ -6,7 +6,7 @@
       <excludeFolder url="file://$MODULE_DIR$/include" />
       <excludeFolder url="file://$MODULE_DIR$/lib" />
     </content>
-    <orderEntry type="jdk" jdkName="Python 3.5.2 virtualenv at ~/Jobs/apps/discovery-api" jdkType="Python SDK" />
+    <orderEntry type="jdk" jdkName="Python 3.6.2 virtualenv at ~/Jobs/www/maestro/discovery-maestro (1)" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
   </component>
   <component name="TestRunnerService">

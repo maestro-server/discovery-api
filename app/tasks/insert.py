@@ -10,7 +10,7 @@ requests.get('https://api.github.com/user', auth=('user', 'pass'))
 
 
 @celery.task(name="insert.api", bind=True)
-def task_insert(self, conn_id, task, result):
+def task_insert(self, conn_id, task, result, options):
     query = None
 
     ids = map(lambda x: get(x, 'datacenters.instance_id'), result)
@@ -18,14 +18,14 @@ def task_insert(self, conn_id, task, result):
         query = json.dumps({'datacenters.instance_id': list(ids)})
 
     url_values = urlencode({'query': query}, quote_via=quote_plus)
-    path = FactoryURL.make(path="servers?%s" % url_values)
+    path = FactoryURL.make(path="%s?%s" % (options['entity'], url_values))
     resource = requests.get(path)
     content = resource.json()
     content = get(content, 'items')
 
     body = MergeAPI(content).merge(result)
 
-    path = FactoryURL.make(path="servers")
+    path = FactoryURL.make(path=options['entity'])
     resource = requests.put(path, json={'body': body})
 
     return {'name': self.request.task, 'conn_id': conn_id, 'task': task, 'result': resource.text}

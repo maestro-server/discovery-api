@@ -29,6 +29,9 @@ class Ruler(object):
 
         return rule
 
+    @staticmethod
+    def setV(source, batch):
+        return source
 
     @staticmethod
     def switch(source, batch, default=None):

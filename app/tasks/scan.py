@@ -9,18 +9,18 @@ from .translate import task_translate
 
 
 @celery.task(name="scan.api", bind=True)
-def task_scan(self, conn, id, task, commands):
+def task_scan(self, conn, conn_id, task, options):
     access = Jwt.decode(conn['conn'])
 
     try:
-        result = FactoryAPI(access=access, dc=conn['provider'], region=conn['region']).execute(commands)
-        key = task_translate.delay(conn, id, commands, task, result)
+        result = FactoryAPI(access=access, dc=conn['provider'], region=conn['region']).execute(options)
+        key = task_translate.delay(conn, conn_id, options, task, result)
 
         return {
             'name': self.request.task,
             'translate-id': str(key),
-            'conn_id': id,
-            'commands': commands,
+            'conn_id': conn_id,
+            'options': options,
             **conn
         }
 
