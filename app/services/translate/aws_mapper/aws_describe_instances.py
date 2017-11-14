@@ -17,8 +17,8 @@ def rules(conn):
         'ebs_optimized': {'call': 'switch', 'source': 'EbsOptimized'},
         'status': {'call': 'switchOptions',
                    'source': {'field': 'State.Name',
-                              'options': {'running': 'Active', 'pending': 'Active', 'stopping': 'Avaliable',
-                                          'stopped': 'Avaliable'},
+                              'options': {'running': 'Active', 'pending': 'Active', 'stopping': 'Stopped',
+                                          'stopped': 'Stopped'},
                               'default': None
                               }},
         'active': {'call': 'switchOptions',

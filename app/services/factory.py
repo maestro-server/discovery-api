@@ -6,24 +6,32 @@ class FactoryAPI(object):
 
     able = {'AWS': AWS, 'OpenStack': OpenStack}
 
-    def __init__(self, access, dc, region, options = {}):
+    def __init__(self, access, dc, region):
         self.access = access
         self.dc = dc
-        self.options = options
         self.region = self.translateRegion(region)
+
+        self.provider = None
 
     def translateRegion(self, data):
         return data.split(' ')[0]
 
-    def execute(self, commands):
-        res = self.exec(region=self.region, commands=commands)
-        return {'cmd': commands, 'region': self.region, 'result': res}
+    def execute(self, options, params = []):
+        res = self.run(options=options, params=params)
+        return {'cmd': options, 'region': self.region, 'result': res}
 
-    def exec(self, region, commands):
+    def checkPag(self):
+        if not self.provider:
+            return None
+
+        return self.provider.getPag()
+
+    def run(self, options, params):
         provider = self.able[self.dc]
+        self.provider = provider(self.access, self.region)
 
-        return provider(self.access, region, commands)\
-            .setPathResult(commands['result_path'])\
-            .batchParams(commands['vars'])\
-            .select(commands['command'])\
-            .execute(commands['access'])
+        return self.provider\
+            .setPathResult(options['result_path'])\
+            .batchParams(params)\
+            .select(options['command'])\
+            .execute(options['access'])

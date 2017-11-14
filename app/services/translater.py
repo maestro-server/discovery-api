@@ -16,6 +16,6 @@ class TranslateAPI(object):
 
         for item in data:
             tt = self.provider.translate(item)
-            result.append(tt)
+            result.extend(tt)
 
         return result

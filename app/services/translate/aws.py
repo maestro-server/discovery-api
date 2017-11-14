@@ -10,12 +10,20 @@ from .aws_mapper.aws_list_buckets import rules as rules_aws_list_buckets
 
 class MapperAWS(Mapper):
     def translate(self, data):
+        transformed = []
+
         if self._result_path:
             data = get(data, self._result_path)
 
-        oper = self.mapp()
-        items = oper.items()
-        return IteratorRuler().batch(items=items, Ruler=RulerAWS, source=data)
+        if not isinstance(data, list):
+            data = [data]
+
+        for sub in data:
+            items = self.mapp().items()
+            nw = IteratorRuler().batch(items=items, Ruler=RulerAWS, source=sub)
+            transformed.append(nw)
+
+        return transformed
 
     def mapp(self):
         mapper = {

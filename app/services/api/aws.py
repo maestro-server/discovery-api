@@ -25,9 +25,18 @@ class AWS(Connector):
         self.credencials(command)
         return self
 
+    def setPag(self, data):
+        token = get(data, 'NextToken')
+        if token:
+            self._pagination = {'NextToken': token}
+
+    def getPag(self):
+        return self._pagination
+
     def execute(self, resource):
         try:
             output = getattr(self._client, resource)(**self._params)
+            self.setPag(output)
             return get(output, self._path_result)
 
         except ClientError as error:

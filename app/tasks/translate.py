@@ -19,4 +19,4 @@ def task_translate(self, conn, conn_id, options, task, result):
         key = task_insert.delay(conn_id, task, translate, options)
         insert_id.append(str(key))
 
-    return {'name': self.request.task, 'insert-id': insert_id, 'conn_id': conn_id, 'task': task, 'options': options}
+    return {'name': self.request.task, 'insert-id': insert_id, 'conn_id': conn_id, 'task': task}
