@@ -26,8 +26,8 @@ def task_scan(self, conn, conn_id, task, options, vars = []):
 
 
         factoryPag = Crawler.checkPag()
-        if factoryPag:
-            task_scan.delay(conn, conn_id, task, options, [factoryPag])
+        #if factoryPag:
+            #task_scan.delay(conn, conn_id, task, options, [factoryPag])
 
         key = task_translate.delay(conn, conn_id, options, task, result['result'])
 

@@ -43,7 +43,7 @@ class Model(object):
             if item['filter']:
                 cal = UpdateOne(item['filter'], {'$set': obj})
             else:
-                obj = assign(item['data'], self.makeDateAt(key='created_at'))
+                obj = assign(self.makeDateAt(key='created_at'), item['data'])
                 cal = InsertOne(obj)
 
             requests.append(cal)

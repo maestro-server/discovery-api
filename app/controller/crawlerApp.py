@@ -1,6 +1,6 @@
 
 from flask_restful import Resource
-from app.models import Adminer, Providers
+from app.repository import Adminer, Providers
 
 from app.error.factoryInvalid import FactoryInvalid
 from app.tasks import task_scan

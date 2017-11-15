@@ -1,6 +1,6 @@
 
 from flask_restful import Resource
-from app.models.adminer import Adminer
+from app.repository.adminer import Adminer
 
 
 class CrawlerDcs(Resource):

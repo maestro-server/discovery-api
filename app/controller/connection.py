@@ -1,7 +1,7 @@
 
 from flask_restful import Resource
 from app.validate.connValidate import connValidate
-from app.models import Providers
+from app.repository import Providers
 
 class ConnectionApp(Resource):
     def get(self, instance):

@@ -1,8 +1,9 @@
 
 import re
 from pydash.objects import get
-from app.models.model import Model
+from app.repository.model import Model
 from app.services.iterators.iRuler import IteratorRuler
+import datetime
 
 class Ruler(object):
 
@@ -12,6 +13,15 @@ class Ruler(object):
 
         if id:
             return Ruler.makeObjectId(key, rule)
+
+        return rule
+
+    @staticmethod
+    def searchAt(key, rule):
+        time = re.search('_at', key)
+
+        if time:
+            return datetime.datetime.strptime(rule[:19]+'Z', "%Y-%m-%dT%H:%M:%SZ")
 
         return rule
 

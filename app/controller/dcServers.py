@@ -1,6 +1,6 @@
 
 from app.controller.factory.dc import DcApp
-from app.models import Servers
+from app.repository import Servers
 
 class DcServersApp(DcApp):
     def __init__(self):

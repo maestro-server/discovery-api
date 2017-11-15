@@ -40,7 +40,7 @@ class DcApp(Resource):
             id = get(item, '_id')
             id = self.entity().makeObjectId(id)
 
-            item = omit(item, ['_id', 'created_at', 'updated_at'])
+            item = omit(item, ['_id', 'updated_at'])
             item = map_values_deep(item, self.updaterIds)
 
             format.append({
@@ -52,6 +52,8 @@ class DcApp(Resource):
     def updaterIds(self, data, path):
         last = path[-1]
         if isinstance(last, str):
-            return Ruler.searchID(last, data)
+            data = Ruler.searchID(last, data)
+            data = Ruler.searchAt(last, data)
+
 
         return data

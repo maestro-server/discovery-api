@@ -31,4 +31,3 @@ def task_insert(self, conn_id, task, result, options):
     resource = requests.put(path, json={'body': body})
 
     return {'name': self.request.task, 'conn_id': conn_id, 'task': task, 'result': resource.text}
-

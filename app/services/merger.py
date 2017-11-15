@@ -9,7 +9,7 @@ class MergeAPI(object):
         self.content = content
         self.inserted = []
         self.key = key_comparer
-        self.omit = ['created_at', 'roles', 'owner']
+        self.omit = ['roles', 'owner']
 
     def merge(self, insert):
         if not isinstance(self.content, list):
