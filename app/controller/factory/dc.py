@@ -21,7 +21,7 @@ class DcApp(Resource):
             query = json.loads(req['query'])
 
         args = FilterAPI()\
-            .addBatchFilters(query) \
+            .addBatchFilters(query)\
             .make()
 
         return {

@@ -13,12 +13,11 @@ class FilterAPI(object):
         return self
 
     def addFilters(self, key, rule):
-        if rule:
-            rule = Ruler.searchID(key, rule)
-            rule = Ruler.translateLists(key, rule)
+        rule = Ruler.searchID(key, rule)
+        rule = Ruler.translateLists(key, rule)
 
-            obj = {key: rule}
-            self.__filter = merge(self.__filter, obj)
+        obj = {key: rule}
+        self.__filter = merge(self.__filter, obj)
 
         return self
 

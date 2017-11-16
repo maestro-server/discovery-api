@@ -4,7 +4,8 @@ class connValidate(object):
 
     def task_status(self, value):
         statuses = ["danger", "warning", "success"]
-        return statuses.index(value)
+        if value in statuses:
+            return value
 
     def validate(self):
         valid = RequestParser(bundle_errors=True)

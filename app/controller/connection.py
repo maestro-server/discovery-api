@@ -7,7 +7,7 @@ class ConnectionApp(Resource):
     def get(self, instance):
         return Providers(instance).get()
 
-    def patch(self, instance):
+    def post(self, instance):
         valid = connValidate().validate()
 
         if valid:

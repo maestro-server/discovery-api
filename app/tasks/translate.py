@@ -16,7 +16,7 @@ def task_translate(self, conn, conn_id, options, task, result):
 
     for batch in IteratorTranslate(limit).batch(result):
         translate = Translater.translate(batch)
-        key = task_insert.delay(conn_id, task, translate, options)
+        key = task_insert.delay(conn, conn_id, task, translate, options)
         insert_id.append(str(key))
 
     return {'name': self.request.task, 'insert-id': insert_id, 'conn_id': conn_id, 'task': task}

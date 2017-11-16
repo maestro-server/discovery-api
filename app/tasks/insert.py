@@ -6,18 +6,19 @@ from app import celery
 from app.services.merger import MergeAPI
 from app.libs.url import FactoryURL
 
-requests.get('https://api.github.com/user', auth=('user', 'pass'))
+from .notification import task_notification
 
 
 @celery.task(name="insert.api", bind=True)
-def task_insert(self, conn_id, task, result, options):
+def task_insert(self, conn, conn_id, task, result, options):
     query = None
     key = get(options, 'key_comparer')
+    owner_user = get(conn, 'owner_user._id', '')
     content = []
 
     ids = list(map(lambda x: get(x, key), result))
     if ids:
-        query = json.dumps({key: ids})
+        query = json.dumps({key: ids, 'roles._id': owner_user})
 
     url_values = urlencode({'query': query}, quote_via=quote_plus)
     path = FactoryURL.make(path="%s?%s" % (options['entity'], url_values))
@@ -30,4 +31,6 @@ def task_insert(self, conn_id, task, result, options):
     path = FactoryURL.make(path=options['entity'])
     resource = requests.put(path, json={'body': body})
 
-    return {'name': self.request.task, 'conn_id': conn_id, 'task': task, 'result': resource.text}
+    key = task_notification.delay(msg="Success.", conn_id=conn_id, task=task, status='success')
+
+    return {'name': self.request.task, 'conn_id': conn_id, 'task': task, 'notification-id': str(key), 'result': resource.text}
