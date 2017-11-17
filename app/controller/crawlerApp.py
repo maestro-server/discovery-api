@@ -37,7 +37,7 @@ class CrawlerApps(Resource):
                 for region in connector['regions']:
 
                     conn = {
-                        **pick(connector, ['conn', 'provider', 'dc', 'owner_user']),
+                        **pick(connector, ['conn', 'provider', 'dc', 'owner_user', 'url', 'project']),
                         **{'region': region}
                     }
 

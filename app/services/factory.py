@@ -1,4 +1,5 @@
 
+from pydash.objects import get
 from app.services.api.aws import AWS
 from app.services.api.openstack import OpenStack
 
@@ -6,10 +7,11 @@ class FactoryAPI(object):
 
     able = {'AWS': AWS, 'OpenStack': OpenStack}
 
-    def __init__(self, access, dc, region):
+    def __init__(self, access, conn):
         self.access = access
-        self.dc = dc
-        self.region = self.translateRegion(region)
+        self.dc = get(conn, 'provider')
+        self.region = self.translateRegion(get(conn, 'region'))
+        self.conn = conn
 
         self.provider = None
 
@@ -28,7 +30,7 @@ class FactoryAPI(object):
 
     def run(self, options, params):
         provider = self.able[self.dc]
-        self.provider = provider(self.access, self.region)
+        self.provider = provider(access=self.access, region=self.region, conn=self.conn)
 
         return self.provider\
             .setPathResult(options['result_path'])\

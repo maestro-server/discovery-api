@@ -17,7 +17,7 @@ def task_scan(self, conn, conn_id, task, options, vars = []):
     vars = sum(oVars, vars)
 
     try:
-        Crawler = FactoryAPI(access=access, dc=conn['provider'], region=conn['region'])
+        Crawler = FactoryAPI(access=access, conn=conn)
         result = Crawler.execute(options, vars)
 
         if not result['result']:

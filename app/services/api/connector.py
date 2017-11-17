@@ -4,11 +4,12 @@ from abc import ABC, abstractmethod
 
 class Connector(ABC):
 
-    def __init__(self, access, region):
+    def __init__(self, access, region, conn):
         self._path_result = ''
         self._access = access
         self._region = region
         self._pagination = None
+        self._conn = conn
 
         self._params = {}
 
