@@ -26,6 +26,12 @@ def rules(conn):
                               'options': {'shutting-down': False, 'terminated': False},
                               'default': True
                               }},
+        'meta': {'call': 'batch',
+                 'source': {
+                     'security_groups': {'call': 'switch', 'source': 'SecurityGroups'},
+                     'iam_instance_profile': {'call': 'switch', 'source': 'IamInstanceProfile'}
+                 }
+                 },
         'datacenters': {'call': 'fctDc',
                         'source': {**conn}},
         'owner': {'call': 'fctOwner',

@@ -3,6 +3,8 @@ def rules(conn):
         'hostname': {'call': 'switch', 'source': 'name'},
         'ipv4_private': {'call': 'fctPrivateIp', 'source': 'addresses'},
         'ipv4_public': {'call': 'fctPublicIp', 'source': 'addresses'},
+        'environment': {'call': 'switch', 'source': 'metadata.environment'},
+        'role': {'call': 'switch', 'source': 'metadata.role'},
         'auth': {'call': 'fctAuth', 'source': 'key_name'},
         'storage': {'call': 'fctStorage', 'source': 'attached_volumes'},
         'created_at': {'call': 'switch', 'source': 'created_at'},
@@ -15,6 +17,7 @@ def rules(conn):
                      'block_device_mapping': {'call': 'switch', 'source': 'block_device_mapping'}
                  }
                  },
+        'tags': {'call': 'fctTags', 'source': 'metadata'},
         'status': {'call': 'switchOptions',
                    'source': {'field': 'status',
                               'options': {'REBOOT': 'Avaliable',
