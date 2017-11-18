@@ -2,7 +2,7 @@
 from openstack import profile, connection
 
 from .connector import Connector
-from pydash.objects import get
+from pydash.objects import get, omit
 
 from app.error.clientMaestroError import ClientMaestroError
 from openstack.exceptions import HttpException, SDKException
@@ -48,20 +48,24 @@ class OpenStack(Connector):
         return self
 
     def setPag(self, data):
-        token = get(data, 'marker')
-        if token:
-            self._pagination = {'marker': token}
+        if data:
+            self._pagination = {'marker': data}
 
     def getPag(self):
         return self._pagination
 
     def execute(self, resource):
-        print(self._params)
-        output = getattr(self._client, resource)(details=True, limit=100, marker='616a62bd-45b7-4611-9cdb-37b6df676020')
-        self.setPag(output)
+        limit = get(self._params, 'limit')
+        output = getattr(self._client, resource)(details=True, **self._params)
 
+        clear = []
         for server in output:
-            print(props(server))
+            obj = props(server)
+            cc = omit(obj, ['_body', '_get_id', '_header', '_query_mapping', '_uri'])
+            clear.append(cc)
 
+            if len(clear) >= limit:
+                self.setPag(server.id)
+                break
 
-        return
+        return clear

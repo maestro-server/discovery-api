@@ -1,10 +1,10 @@
 
 from pydash import get
-from app.services.translate.aws import MapperAWS
+from app.services.translate import MapperAWS, MapperOpenStack
 
 
 class TranslateAPI(object):
-    able = {'AWS': MapperAWS}
+    able = {'AWS': MapperAWS, 'OpenStack': MapperOpenStack}
 
     def __init__(self, provider, options, task, conn={}):
         self.task = task

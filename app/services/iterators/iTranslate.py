@@ -8,7 +8,8 @@ class IteratorTranslate(object):
         i = 1
         total = len(result)
 
-        while (x + self.limit) <= (total + self.limit):
+
+        while (x + self.limit) < (total + self.limit):
             x = (i * self.limit)
             pref = (x - self.limit)
             i += 1

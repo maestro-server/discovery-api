@@ -20,12 +20,6 @@ class RulerAWS(Ruler):
             storage.append(clean)
         return storage
 
-    @staticmethod
-    def fctAuth(source, batch):
-        key = Ruler.switch(source, batch)
-
-        if key:
-            return [{'name': key, 'type': 'PKI'}]
 
     @staticmethod
     def fctDc(source, batch):

@@ -69,6 +69,13 @@ class Ruler(object):
         }
 
     @staticmethod
+    def fctAuth(source, batch):
+        key = Ruler.switch(source, batch)
+
+        if key:
+            return [{'name': key, 'type': 'PKI'}]
+
+    @staticmethod
     def fctRoles(source, batch):
         return get(source, 'roles')
 

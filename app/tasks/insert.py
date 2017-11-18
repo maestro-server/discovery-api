@@ -13,7 +13,12 @@ from .notification import task_notification
 def task_insert(self, conn, conn_id, task, result, options):
     query = None
     key = get(options, 'key_comparer')
-    owner_user = get(conn, 'owner_user._id', '')
+    owner_user = get(conn, 'owner_user._id')
+
+    if not owner_user:
+        task_notification.delay(msg="Missing Owner User/Team in this connection.", conn_id=conn_id, task=task, status='danger')
+        raise PermissionError('Missing Owner')
+
     content = []
 
     ids = list(map(lambda x: get(x, key), result))

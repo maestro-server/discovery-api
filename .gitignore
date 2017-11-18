@@ -1,4 +1,6 @@
 .idea/
+.idea/discovery-maestro.iml
+.idea/misc.xml
 bin/
 include/
 lib/
