@@ -8,13 +8,7 @@ def rules(conn):
                      'canonical_hosted_zone': {'call': 'switch', 'source': 'CanonicalHostedZoneId'},
                      'vpc_id': {'call': 'switch', 'source': 'VpcId'},
                      'type': {'call': 'switch', 'source': 'Type'},
-                     'availability_zones': {'call': 'switch', 'source': 'AvailabilityZones'},
-                     'security_groups': {'call': 'switch', 'source': 'SecurityGroups'},
                      'ip_address_type': {'call': 'switch', 'source': 'IpAddressType'},
-                     'canonical_hosted_zone_name': {'call': 'switch', 'source': 'CanonicalHostedZoneName'},
-                     'canonical_hosted_zone_name_id': {'call': 'switch', 'source': 'CanonicalHostedZoneNameID'},
-                     'listener_descriptions': {'call': 'switch', 'source': 'ListenerDescriptions'},
-                     'policies': {'call': 'switch', 'source': 'Policies'},
                      'backend_server_descriptions': {'call': 'switch', 'source': 'BackendServerDescriptions'},
                      'health_check_classic': {'call': 'switch', 'source': 'HealthCheck'},
                      'healthcheck': {'call': 'switch', 'source': 'HealthCheck.Target'},
@@ -22,6 +16,8 @@ def rules(conn):
                      'canonical_hosted_zone_name_id': {'call': 'switch', 'source': 'CanonicalHostedZoneNameID'}
                  }
                  },
+        'datacenters': {'call': 'fctDcApp',
+                        'source': {**conn}},
         'status': {'call': 'switch', 'source': 'State.Code'},
         'active': {'call': 'switchOptions',
                    'source': {'field': 'State.Code',

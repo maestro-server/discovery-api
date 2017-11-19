@@ -5,6 +5,8 @@ def rules(conn):
         'provider': {'call': 'setV', 'source': 'S3 (AWS)'},
         'family': {'call': 'setV', 'source': 'ObjectStorage'},
         'active': {'call': 'setV', 'source': True},
+        'datacenters': {'call': 'fctDcApp',
+                        'source': {**conn}},
         'own': {'call': 'setV', 'source': 1},
         'owner': {'call': 'fctOwner',
                   'source': {**conn}},

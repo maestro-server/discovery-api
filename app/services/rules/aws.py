@@ -43,6 +43,21 @@ class RulerAWS(Ruler):
         }
         return dc
 
+    @staticmethod
+    def fctDcApp(source, batch):
+        dc = {
+            'name': Ruler.switch('dc', source),
+            'provider': Ruler.switch('provider', source),
+            '_id': Ruler.switch('_id', source),
+            'region': Ruler.switch('region', source),
+            'zone': Ruler.switch('AvailabilityZones', batch),
+            'security_groups': Ruler.switch('SecurityGroups', batch),
+            'canonical_hosted_zone_name': Ruler.switch('CanonicalHostedZoneName', batch),
+            'canonical_hosted_zone_name_id': Ruler.switch('CanonicalHostedZoneNameID', batch),
+            'listener_descriptions': Ruler.switch('ListenerDescriptions', batch),
+            'listener_descriptions': Ruler.switch('Policies', batch)
+        }
+        return dc
 
     @staticmethod
     def fctTags(source, batch):
