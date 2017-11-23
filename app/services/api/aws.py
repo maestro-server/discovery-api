@@ -2,6 +2,7 @@
 import boto3
 from .connector import Connector
 from pydash.objects import get
+from botocore.client import Config
 
 from app.error.clientMaestroError import ClientMaestroError
 from botocore.exceptions import ClientError
@@ -13,11 +14,14 @@ class AWS(Connector):
         return self
 
     def credencials(self, command):
+        config = Config(connect_timeout=10, read_timeout=10)
+
         self._client = boto3.client(
             command,
             aws_access_key_id=self._access['access'],
             aws_secret_access_key=self._access['secret'],
-            region_name=self._region
+            region_name=self._region,
+            config=config
         )
         return self
 

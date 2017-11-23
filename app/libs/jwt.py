@@ -1,6 +1,5 @@
 
 import jwt
-from jwt.exceptions import DecodeError
 from app import app
 
 class Jwt(object):

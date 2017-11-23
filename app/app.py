@@ -1,28 +1,25 @@
 # -*- encoding: utf-8 -*-
 """
-Python Routes
+Python Aplication Template
 Licence: GPLv3
 """
 
-from flask_restful import Api
-from app import app
-from flask import jsonify
+from flask import Flask
+import pymongo
+from pymongo import MongoClient
+from .celery import make_celery
 
-from .controller import *
+app = Flask(__name__)
+app.config.from_object('instance.config.Config')
 
-api = Api(app)
+client = MongoClient(app.config['DATABASE_URI'], serverSelectionTimeoutMS=1)
+db = client[app.config['DATABASE_NAME']]
 
-api.add_resource(DiscoveryApp, '/')
-api.add_resource(Crawler, '/crawler')
-api.add_resource(ConnectionApp, '/connection/<instance>', '/connection/<instance>/')
+celery = make_celery(app)
 
-api.add_resource(DcProvidersApp, '/providers/<id_conn>')
-api.add_resource(DcServersApp, '/servers')
-api.add_resource(DcApplicationApp, '/applications')
 
-api.add_resource(CrawlerDcs, '/crawler/<datacenter>', '/crawler/<datacenter>/')
-api.add_resource(CrawlerApps, '/crawler/<datacenter>/<instance>/<task>', '/crawler/<datacenter>/<instance>/<task>/')
-
-@app.errorhandler(404)
-def error(e):
-    return jsonify({'error': 'Resource not found'})
+try:
+    client.server_info() # Forces a call.
+    print("Mongo Online")
+except pymongo.errors.ServerSelectionTimeoutError as err:
+    print("==================================> MongoDB is down", err)

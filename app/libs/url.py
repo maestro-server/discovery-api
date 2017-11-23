@@ -5,7 +5,7 @@ class FactoryURL(object):
 
     @staticmethod
     def make(path=""):
-        base = os.environ.get("DISCOVERY_URL", "localhost")
-        port = os.environ.get("PORT", "5000")
+        base = os.environ.get("MAESTRO_DISCOVERY_URL", "http://localhost")
+        port = os.environ.get("MAESTRO_PORT", "5000")
 
-        return "http://%s:%s/%s" % (base, port, path)
+        return "%s:%s/%s" % (base, port, path)

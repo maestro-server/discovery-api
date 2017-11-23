@@ -12,7 +12,12 @@ from .notification import task_notification
 
 @celery.task(name="scan.api", bind=True)
 def task_scan(self, conn, conn_id, task, options, vars = []):
-    access = Jwt.decode(conn['conn'])
+    try:
+        access = Jwt.decode(conn['conn'])
+    except Exception as error:
+        task_notification.delay(msg=str(error), conn_id=conn_id, task=task, status='danger')
+
+
     oVars = optionsVarsNormalize(options['vars']),
     vars = sum(oVars, vars)
 
