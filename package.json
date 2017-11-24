@@ -1,6 +1,6 @@
 {
   "name": "discovery-maestro",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "Flask, discovery services",
   "main": "run.py",
   "scripts": {
@@ -10,7 +10,7 @@
     "save": "pip freeze > requirements.txt ",
     "test": "echo \"Error: no test specified\" && exit 1",
     "build-flask": "docker build -t 'discovery-maestro'",
-    "build-celery": "docker build -f DockerfileCelery -t 'discovery-maestro-celery'"
+    "build-celery": "docker build -f DockerfileCelery -t discovery-maestro-celery"
   },
   "repository": {
     "type": "git",
