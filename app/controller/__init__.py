@@ -7,4 +7,5 @@ from .connection import ConnectionApp
 from .dcServers import DcServersApp
 from .dcProviders import DcProvidersApp
 from .dcApplications import DcApplicationApp
-from .dcSystem import DcSystemnApp
+from .dcSystem import DcSystemApp
+from .dcDatacenter import DcDatacentersApp
