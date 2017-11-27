@@ -1,17 +1,17 @@
 
 from flask_restful import Resource
 from app.validate.connValidate import connValidate
-from app.repository import Providers
+from app.repository import Connections
 
 class ConnectionApp(Resource):
     def get(self, instance):
-        return Providers(instance).get()
+        return Connections(instance).get()
 
     def post(self, instance):
         valid = connValidate().validate()
 
         if valid:
-            Provider = Providers(instance)
-            return Provider.markStatus(valid['status'], valid['task']).updateState(valid['msg'])
+            Connection = Connections(instance)
+            return Connection.markStatus(valid['status'], valid['task']).updateState(valid['msg'])
 
         return valid

@@ -63,7 +63,7 @@ class Ruler(object):
     @staticmethod
     def fctOwner(source, batch):
         return {
-            'refs': 'providers',
+            'refs': 'connections',
             'name': Ruler.switch('dc', source),
             '_id': Ruler.switch('_id', source)
         }

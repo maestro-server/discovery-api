@@ -16,7 +16,7 @@ api.add_resource(DiscoveryApp, '/')
 api.add_resource(Crawler, '/crawler')
 api.add_resource(ConnectionApp, '/connection/<instance>', '/connection/<instance>/')
 
-api.add_resource(DcProvidersApp, '/providers/<id_conn>')
+api.add_resource(DcConnectionsApp, '/connections/<id_conn>')
 api.add_resource(DcServersApp, '/servers')
 api.add_resource(DcApplicationApp, '/applications')
 api.add_resource(DcSystemApp, '/systems')

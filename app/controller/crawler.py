@@ -8,6 +8,6 @@ class Crawler(Resource):
                 (
                     {"path": "/crawler/<datacenter>", "description": "List enabled datacenters"},
                     {"path": "/crawler/<datacenter>/<instance>/<task>/<type>",
-                     "description": "Execute tasks, <instance> id providers instance, <tasks>: (server-list, dbs-list e etc),  <type>: (full, parcial or single)"}
+                     "description": "Execute tasks, <instance> id connections instance, <tasks>: (server-list, dbs-list e etc),  <type>: (full, parcial or single)"}
                 )
         }

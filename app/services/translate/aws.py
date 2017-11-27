@@ -18,18 +18,19 @@ class MapperAWS(Mapper):
         if not isinstance(data, list):
             data = [data]
 
+
         for sub in data:
-            items = self.mapp().items()
+            items = self.mapp(self.command, self.conn).items()
             nw = IteratorRuler().batch(items=items, Ruler=RulerAWS, source=sub)
             transformed.append(nw)
 
         return transformed
 
-    def mapp(self):
+    def mapp(self, command, conn):
         mapper = {
-            'describe_instances': rules_aws_describe_instances(self.conn),
-            'describe_load_balancers': rules_aws_describe_load_balancers(self.conn),
-            'list_buckets': rules_aws_list_buckets(self.conn)
+            'describe_instances': rules_aws_describe_instances(conn),
+            'describe_load_balancers': rules_aws_describe_load_balancers(conn),
+            'list_buckets': rules_aws_list_buckets(conn)
         }
 
-        return mapper[self.command]
+        return mapper[command]

@@ -1,7 +1,7 @@
 
 from .model import Model
 
-class Providers(Model):
+class Connections(Model):
     state = 'warning'
     task = ''
 

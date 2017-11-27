@@ -6,4 +6,4 @@ from app.repository.adminer import Adminer
 class CrawlerDcs(Resource):
     def get(self, datacenter):
         path = '.permissions.%s' % datacenter
-        return Adminer().getOptions('providers', path)
+        return Adminer().getOptions('connections', path)

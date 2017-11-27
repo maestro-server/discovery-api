@@ -1,6 +1,6 @@
 from .model import Model
 from .adminer import Adminer
-from .provider import Providers
+from .connections import Connections
 from .servers import Servers
 from .applications import Applications
 from .systems import Systems

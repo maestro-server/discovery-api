@@ -5,7 +5,7 @@ from .crawlerDcs import CrawlerDcs
 from .discovery import DiscoveryApp
 from .connection import ConnectionApp
 from .dcServers import DcServersApp
-from .dcProviders import DcProvidersApp
+from .dcConnections import DcConnectionsApp
 from .dcApplications import DcApplicationApp
 from .dcSystem import DcSystemApp
 from .dcDatacenter import DcDatacentersApp
