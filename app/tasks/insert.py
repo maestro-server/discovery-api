@@ -25,9 +25,8 @@ def task_insert(self, conn, conn_id, task, result, options):
     if ids:
         query = json.dumps({key: ids, 'roles._id': owner_user})
 
-    url_values = urlencode({'query': query}, quote_via=quote_plus)
-    path = FactoryURL.make(path="%s?%s" % (options['entity'], url_values))
-    resource = requests.get(path)
+    path = FactoryURL.make(path="%s" % (options['entity']))
+    resource = requests.post(path, json={'query': query})
     content = resource.json()
     content = get(content, 'items')
 

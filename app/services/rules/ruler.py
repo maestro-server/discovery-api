@@ -53,7 +53,7 @@ class Ruler(object):
         list = get(batch, source['field'], [])
         for item in list:
             if item[source['sKey']].lower() == source['s'].lower():
-                return item[source['catcher']]
+                return item[source['catcher']].capitalize()
 
     @staticmethod
     def switchOptions(source, batch):

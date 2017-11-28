@@ -65,9 +65,13 @@ class RulerAWS(Ruler):
         dirts = Ruler.switch(source, batch, [])
 
         for item in dirts:
-            clean = {
-                'key': get(item, 'Key'),
-                'value': get(item, 'Value')
-            }
-            tags.append(clean)
+            key = get(item, 'Key')
+            value = get(item, 'Value')
+
+            if key and value:
+                clean = {
+                    'key': key,
+                    'value': value
+                }
+                tags.append(clean)
         return tags

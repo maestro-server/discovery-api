@@ -10,9 +10,9 @@ from app.services.rules.ruler import Ruler
 
 
 class DcApp(Resource):
-    def get(self):
-        req = request.args.to_dict()
-        pagination = defaults(req, {'limit': os.environ.get("MAESTRO_TRANSLATE_QTD", 50), 'skip': 0})
+    def post(self):
+        req = request.get_json(force=True)
+        pagination = defaults(req, {'limit': os.environ.get("MAESTRO_SCAN_QTD", 50), 'skip': 0})
         limit = int(pagination['limit'])
         skip = int(pagination['skip'])
 
