@@ -8,9 +8,9 @@ class IteratorTranslate(object):
         i = 1
         total = len(result)
 
-
         while (x + self.limit) <= (total + self.limit):
             x = (i * self.limit)
             pref = (x - self.limit)
             i += 1
-            yield result[pref:x]
+            if len(result[pref:x]):
+                yield result[pref:x]

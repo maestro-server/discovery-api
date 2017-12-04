@@ -1,5 +1,6 @@
 def rules(conn):
     return {
+        'name': {'call': 'switch', 'source': 'GroupName'},
         'group_name': {'call': 'switch', 'source': 'GroupName'},
         'description': {'call': 'switch', 'source': 'Description'},
         'ip_permissions': {'call': 'switch', 'source': 'IpPermissions'},

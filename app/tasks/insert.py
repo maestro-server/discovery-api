@@ -27,6 +27,7 @@ def task_insert(self, conn, conn_id, task, result, options):
 
     path = FactoryURL.make(path="%s" % (options['entity']))
     resource = requests.post(path, json={'query': query})
+
     content = resource.json()
     content = get(content, 'items')
 

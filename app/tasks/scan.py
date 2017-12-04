@@ -28,7 +28,6 @@ def task_scan(self, conn, conn_id, task, options, vars = []):
         if not result['result']:
             raise ValueError('Empty result')
 
-
         factoryPag = Crawler.checkPag()
         if factoryPag:
             task_scan.delay(conn, conn_id, task, options, [factoryPag])
