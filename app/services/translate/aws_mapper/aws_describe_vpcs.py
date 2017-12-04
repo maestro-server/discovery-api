@@ -1,0 +1,33 @@
+def rules(conn):
+    return {
+        'name': {'call': 'switch', 'source': 'Name'},
+        'image_id': {'call': 'switch', 'source': 'ImageId'},
+        'image_location': {'call': 'switch', 'source': 'ImageLocation'},
+        'image_type': {'call': 'switch', 'source': 'ImageType'},
+        'public': {'call': 'switch', 'source': 'Public'},
+        'kernel_id': {'call': 'switch', 'source': 'KernelId'},
+        'platform': {'call': 'switch', 'source': 'Platform'},
+        'product_codes': {'call': 'switch', 'source': 'ProductCodes'},
+        'storage': {'call': 'fctStorageImage', 'source': 'BlockDeviceMappings'},
+        'description': {'call': 'switch', 'source': 'Description'},
+        'ena_support': {'call': 'switch', 'source': 'EnaSupport'},
+        'hypervisor': {'call': 'switch', 'source': 'Hypervisor'},
+        'root_device_name': {'call': 'switch', 'source': 'RootDeviceName'},
+        'root_device_type': {'call': 'switch', 'source': 'RootDeviceType'},
+        'state_reason': {'call': 'switch', 'source': 'StateReason'},
+        'datacenters': {'call': 'fctDcApp',
+                        'source': {**conn}},
+        'environment': {'call': 'arrCatcher',
+                        'source': {'field': 'Tags', 'sKey': 'Key', 's': 'environment', 'catcher': 'Value'}},
+        'status': {'call': 'switch', 'source': 'State'},
+        'active': {'call': 'switchOptions',
+                   'source': {'field': 'State',
+                              'options': {'deregistered': False, 'invalid': False, 'transient': False, 'failed': False, 'error': False},
+                              'default': True
+                              }},
+        'created_at': {'call': 'switch', 'source': 'CreationDate'},
+        'owner': {'call': 'fctOwner',
+                  'source': {**conn}},
+        'roles': {'call': 'fctRoles',
+                  'source': {**conn}}
+    }
