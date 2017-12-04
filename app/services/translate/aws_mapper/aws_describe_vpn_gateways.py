@@ -1,15 +1,10 @@
 def rules(conn):
     return {
         'availability_zone': {'call': 'switch', 'source': 'AvailabilityZone'},
-        'available_ip_address_count': {'call': 'switch', 'source': 'AvailableIpAddressCount'},
-        'cidr_block': {'call': 'switch', 'source': 'CidrBlock'},
-        'default_for_az': {'call': 'switch', 'source': 'DefaultForAz'},
-        'map_public_ip_on_launch': {'call': 'switch', 'source': 'MapPublicIpOnLaunch'},
-        'subnet_id': {'call': 'switch', 'source': 'SubnetId'},
-        'vpc_id': {'call': 'switch', 'source': 'VpcId'},
-        'assign_ipv6_address_on_creation': {'call': 'switch', 'source': 'AssignIpv6AddressOnCreation'},
-        'ipv6Cidr_block_association-set': {'call': 'fctStorageImage', 'source': 'Ipv6CidrBlockAssociationSet'},
-        'family': {'call': 'setV', 'source': 'Subnet'},
+        'vpc_attachments': {'call': 'switch', 'source': 'VpcAttachments'},
+        'vpn_gateway_id': {'call': 'switch', 'source': 'VpnGatewayId'},
+        'amazon_side_asn': {'call': 'switch', 'source': 'AmazonSideAsn'},
+        'family': {'call': 'setV', 'source': 'VpnGateways'},
         'datacenters': {'call': 'fctDcApp',
                         'source': {**conn}},
         'environment': {'call': 'arrCatcher',
@@ -18,7 +13,7 @@ def rules(conn):
         'tags': {'call': 'fctTags', 'source': 'Tags'},
         'active': {'call': 'switchOptions',
                    'source': {'field': 'State',
-                              'options': {'error': False, 'invalid': False},
+                              'options': {'deleted': False, 'deleting': False},
                               'default': True
                               }},
         'owner': {'call': 'fctOwner',

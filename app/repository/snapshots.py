@@ -1,5 +1,5 @@
 
 from .model import Model
 
-class Images(Model):
+class Snapshots(Model):
     pass

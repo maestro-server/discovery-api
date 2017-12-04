@@ -9,3 +9,7 @@ from .dcConnections import DcConnectionsApp
 from .dcApplications import DcApplicationApp
 from .dcSystem import DcSystemApp
 from .dcDatacenter import DcDatacentersApp
+from .dcVolumes import DcVolumesApp
+from .dcImages import DcImagesApp
+from .dcNetwork import DcNetworkApp
+from .dcSnapshots import DcSnapshotsApp

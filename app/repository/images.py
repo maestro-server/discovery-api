@@ -1,5 +1,5 @@
 
 from .model import Model
 
-class Volumes(Model):
+class Images(Model):
     pass

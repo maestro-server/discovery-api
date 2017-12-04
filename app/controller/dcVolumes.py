@@ -1,7 +1,7 @@
 
 from app.controller.factory.dc import DcApp
-from app.repository import Servers
+from app.repository import Volumes
 
-class DcServersApp(DcApp):
+class DcVolumesApp(DcApp):
     def __init__(self):
-        self.entity = Servers
+        self.entity = Volumes

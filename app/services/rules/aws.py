@@ -20,6 +20,24 @@ class RulerAWS(Ruler):
             storage.append(clean)
         return storage
 
+    @staticmethod
+    def fctStorageImage(source, batch):
+        storage = []
+        dirts = Ruler.switch(source, batch, [])
+
+        for item in dirts:
+            clean = {
+                'name': get(item, 'DeviceName'),
+                'virtual_name': get(item, 'VirtualName'),
+                'delete_termination': get(item, 'Ebs.DeleteOnTermination'),
+                'iops': get(item, 'Ebs.Iops'),
+                'kms_key_id': get(item, 'Ebs.KmsKeyId'),
+                'snapshot_id': get(item, 'Ebs.SnapshotId'),
+                'volume_size': get(item, 'Ebs.VolumeSize'),
+                'volumeT_type': get(item, 'Ebs.VolumeType')
+            }
+            storage.append(clean)
+        return storage
 
     @staticmethod
     def fctDc(source, batch):

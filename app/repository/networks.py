@@ -1,5 +1,5 @@
 
 from .model import Model
 
-class Network(Model):
+class Networks(Model):
     pass
