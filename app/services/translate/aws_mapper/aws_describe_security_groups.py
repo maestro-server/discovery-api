@@ -4,7 +4,7 @@ def rules(conn):
         'group_name': {'call': 'switch', 'source': 'GroupName'},
         'description': {'call': 'switch', 'source': 'Description'},
         'ip_permissions': {'call': 'switch', 'source': 'IpPermissions'},
-        'group_id': {'call': 'switch', 'source': 'GroupId'},
+        'security_id': {'call': 'switch', 'source': 'GroupId'},
         'vpc_id': {'call': 'switch', 'source': 'VpcId'},
         'family': {'call': 'setV', 'source': 'SecurityGroup'},
         'datacenters': {'call': 'fctDcApp',

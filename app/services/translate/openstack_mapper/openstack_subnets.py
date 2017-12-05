@@ -1,0 +1,25 @@
+def rules(conn):
+    return {
+        'unique_id': {'call': 'switch', 'source': 'id'},
+        'gateway_ip': {'call': 'switch', 'source': 'gateway_ip'},
+        'service': {'call': 'switch', 'source': 'service'},
+        'project_id': {'call': 'switch', 'source': 'project_id'},
+        'allocation_pools': {'call': 'switch', 'source': 'allocation_pools'},
+        'use_default_subnet_pool': {'call': 'switch', 'source': 'use_default_subnet_pool'},
+        'ipv6_address_mode': {'call': 'switch', 'source': 'ipv6_address_mode'},
+        'is_dhcp_enabled': {'call': 'switch', 'source': 'is_dhcp_enabled'},
+        'description': {'call': 'switch', 'source': 'description'},
+        'network_id': {'call': 'switch', 'source': 'network_id'},
+        'cidr_block': {'call': 'switch', 'source': 'cidr'},
+        'resource_key': {'call': 'switch', 'source': 'resource_key'},
+        'name': {'call': 'switch', 'source': 'name'},
+        'own': {'call': 'setV', 'source': 1},
+        'family': {'call': 'setV', 'source': 'Subnet'},
+        'datacenters': {'call': 'fctDcApp',
+                        'source': {**conn}},
+        'owner': {'call': 'fctOwner',
+                  'source': {**conn}},
+        'active': {'call': 'setV', 'source': True},
+        'roles': {'call': 'fctRoles',
+                  'source': {**conn}}
+    }

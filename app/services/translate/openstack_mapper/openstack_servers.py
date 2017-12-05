@@ -1,6 +1,7 @@
 def rules(conn):
     return {
         'hostname': {'call': 'switch', 'source': 'name'},
+        'unique_id': {'call': 'switch', 'source': 'id'},
         'ipv4_private': {'call': 'fctPrivateIp', 'source': 'addresses'},
         'ipv4_public': {'call': 'fctPublicIp', 'source': 'addresses'},
         'environment': {'call': 'switch', 'source': 'metadata.environment'},

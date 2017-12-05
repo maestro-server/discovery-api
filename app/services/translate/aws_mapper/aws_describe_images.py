@@ -1,7 +1,7 @@
 def rules(conn):
     return {
         'name': {'call': 'switch', 'source': 'Name'},
-        'image_id': {'call': 'switch', 'source': 'ImageId'},
+        'unique_id': {'call': 'switch', 'source': 'ImageId'},
         'image_location': {'call': 'switch', 'source': 'ImageLocation'},
         'image_type': {'call': 'switch', 'source': 'ImageType'},
         'public': {'call': 'switch', 'source': 'Public'},

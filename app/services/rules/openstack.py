@@ -43,6 +43,17 @@ class RulerOpenStack(Ruler):
         return dc
 
     @staticmethod
+    def fctDcApp(source, batch):
+        dc = {
+            'name': Ruler.switch('dc', source),
+            'provider': Ruler.switch('provider', source),
+            '_id': Ruler.switch('_id', source),
+            'region': Ruler.switch('region', source),
+            'zone': Ruler.switch('availability_zones', batch)
+        }
+        return dc
+
+    @staticmethod
     def fctTags(source, batch):
         tags = []
         dirts = Ruler.switch(source, batch, {})
