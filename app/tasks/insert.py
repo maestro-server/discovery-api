@@ -29,8 +29,8 @@ def task_insert(self, conn, conn_id, task, result, options):
     resource = requests.post(path, json={'query': query})
 
     content = resource.json()
-    content = get(content, 'items')
 
+    content = get(content, 'items')
     body = MergeAPI(content=content, key_comparer=key).merge(result)
 
     path = FactoryURL.make(path=options['entity'])
