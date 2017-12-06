@@ -1,10 +1,10 @@
 def rules(conn):
     return {
+        'unique_id': {'call': 'switch', 'source': 'GroupId'},
         'name': {'call': 'switch', 'source': 'GroupName'},
         'group_name': {'call': 'switch', 'source': 'GroupName'},
         'description': {'call': 'switch', 'source': 'Description'},
         'ip_permissions': {'call': 'switch', 'source': 'IpPermissions'},
-        'security_id': {'call': 'switch', 'source': 'GroupId'},
         'vpc_id': {'call': 'switch', 'source': 'VpcId'},
         'family': {'call': 'setV', 'source': 'SecurityGroup'},
         'datacenters': {'call': 'fctDcApp',

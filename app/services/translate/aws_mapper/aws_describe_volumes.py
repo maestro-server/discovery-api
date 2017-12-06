@@ -1,5 +1,6 @@
 def rules(conn):
     return {
+        'unique_id': {'call': 'switch', 'source': 'VolumeId'},
         'name': {'call': 'arrCatcher',
                      'source': {'field': 'Tags', 'sKey': 'Key', 's': 'name', 'catcher': 'Value'}},
         'datacenters': {'call': 'fctDcApp',
@@ -11,7 +12,6 @@ def rules(conn):
         'kms_key_id': {'call': 'switch', 'source': 'KmsKeyId'},
         'size': {'call': 'switch', 'source': 'Size'},
         'snapshot_id': {'call': 'switch', 'source': 'SnapshotId'},
-        'volume_id': {'call': 'switch', 'source': 'VolumeId'},
         'iops': {'call': 'switch', 'source': 'Iops'},
         'status': {'call': 'switchOptions',
                    'source': {'field': 'State',

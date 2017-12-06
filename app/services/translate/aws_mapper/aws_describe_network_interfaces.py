@@ -1,5 +1,6 @@
 def rules(conn):
     return {
+        'unique_id': {'call': 'switch', 'source': 'NetworkInterfaceId'},
         'association': {'call': 'switch', 'source': 'Association'},
         'attachment': {'call': 'switch', 'source': 'Attachment'},
         'availability_zone': {'call': 'switch', 'source': 'AvailabilityZone'},
@@ -8,7 +9,6 @@ def rules(conn):
         'interface_type': {'call': 'switch', 'source': 'InterfaceType'},
         'ipv6_addresses': {'call': 'switch', 'source': 'Ipv6Addresses'},
         'mac_address': {'call': 'switch', 'source': 'MacAddress'},
-        'network_interface_id': {'call': 'switch', 'source': 'NetworkInterfaceId'},
         'private_dns_name': {'call': 'switch', 'source': 'PrivateDnsName'},
         'private_ip_address': {'call': 'switch', 'source': 'PrivateIpAddress'},
         'private_ip_addresses': {'call': 'switch', 'source': 'PrivateIpAddresses'},

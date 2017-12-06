@@ -1,9 +1,9 @@
 def rules(conn):
     return {
+        'unique_id': {'call': 'switch', 'source': 'NatGatewayId'},
         'vpc_id': {'call': 'switch', 'source': 'VpcId'},
         'subnet_id': {'call': 'switch', 'source': 'SubnetId'},
         'provisioned_bandwidth': {'call': 'switch', 'source': 'ProvisionedBandwidth'},
-        'natgateway_id': {'call': 'switch', 'source': 'NatGatewayId'},
         'nat_gateway_addresses': {'call': 'switch', 'source': 'NatGatewayAddresses'},
         'failure_code': {'call': 'switch', 'source': 'FailureCode'},
         'failure_message': {'call': 'switch', 'source': 'FailureMessage'},

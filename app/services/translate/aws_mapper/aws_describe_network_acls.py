@@ -1,9 +1,9 @@
 def rules(conn):
     return {
+        'unique_id': {'call': 'switch', 'source': 'NetworkAclId'},
         'associations': {'call': 'switch', 'source': 'Associations'},
         'entries': {'call': 'switch', 'source': 'Entries'},
         'is_default': {'call': 'switch', 'source': 'IsDefault'},
-        'network_acl_id': {'call': 'switch', 'source': 'NetworkAclId'},
         'vpc_id': {'call': 'switch', 'source': 'VpcId'},
         'family': {'call': 'setV', 'source': 'NetworkAcl'},
         'datacenters': {'call': 'fctDcApp',

@@ -1,9 +1,9 @@
 def rules(conn):
     return {
+        'unique_id': {'call': 'switch', 'source': 'VpcPeeringConnectionId'},
         'accepter_vpc_info': {'call': 'switch', 'source': 'AccepterVpcInfo'},
         'expiration_time': {'call': 'switch', 'source': 'ExpirationTime'},
         'requester_vpc_info': {'call': 'switch', 'source': 'RequesterVpcInfo'},
-        'vpc_peering_connection_id': {'call': 'switch', 'source': 'VpcPeeringConnectionId'},
         'family': {'call': 'setV', 'source': 'VpcPeering'},
         'datacenters': {'call': 'fctDcApp',
                         'source': {**conn}},

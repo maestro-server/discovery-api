@@ -1,6 +1,6 @@
 def rules(conn):
     return {
-        'vpc_endpoint_id': {'call': 'switch', 'source': 'VpcEndpointId'},
+        'unique_id': {'call': 'switch', 'source': 'VpcEndpointId'},
         'vpc_endpoint_type': {'call': 'switch', 'source': 'VpcEndpointType'},
         'vpc_id': {'call': 'switch', 'source': 'VpcId'},
         'service_name': {'call': 'switch', 'source': 'ServiceName'},

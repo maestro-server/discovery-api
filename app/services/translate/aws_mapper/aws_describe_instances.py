@@ -2,6 +2,7 @@ def rules(conn):
     return {
         'hostname': {'call': 'arrCatcher',
                      'source': {'field': 'Tags', 'sKey': 'Key', 's': 'name', 'catcher': 'Value'}},
+        'unique_id': {'call': 'switch', 'source': 'InstanceId'},
         'role': {'call': 'arrCatcher',
                  'source': {'field': 'Tags', 'sKey': 'Key', 's': 'role', 'catcher': 'Value'}},
         'environment': {'call': 'arrCatcher',
