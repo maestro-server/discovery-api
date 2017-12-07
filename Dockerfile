@@ -12,6 +12,7 @@ WORKDIR $APP_PATH
 COPY ./app $APP_PATH/app
 COPY ./instance $APP_PATH/instance
 COPY requirements.txt requirements.txt
+COPY package.json package.json
 COPY run.py $APP_PATH/run.py
 COPY gunicorn_config.py /opt/gunicorn_config.py
 
