@@ -9,8 +9,8 @@
     "flower": "flower -A app.celery",
     "save": "pip freeze > requirements.txt ",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build-flask": "docker build -t discovery-maestro .",
-    "build-celery": "docker build -f DockerfileCelery -t discovery-maestro-celery ."
+    "package-flask": "docker build -t discovery-maestro .",
+    "package-celery": "docker build -f DockerfileCelery -t discovery-maestro-celery ."
   },
   "repository": {
     "type": "git",
