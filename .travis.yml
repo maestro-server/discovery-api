@@ -9,22 +9,34 @@ jobs:
       script:
       - python -m unittest discover
 
-    - stage: build docker image - flask
+    - stage: build docker image - flask (base)
+      script:
+        - docker build -f Dockerfile -t $REPO_FLASK .
+      after_success:
+        - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
+        - docker tag $REPO_FLASK $DOCKER_USER/$REPO_FLASK:$TRAVIS_BRANCH
+        - docker push $DOCKER_USER/$REPO_FLASK:$TRAVIS_BRANCH
+
+    - stage: build docker image - celery (base)
+      script:
+        - docker build -f DockerfileCelery -t $REPO_CELERY .
+      after_success:
+        - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
+        - docker tag $REPO_CELERY $DOCKER_USER/$REPO_CELERY:$TRAVIS_BRANCH
+        - docker push $DOCKER_USER/$REPO_CELERY:$TRAVIS_BRANCH
+
+    - stage: build docker image - flask (latest)
       script:
         - docker build -f Dockerfile -t $REPO_FLASK .
       after_success:
         - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
         - docker tag $REPO_FLASK $DOCKER_USER/$REPO_FLASK:latest
-        - docker tag $REPO_FLASK $DOCKER_USER/$REPO_FLASK:$TRAVIS_BRANCH
         - docker push $DOCKER_USER/$REPO_FLASK:latest
-        - docker push $DOCKER_USER/$REPO_FLASK:$TRAVIS_BRANCH
 
-    - stage: build docker image - celery
+    - stage: build docker image - celery (latest)
       script:
         - docker build -f DockerfileCelery -t $REPO_CELERY .
       after_success:
         - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
         - docker tag $REPO_CELERY $DOCKER_USER/$REPO_CELERY:latest
-        - docker tag $REPO_CELERY $DOCKER_USER/$REPO_CELERY:$TRAVIS_BRANCH
         - docker push $DOCKER_USER/$REPO_CELERY:latest
-        - docker push $DOCKER_USER/$REPO_CELERY:$TRAVIS_BRANCH
