@@ -10,6 +10,7 @@ jobs:
       - python -m unittest discover
 
     - stage: build docker image - flask (base)
+      if: branch != master
       script:
         - docker build -f Dockerfile -t $REPO_FLASK .
       after_success:
@@ -18,6 +19,7 @@ jobs:
         - docker push $DOCKER_USER/$REPO_FLASK:$TRAVIS_BRANCH
 
     - stage: build docker image - celery (base)
+      if: branch != master
       script:
         - docker build -f DockerfileCelery -t $REPO_CELERY .
       after_success:
@@ -26,6 +28,7 @@ jobs:
         - docker push $DOCKER_USER/$REPO_CELERY:$TRAVIS_BRANCH
 
     - stage: build docker image - flask (latest)
+      if: branch = master
       script:
         - docker build -f Dockerfile -t $REPO_FLASK .
       after_success:
@@ -34,6 +37,7 @@ jobs:
         - docker push $DOCKER_USER/$REPO_FLASK:latest
 
     - stage: build docker image - celery (latest)
+      if: branch = master
       script:
         - docker build -f DockerfileCelery -t $REPO_CELERY .
       after_success:
