@@ -11,22 +11,20 @@ jobs:
 
     - stage: build docker image - flask
       script:
-        - npm run build
-        - docker build -f Dockerfile -t client-maestro .
+        - docker build -f Dockerfile -t $REPO_FLASK .
       after_success:
         - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
-        - docker tag client-maestro $DOCKER_USER/$REPO_FLASK:latest
-        - docker tag client-maestro $DOCKER_USER/$REPO_FLASK:$TRAVIS_BRANCH
+        - docker tag $REPO_FLASK $DOCKER_USER/$REPO_FLASK:latest
+        - docker tag $REPO_FLASK $DOCKER_USER/$REPO_FLASK:$TRAVIS_BRANCH
         - docker push $DOCKER_USER/$REPO_FLASK:latest
         - docker push $DOCKER_USER/$REPO_FLASK:$TRAVIS_BRANCH
 
     - stage: build docker image - celery
       script:
-        - npm run build
-        - docker build -f DockerfileCelery -t client-maestro .
+        - docker build -f DockerfileCelery -t $REPO_CELERY .
       after_success:
         - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
-        - docker tag client-maestro $DOCKER_USER/$REPO_CELERY:latest
-        - docker tag client-maestro $DOCKER_USER/$REPO_CELERY:$TRAVIS_BRANCH
+        - docker tag $REPO_CELERY $DOCKER_USER/$REPO_CELERY:latest
+        - docker tag $REPO_CELERY $DOCKER_USER/$REPO_CELERY:$TRAVIS_BRANCH
         - docker push $DOCKER_USER/$REPO_CELERY:latest
         - docker push $DOCKER_USER/$REPO_CELERY:$TRAVIS_BRANCH
