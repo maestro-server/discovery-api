@@ -1,7 +1,7 @@
 
-from flask_restful import Resource
+from app.controller.factory.dc import DcApp
 from app.repository import Connections
 
-class DcConnectionsApp(Resource):
-    def get(self, id_conn):
-        return Connections(id_conn).get()
+class DcConnectionsApp(DcApp):
+    def __init__(self):
+        self.entity = Connections

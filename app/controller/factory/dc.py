@@ -1,5 +1,6 @@
 
 import os,json
+from math import ceil
 from flask import request
 from flask_restful import Resource
 
@@ -10,11 +11,37 @@ from app.services.rules.ruler import Ruler
 
 
 class DcApp(Resource):
+    def get(self):
+        req = request.args.to_dict()
+        pagination = defaults(req, {'limit': os.environ.get("MAESTRO_SCAN_QTD", 400), 'page': 1})
+        limit = int(pagination['limit'])
+        page = int(pagination['page'])
+        skip = (page-1) * limit
+
+        query = {}
+        if has(req, 'query'):
+            query = json.loads(req['query'])
+
+        args = FilterAPI() \
+            .addBatchFilters(query) \
+            .make()
+
+        count = self.entity().count(args)
+        return {
+            'found': self.entity().count(args),
+            'total_pages': ceil(count / limit),
+            'page': page,
+            'limit': limit,
+            'items': self.entity().getAll(args, limit, skip)
+        }
+
+
     def post(self):
         req = request.get_json(force=True)
-        pagination = defaults(req, {'limit': os.environ.get("MAESTRO_SCAN_QTD", 400), 'skip': 0})
+        pagination = defaults(req, {'limit': os.environ.get("MAESTRO_SCAN_QTD", 400), 'page': 1})
         limit = int(pagination['limit'])
-        skip = int(pagination['skip'])
+        page = int(pagination['page'])
+        skip = (page - 1) * limit
 
         query = {}
         if has(req, 'query'):
@@ -24,10 +51,12 @@ class DcApp(Resource):
             .addBatchFilters(query)\
             .make()
 
+        count = self.entity().count(args)
         return {
-            'found': self.entity().count(args),
+            'found': count,
+            'total_pages': ceil(count / limit) + 1,
+            'page': page,
             'limit': limit,
-            'skip': skip,
             'items': self.entity().getAll(args, limit, skip)
         }
 

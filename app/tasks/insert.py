@@ -1,6 +1,5 @@
 
 import json, requests
-from urllib.parse import urlencode, quote_plus
 from pydash.objects import get
 from app import celery
 from app.services.merger import MergeAPI
