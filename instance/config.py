@@ -7,6 +7,7 @@ Licence: GPLv3
 import os
 from app.libs.jsonEncoder import DateTimeEncoder
 from dotenv import load_dotenv, find_dotenv
+from kombu import Queue
 
 load_dotenv(find_dotenv())
 
@@ -18,8 +19,6 @@ class Config(object):
     DATABASE_NAME = os.environ.get("MAESTRO_MONGO_DATABASE", "maestro")
     RESTFUL_JSON = {'cls': DateTimeEncoder}
     CELERY_BROKER_URL = os.environ.get("CELERY_BROKER_URL", 'amqp://localhost')
-    CELERY_RESULT_BACKEND = os.environ.get("CELERY_RESULT_BACKEND", False)
-    CELERY_TASK_ROUTES = ([{'scan.*': {'queue': 'scan'},'translate.*': {'queue': 'translate'},'notification.*': {'queue': 'notification'},'insert.*': {'queue': 'insert'}}])
 
 
 class ProductionConfig(Config):

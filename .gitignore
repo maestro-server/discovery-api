@@ -9,3 +9,5 @@ pip-selfcheck.json
 __pycache__/
 .env
 npm-debug.log
+Scripts/
+tcl/
