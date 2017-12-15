@@ -13,7 +13,7 @@ from app.services.rules.ruler import Ruler
 class DcApp(Resource):
     def get(self):
         req = request.args.to_dict()
-        pagination = defaults(req, {'limit': os.environ.get("MAESTRO_SCAN_QTD", 400), 'page': 1})
+        pagination = defaults(req, {'limit': os.environ.get("MAESTRO_SCAN_QTD", 200), 'page': 1})
         limit = int(pagination['limit'])
         page = int(pagination['page'])
         skip = (page-1) * limit
@@ -38,7 +38,7 @@ class DcApp(Resource):
 
     def post(self):
         req = request.get_json(force=True)
-        pagination = defaults(req, {'limit': os.environ.get("MAESTRO_SCAN_QTD", 400), 'page': 1})
+        pagination = defaults(req, {'limit': os.environ.get("MAESTRO_SCAN_QTD", 200), 'page': 1})
         limit = int(pagination['limit'])
         page = int(pagination['page'])
         skip = (page - 1) * limit

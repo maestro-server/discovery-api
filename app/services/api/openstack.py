@@ -37,10 +37,10 @@ class OpenStack(Connector):
 
         try:
             conn.authorize()
+            self._client = getattr(conn, command)
         except (HttpException, SDKException) as error:
             raise ClientMaestroError(error)
 
-        self._client = getattr(conn, command)
         return self
 
     def select(self, command):
@@ -55,17 +55,20 @@ class OpenStack(Connector):
         return self._pagination
 
     def execute(self, resource):
-        limit = get(self._params, 'limit')
-        output = getattr(self._client, resource)(details=True, **self._params)
 
-        clear = []
-        for server in output:
-            obj = props(server)
-            cc = omit(obj, ['_body', '_get_id', '_header', '_query_mapping', '_uri'])
-            clear.append(cc)
-
-            if len(clear) >= limit:
-                self.setPag(server.id)
-                break
+        try:
+            limit = get(self._params, 'limit')
+            output = getattr(self._client, resource)(details=True, **self._params)
+            clear = []
+            for server in output:
+                obj = props(server)
+                cc = omit(obj, ['_body', '_get_id', '_header', '_query_mapping', '_uri'])
+                clear.append(cc)
+                print("===========================3")
+                if len(clear) >= limit:
+                    self.setPag(server.id)
+                    break
+        except (HttpException, SDKException) as error:
+            raise ClientMaestroError(error)
 
         return clear

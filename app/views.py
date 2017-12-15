@@ -25,6 +25,7 @@ api.add_resource(DcImagesApp, '/images')
 api.add_resource(DcNetworkApp, '/networks')
 api.add_resource(DcSnapshotsApp, '/snapshots')
 api.add_resource(DcFlavorsApp, '/flavors')
+api.add_resource(DcEventsApp, '/events')
 api.add_resource(DcDatacentersApp, '/datacenters')
 
 api.add_resource(CrawlerDcs, '/crawler/<datacenter>', '/crawler/<datacenter>/')

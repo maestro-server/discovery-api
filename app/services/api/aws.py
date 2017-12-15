@@ -5,7 +5,7 @@ from pydash.objects import get
 from botocore.client import Config
 
 from app.error.clientMaestroError import ClientMaestroError
-from botocore.exceptions import ClientError
+from botocore.exceptions import ClientError, ParamValidationError
 
 class AWS(Connector):
 
@@ -43,5 +43,5 @@ class AWS(Connector):
             self.setPag(output)
             return get(output, self._path_result)
 
-        except ClientError as error:
+        except (ClientError, ParamValidationError) as error:
             raise ClientMaestroError(error)
