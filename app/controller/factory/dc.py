@@ -45,6 +45,7 @@ class DcApp(Resource):
 
         query = {}
         if has(req, 'query'):
+
             query = json.loads(req['query'])
 
         args = FilterAPI()\

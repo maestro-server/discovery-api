@@ -15,6 +15,7 @@ class FilterAPI(object):
     def addFilters(self, key, rule):
         rule = Ruler.searchID(key, rule)
         rule = Ruler.translateLists(key, rule)
+        rule = Ruler.searchAt(key, rule)
 
         obj = {key: rule}
         self.__filter = merge(self.__filter, obj)

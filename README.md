@@ -22,16 +22,12 @@ Core API, organized by modules:
 ## Setup #
 Create .env file, with:
 
-FLASK_DEBUG=1
-FLASK_APP=run.py
-
-TESTING=False
-SECRETJWT='secret'
-
-PORT=5000
-MONGO_URL='mongodb://localhost'
-MONGO_DATABASE='maestro-client'
-
 CELERY_BROKER_URL="amqp://localhost:5672"
-CELERY_RESULT_BACKEND="redis://localhost:6379/0"
 CELERYD_TASK_TIME_LIMIT=30
+
+MAESTRO_PORT=5000
+MAESTRO_MONGO_URI='localhost'
+MAESTRO_MONGO_DATABASE='maestro-client'
+MAESTRO_DISCOVERY_URL = 'http://localhost'
+MAESTRO_SECRETJWT='xxxx'
+MAESTRO_SCAN_QTD=200
