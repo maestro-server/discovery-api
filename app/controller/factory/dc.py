@@ -6,21 +6,26 @@ from flask_restful import Resource
 
 from app.services.filter import FilterAPI
 from pydash.objects import defaults, has, get, map_values_deep, omit
-
+from app.error.missingError import MissingError
 from app.services.rules.ruler import Ruler
 
 
 class DcApp(Resource):
     def get(self):
         req = request.args.to_dict()
+
+        if not has(req, 'query'):
+            raise MissingError('id', 'Query params is needed')
+
+        if not has(req, 'query.roles._id'):
+            raise MissingError('id', 'Must have owner id')
+
         pagination = defaults(req, {'limit': os.environ.get("MAESTRO_SCAN_QTD", 200), 'page': 1})
         limit = int(pagination['limit'])
         page = int(pagination['page'])
         skip = (page-1) * limit
 
-        query = {}
-        if has(req, 'query'):
-            query = json.loads(req['query'])
+        query = json.loads(req['query'])
 
         args = FilterAPI() \
             .addBatchFilters(query) \
@@ -45,7 +50,6 @@ class DcApp(Resource):
 
         query = {}
         if has(req, 'query'):
-
             query = json.loads(req['query'])
 
         args = FilterAPI()\

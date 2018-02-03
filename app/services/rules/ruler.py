@@ -20,11 +20,11 @@ class Ruler(object):
         time = re.search('_at', key)
 
         if time:
-            if type(rule) is dict:
+            if isinstance(rule) is dict:
                 for k, v in rule.items():
                     rule[k] = Ruler.makeDatetime(v)
 
-            if type(rule) is str:
+            if isinstance(rule) is str:
                 rule = Ruler.makeDatetime(rule)
 
         return rule
