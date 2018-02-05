@@ -11,3 +11,4 @@ from .networks import Networks
 from .snapshots import Snapshots
 from .flavors import Flavors
 from .events import Events
+from .reports import Reports

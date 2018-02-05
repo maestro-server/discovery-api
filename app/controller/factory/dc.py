@@ -70,6 +70,7 @@ class DcApp(Resource):
 
         format = []
 
+
         for item in data['body']:
             id = get(item, '_id')
             id = self.entity().makeObjectId(id)
