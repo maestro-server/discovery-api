@@ -16,7 +16,7 @@ class Config(object):
     TESTING = os.environ.get("TESTING", False)
     SECRETJWT = os.environ.get("MAESTRO_SECRETJWT", "defaultSecretKey")
     DATABASE_URI = "mongodb://" + os.environ.get("MAESTRO_MONGO_URI", "localhost")
-    DATABASE_NAME = os.environ.get("MAESTRO_MONGO_DATABASE", "maestro")
+    DATABASE_NAME = os.environ.get("MAESTRO_MONGO_DATABASE", "maestro-client")
     RESTFUL_JSON = {'cls': DateTimeEncoder}
     CELERY_BROKER_URL = os.environ.get("CELERY_BROKER_URL", 'amqp://localhost')
     CELERY_DEFAULT_QUEUE = 'discovery'
