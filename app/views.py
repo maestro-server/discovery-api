@@ -28,6 +28,7 @@ api.add_resource(DcFlavorsApp, '/flavors')
 api.add_resource(DcEventsApp, '/events')
 api.add_resource(DcDatacentersApp, '/datacenters')
 api.add_resource(DcReportsApp, '/reports')
+api.add_resource(AggregationApp, '/aggregate')
 
 api.add_resource(CrawlerDcs, '/crawler/<datacenter>', '/crawler/<datacenter>/')
 api.add_resource(CrawlerApps, '/crawler/<datacenter>/<instance>/<task>', '/crawler/<datacenter>/<instance>/<task>/')

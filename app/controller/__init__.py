@@ -16,3 +16,4 @@ from .dcSnapshots import DcSnapshotsApp
 from .dcFlavors import DcFlavorsApp
 from .dcEvents import DcEventsApp
 from .dcReports import DcReportsApp
+from .aggregationApp import AggregationApp

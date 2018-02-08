@@ -4,7 +4,7 @@ from app.repository import Adminer, Connections
 
 from app.error.factoryInvalid import FactoryInvalid
 from app.tasks import task_scan
-from pydash.objects import pick, get, set_
+from pydash.objects import pick
 
 from app.libs.normalize import Normalize
 
