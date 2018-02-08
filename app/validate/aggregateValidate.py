@@ -5,7 +5,7 @@ class aggregateValidate(object):
 
     def validate(self):
         valid = RequestParser(bundle_errors=True)
-        valid.add_argument("msg", type=str, required=True)
-        valid.add_argument("task", required=True)
+        valid.add_argument("pipeline", required=True)
+        valid.add_argument("entity", required=True)
 
         return valid.parse_args()

@@ -1,13 +1,11 @@
 
 from app import db
 
-class Model(object):
+class Aggregate(object):
 
-    def __init__(self, id=None):
+    def __init__(self, name=None):
         self.col = db[name]
-        self.__id = id
 
     def pipeline(self, pipeline):
-        result = db.aggregate(pipeline)
-
+        result = self.col.aggregate(pipeline)
         return list(result)
