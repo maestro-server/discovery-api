@@ -37,11 +37,12 @@ class CrawlerApps(Resource):
                 for region in connector['regions']:
 
                     conn = {
-                        **pick(connector, ['conn', 'provider', 'dc', 'owner_user', 'url', 'project']),
+                        **pick(connector, ['dc_id', 'conn', 'provider', 'dc', 'owner_user', 'url', 'project', 'roles']),
                         **{'region': region}
                     }
 
                     Normalize.singleKeyObjectIdToStr(conn, 'owner_user._id')
+                    Normalize.arrayKeyObjectIdToStr(conn, 'roles', '_id')
                     Normalize.singleKeyObjectIdToStr(connector, '_id')
                     key = task_scan.delay(conn, connector['_id'], task, commands)
 

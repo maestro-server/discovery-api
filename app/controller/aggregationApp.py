@@ -19,10 +19,10 @@ class AggregationApp(Resource):
                 pipeline = json.loads(valid['pipeline'])
                 entity = valid['entity']
             except Exception as error:    
-                return FactoryInvalid.responseInvalid('Invalid Pipeline')
+                return FactoryInvalid.responseInvalid('Invalid Pipeline'), 422
             
             if not has(pipeline, '[0].$match.roles\._id'):
-                raise MissingError('id', 'Must delimite $match which roles._id ($match {role.id})')
+                return MissingError('id', 'Must delimite $match which roles._id ($match {role.id})'), 422
 
             args = map_values_deep(pipeline, updaterIds)
 

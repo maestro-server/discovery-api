@@ -25,6 +25,10 @@ api.add_resource(DcImagesApp, '/images')
 api.add_resource(DcNetworkApp, '/networks')
 api.add_resource(DcSnapshotsApp, '/snapshots')
 api.add_resource(DcFlavorsApp, '/flavors')
+api.add_resource(DcClientsApp, '/clients')
+api.add_resource(DcServicesApp, '/services')
+api.add_resource(DcProjectsApp, '/projects')
+api.add_resource(DcTeamsApp, '/teams')
 api.add_resource(DcEventsApp, '/events')
 api.add_resource(DcDatacentersApp, '/datacenters')
 api.add_resource(DcReportsApp, '/reports')
@@ -35,4 +39,4 @@ api.add_resource(CrawlerApps, '/crawler/<datacenter>/<instance>/<task>', '/crawl
 
 @app.errorhandler(404)
 def error(e):
-    return jsonify({'error': 'Resource not found'})
+    return jsonify({'error': 'Resource not found'}), 404

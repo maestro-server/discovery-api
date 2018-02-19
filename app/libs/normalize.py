@@ -23,5 +23,11 @@ class Normalize(object):
         set_(data, key, str(get(data, key)))
 
     @staticmethod
+    def arrayKeyObjectIdToStr(data, key, subkey):
+        if isinstance(data[key], list) and len(data[key]) > 0:
+            for i, sub in enumerate(data[key]):
+                set_(data, '%s[%i].%s' % (key, i, subkey), str(get(sub, subkey)))
+
+    @staticmethod
     def objectIdToStr(data):
         return str(data)

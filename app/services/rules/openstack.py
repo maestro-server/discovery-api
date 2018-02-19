@@ -23,7 +23,7 @@ class RulerOpenStack(Ruler):
         dc = {
             'name': Ruler.switch('dc', source),
             'provider': Ruler.switch('provider', source),
-            '_id': Ruler.switch('_id', source),
+            '_id': Ruler.switch('dc_id', source),
             'region': Ruler.switch('region', source),
             'zone': Ruler.switch('availability_zone', batch),
             'type': 'Virtual',

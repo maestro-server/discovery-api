@@ -44,7 +44,7 @@ class RulerAWS(Ruler):
         dc = {
             'name': Ruler.switch('dc', source),
             'provider': Ruler.switch('provider', source),
-            '_id': Ruler.switch('_id', source),
+            '_id': Ruler.switch('dc_id', source),
             'region': Ruler.switch('region', source),
             'zone': Ruler.switch('Placement.AvailabilityZone', batch),
             'type': 'Virtual',

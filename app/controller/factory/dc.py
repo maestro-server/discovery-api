@@ -14,10 +14,10 @@ class DcApp(Resource):
         req = request.args.to_dict()
 
         if not has(req, 'query'):
-            raise MissingError('id', 'Query params is needed')
+            return MissingError('id', 'Query params is needed'), 422
 
         if not has(req, 'query.roles._id'):
-            raise MissingError('id', 'Must have owner id')
+            return MissingError('id', 'Must have owner id'), 422
 
         pagination = defaults(req, {'limit': os.environ.get("MAESTRO_SCAN_QTD", 200), 'page': 1})
         limit = int(pagination['limit'])
@@ -68,7 +68,6 @@ class DcApp(Resource):
         data = request.get_json(force=True)
 
         format = []
-
 
         for item in data['body']:
             id = get(item, '_id')

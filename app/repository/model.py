@@ -29,7 +29,7 @@ class Model(object):
 
     def update(self, data):
         if not self.__id:
-            raise MissingError('id', 'Id not setted')
+            return MissingError('id', 'Id not setted'), 422
 
         set = {'$set': data}
         result = self.col.update_one(Model.makeObjectId(self.__id), set)
