@@ -1,9 +1,11 @@
-FROM python:alpine3.6
+FROM alpine:latest
 MAINTAINER Felipe Signorini <felipe.signorini@maestroserver.io>
 
 ENV APP_PATH=/opt/application
 
-RUN pip3 install --upgrade pip gunicorn
+RUN apk add --no-cache python3 \
+    && python3 -m ensurepip \	
+    && pip3 install --upgrade pip gunicorn
 
 WORKDIR $APP_PATH
 
