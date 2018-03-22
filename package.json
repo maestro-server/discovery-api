@@ -11,7 +11,8 @@
     "save": "pip freeze -l > requirements.txt ",
     "test": "python -m unittest discover",
     "package-flask": "docker build -t discovery-maestro .",
-    "package-celery": "docker build -f DockerfileCelery -t discovery-maestro-celery ."
+    "package-celery": "docker build -f DockerfileCelery -t discovery-maestro-celery .",
+    "docs": "apidoc -i app/controller/ -o docs/"
   },
   "repository": {
     "type": "git",
@@ -28,5 +29,8 @@
   "bugs": {
     "url": "https://github.com/maestro-server/discovery-api/issues"
   },
-  "homepage": "https://github.com/maestro-server/discovery-api#readme"
+  "homepage": "https://github.com/maestro-server/discovery-api#readme",
+  "dependencies": {
+    "apidoc": "^0.17.6"
+  }
 }

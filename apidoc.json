@@ -1,0 +1,13 @@
+{
+    "name": "API-Discovery Maestro - Providers Manager",
+    "version": "0.2.0",
+    "description": "API documentation - RestFull",
+    "apidoc": {
+        "title": "API - Maestro Server - Discovery App",
+        "url": "https://localhost:5000/apidocs/v1"
+    },
+    "order": [
+        "Ping",
+        "Crawler"
+    ]
+}

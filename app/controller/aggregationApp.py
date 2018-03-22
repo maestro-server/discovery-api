@@ -10,6 +10,23 @@ from app.error.factoryInvalid import FactoryInvalid
 from app.error.missingError import MissingError
 
 class AggregationApp(Resource):
+    """
+    @api {post} /aggregate> 1. Execute aggregate query
+    @apiName PostAggregate
+    @apiGroup Aggregate
+
+    @apiParam (Body x-www) {String} entity Table name (Ex. server, applications, clients, system)
+    @apiParam (Body x-www) {Json} query Aggregation query (See, mongodb aggregate for more information)
+
+    @apiSuccessExample {json} Success-Response:
+    HTTP/1.1 200 OK
+    {
+        'items': [
+            {
+            }
+        ]
+    }
+    """
 
     def post(self):
         valid = aggregateValidate().validate()
