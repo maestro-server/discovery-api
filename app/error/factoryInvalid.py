@@ -1,6 +1,4 @@
 
-
-
 class FactoryInvalid(object):
 
     @staticmethod

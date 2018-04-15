@@ -1,7 +1,8 @@
 
+import json, requests
 from flask_restful import Resource
-from app.repository.adminer import Adminer
-
+from app.libs.url import FactoryURL
+from app.libs.lens import lens
 
 class CrawlerDcs(Resource):
     """
@@ -17,7 +18,10 @@ class CrawlerDcs(Resource):
         }
     }
     """
-
     def get(self, datacenter):
-        path = '.permissions.%s' % datacenter
-        return Adminer().getOptions('connections', path)
+        path = FactoryURL.make(path="adminer")
+        filters = json.dumps({'key': 'connections'})
+        result = requests.post(path, json={'query': filters})
+
+        if 'items' in result.json():
+            return lens(result.json()['items'], len='.permissions.%s' % (datacenter))

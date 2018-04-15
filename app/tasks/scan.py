@@ -4,7 +4,7 @@ from app.services.factory import FactoryAPI
 
 from app.libs.jwt import Jwt
 from app.libs.optionsVarsNormalize import optionsVarsNormalize
-from app.error import FactoryInvalid, ClientMaestroError, MissingError
+from app.error import FactoryInvalid, ClientMaestroError
 
 from .translate import task_translate
 from .notification import task_notification
@@ -42,7 +42,7 @@ def task_scan(self, conn, conn_id, task, options, vars = []):
             'qtd': len(result['result'])
         }
 
-    except (ClientMaestroError, MissingError) as error:
+    except (ClientMaestroError) as error:
 
         task_notification.delay(msg=str(error), conn_id=conn_id, task=task, status='danger')
 

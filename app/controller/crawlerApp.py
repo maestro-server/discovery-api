@@ -1,12 +1,15 @@
 
+import requests, json
 from flask_restful import Resource
-from app.repository import Adminer, Connections
-
-from app.error.factoryInvalid import FactoryInvalid
-from app.tasks import task_scan
 from pydash.objects import pick
 
+from app.tasks import task_scan, task_notification
+
 from app.libs.normalize import Normalize
+from app.libs.url import FactoryURL
+from app.libs.lens import lens
+
+from app.error.factoryInvalid import FactoryInvalid
 
 
 class CrawlerApps(Resource):
@@ -48,19 +51,24 @@ class CrawlerApps(Resource):
     }]
     """
     def put(self, datacenter, instance, task):
-        require = Adminer().getOptions('connections', len='.permissions.%s.%s' % (datacenter, task))
-        if not require:
-            return FactoryInvalid.responseInvalid('This task is not allowed')
+        path = FactoryURL.make(path="adminer")
+        filters = json.dumps({'key': 'connections'})
+        list = requests.post(path, json={'query': filters})
 
-        return self.crawlerFactory(instance, task, require)
+        if 'items' in list.json():
+            require = lens(list.json()['items'], len='.permissions.%s.%s' % (datacenter, task))
+            if require:
+                return self.crawlerFactory(instance, task, require)
 
+        return FactoryInvalid.responseInvalid('This task is not allowed', 422)
 
     def crawlerFactory(self, instance, task, require):
-        Connection = Connections(instance)
-        connector = Connection.get()
+        path = FactoryURL.make(path="connections/%s" % instance)
+        results = requests.get(path)
+        connector = results.json()
+
         if not connector and connector['conn']:
             return FactoryInvalid.responseInvalid('This instance dont have a valid connection.')
-
 
         try:
             for commands in require:
@@ -76,8 +84,10 @@ class CrawlerApps(Resource):
                     Normalize.singleKeyObjectIdToStr(connector, '_id')
                     key = task_scan.delay(conn, connector['_id'], task, commands)
 
-            return Connection.markWarning(task).updateState('In progress. %s' % key)
+            message = {'msg': 'In progress. %s' % key, 'conn_id': instance, 'task': task, 'status': 'warning'}
+            task_notification.delay(**message)
+            return message, 201
 
         except Exception as error:
-            Connection.markWarning(task).updateState(str(error))
+            task_notification.delay(msg=str(error), conn_id=instance, task=task, status='danger')
             return FactoryInvalid.responseInvalid({'msg': str(error), 'name': error.__class__.__name__}, 500)

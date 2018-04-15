@@ -18,3 +18,6 @@ exclude_paths:
 - devtools/
 - app/tests/
 - lib/
+- docs/
+- bin/
+- node_modules/
