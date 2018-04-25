@@ -12,6 +12,8 @@ def rules(conn):
         'kms_key_id': {'call': 'switch', 'source': 'KmsKeyId'},
         'size': {'call': 'switch', 'source': 'Size'},
         'snapshot_id': {'call': 'switch', 'source': 'SnapshotId'},
+        'volume_type': {'call': 'switch', 'source': 'VolumeType'},
+        'delete_on_termination': {'call': 'switch', 'source': 'DeleteOnTermination'},
         'iops': {'call': 'switch', 'source': 'Iops'},
         'status': {'call': 'switchOptions',
                    'source': {'field': 'State',

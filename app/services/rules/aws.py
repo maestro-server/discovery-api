@@ -13,7 +13,7 @@ class RulerAWS(Ruler):
             clean = {
                 'name': get(item, 'DeviceName'),
                 'delete_termination': get(item, 'Ebs.DeleteOnTermination'),
-                'volume_id': get(item, 'Ebs.VolumeId'),
+                'unique_id': get(item, 'Ebs.VolumeId'),
                 'attach_time': get(item, 'Ebs.AttachTime'),
                 'status': get(item, 'Ebs.Status')
             }
@@ -34,7 +34,7 @@ class RulerAWS(Ruler):
                 'kms_key_id': get(item, 'Ebs.KmsKeyId'),
                 'snapshot_id': get(item, 'Ebs.SnapshotId'),
                 'volume_size': get(item, 'Ebs.VolumeSize'),
-                'volumeT_type': get(item, 'Ebs.VolumeType')
+                'volume_type': get(item, 'Ebs.VolumeType')
             }
             storage.append(clean)
         return storage
