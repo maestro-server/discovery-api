@@ -16,6 +16,7 @@ def rules(conn):
         'auth': {'call': 'fctAuth', 'source': 'KeyName'},
         'tags': {'call': 'fctTags', 'source': 'Tags'},
         'ebs_optimized': {'call': 'switch', 'source': 'EbsOptimized'},
+        'cpu|memory': {'call': 'InstanceTypeAWS', 'source': 'InstanceType', 'merged': True},
         'status': {'call': 'switchOptions',
                    'source': {'field': 'State.Name',
                               'options': {'running': 'Active', 'pending': 'Active', 'stopping': 'Stopped',

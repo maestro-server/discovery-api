@@ -3,6 +3,14 @@ from .ruler import Ruler
 from pydash.objects import get
 
 class RulerAWS(Ruler):
+    @staticmethod
+    def InstanceTypeAWS(source, batch):
+        instance = Ruler.switch(source, batch)
+        obj = {
+            'cpu': 100,
+            'memory': 100
+        }
+        return obj
 
     @staticmethod
     def fctStorage(source, batch):
