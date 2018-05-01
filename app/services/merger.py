@@ -1,6 +1,7 @@
 
-from pydash.arrays import union
-from pydash.objects import get, merge, merge_with, omit, pick_by
+from pydash.arrays import union_with
+from pydash.predicates import is_equal
+from pydash.objects import has, get, merge, merge_with, omit, pick_by
 from pydash.utilities import identity
 
 class MergeAPI(object):
@@ -41,7 +42,15 @@ class MergeAPI(object):
 
     @staticmethod
     def list_merge(list_obj, list_src):
-        return union(list_obj, list_src)
+        return union_with(list_obj, list_src, MergeAPI.algEqual)
+
+    @staticmethod
+    def algEqual(src, other):
+        if has(src, 'unique_id') and has(other, 'unique_id'):
+            return is_equal(src['unique_id'], other['unique_id'])
+
+        return is_equal(src, other)
+
 
     @staticmethod
     def dict_merge(list_obj, list_src):

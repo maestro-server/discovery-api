@@ -6,6 +6,9 @@ class IteratorRuler(object):
 
     _translate = {}
 
+    def __init__(self):
+        self._translate = {}
+
     def push_data(self, data, single, merged = False):
         if merged is True:
             assign(self._translate, data)

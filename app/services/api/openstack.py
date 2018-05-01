@@ -64,7 +64,6 @@ class OpenStack(Connector):
                 obj = props(server)
                 cc = omit(obj, ['_body', '_get_id', '_header', '_query_mapping', '_uri'])
                 clear.append(cc)
-                print("===========================3")
                 if len(clear) >= limit:
                     self.setPag(server.id)
                     break

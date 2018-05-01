@@ -23,7 +23,7 @@ class MapperOpenStack(Mapper):
         transformed = []
 
         items = self.mapp().items()
-        nw = IteratorRuler().batch(items=items, Ruler=RulerOpenStack, source=data)
+        nw = IteratorRuler().batch(items=items, Ruler=RulerOpenStack, source=data).result()
         transformed.append(nw)
 
         return transformed

@@ -40,6 +40,7 @@ class MapperAWS(Mapper):
             nw = IteratorRuler().batch(items=items, Ruler=RulerAWS, source=sub).result()
             transformed.append(nw)
 
+
         return transformed
 
     def mapp(self, command, conn):
