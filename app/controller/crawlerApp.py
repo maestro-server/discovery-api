@@ -35,14 +35,14 @@ class CrawlerApps(Resource):
         }
 
     """
-    @api {post} /crawler/<datacenter> 2. Execute crawler
+    @api {put} /crawler/<datacenter>/<instance>/<task> 2. Execute crawler
     @apiName PostDatacenterCrawler
     @apiGroup Crawler
-    @apiDescription Used to run jobs, all jobs execute in workers tasks.
+    @apiDescription Used to run jobs, all jobs execute in workers tasks. All task is process by discovery-worker
 
     @apiParam (Query) {String} instance Instance ID of connection.
-    @apiParam (Query) {String} task Task
-    @apiParam (Query) {String} datacenter Datacenter name
+    @apiParam (Query) {String} task Task (server-list, db-list)
+    @apiParam (Query) {String} datacenter Datacenter name (AWS, OpenStack)
 
     @apiSuccessExample {json} Success-Response:
     HTTP/1.1 200 OK

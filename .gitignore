@@ -104,6 +104,7 @@ ENV/
 /Scripts
 /Lib
 /tcl
+.vscode/
 pip-selfcheck.json
 
 .vs/
@@ -111,5 +112,6 @@ pip-selfcheck.json
 *.sln
 pyvenv.cfg
 .gitattributes
+
 
 node_modules/
