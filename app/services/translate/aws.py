@@ -37,8 +37,9 @@ class MapperAWS(Mapper):
 
         for sub in data:
             items = self.mapp(self.command, self.conn).items()
-            nw = IteratorRuler().batch(items=items, Ruler=RulerAWS, source=sub)
+            nw = IteratorRuler().batch(items=items, Ruler=RulerAWS, source=sub).result()
             transformed.append(nw)
+
 
         return transformed
 

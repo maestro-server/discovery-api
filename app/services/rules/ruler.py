@@ -46,4 +46,4 @@ class Ruler(object):
     @staticmethod
     def batch(source, batch):
         items = source.items()
-        return IteratorRuler().batch(items=items, Ruler=Ruler, source=batch)
+        return IteratorRuler().batch(items=items, Ruler=Ruler, source=batch).result()

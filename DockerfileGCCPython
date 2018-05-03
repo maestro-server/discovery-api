@@ -1,0 +1,7 @@
+FROM alpine:3.7
+RUN apk add --no-cache python3-dev && \
+    apk add --no-cache --virtual .build-deps g++ && \
+    apk add --no-cache build-base && \
+    apk add --no-cache linux-headers && \
+    ln -s /usr/include/locale.h /usr/include/xlocale.h && \
+    apk del .build-deps

@@ -1,9 +1,8 @@
-FROM python:3.6.5-jessie
+FROM maestroserver/maestro-python-gcc
 MAINTAINER Felipe Signorini <felipe.signorini@maestroserver.io>
 
 ENV APP_PATH=/opt/application
-
-RUN pip3 install --upgrade pip gunicorn
+RUN pip3 install gunicorn
 
 WORKDIR $APP_PATH
 

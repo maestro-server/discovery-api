@@ -1,6 +1,10 @@
 
+import requests, json, re
 from .ruler import Ruler
 from pydash.objects import get
+from app.libs.url import FactoryURL
+
+from app.libs.cache import CacheMemory
 
 class RulerAWS(Ruler):
 
@@ -12,6 +16,7 @@ class RulerAWS(Ruler):
         for item in dirts:
             clean = {
                 'name': get(item, 'DeviceName'),
+                'mount': get(item, 'DeviceName'),
                 'delete_termination': get(item, 'Ebs.DeleteOnTermination'),
                 'unique_id': get(item, 'Ebs.VolumeId'),
                 'attach_time': get(item, 'Ebs.AttachTime'),
@@ -93,3 +98,27 @@ class RulerAWS(Ruler):
                 }
                 tags.append(clean)
         return tags
+
+    @staticmethod
+    def InstanceTypeAWS(source, batch, obj = {}):
+        instance = Ruler.switch(source, batch)
+
+        if instance:
+            obj = CacheMemory.get(instance)
+            if not obj:
+                path = FactoryURL.make(path="flavors_public")
+
+                query = json.dumps({'api_name': instance})
+                resource = requests.post(path, json={'query': query})
+
+                if resource.status_code == 200:
+                    result = resource.json()
+                    content = get(result, 'items.[0]')
+                    obj = {
+                        'cpu': re.search(r'([0-9]*)', get(content, 'vcpus')).group(),
+                        'memory': re.search(r'([0-9\.]*)', get(content, 'memory')).group(),
+                    }
+
+                    CacheMemory.set(instance, obj)
+
+        return obj

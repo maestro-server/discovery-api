@@ -1,4 +1,4 @@
-FROM python:alpine3.6
+FROM maestroserver/maestro-python-gcc
 MAINTAINER Felipe Signorini <felipe.signorini@maestroserver.io>
 
 ENV APP_PATH=/opt/application
