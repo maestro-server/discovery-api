@@ -22,6 +22,8 @@ Discovery App service to connect and crawler provider
 - Crawler the data and record into db
 - Consume batch insert data
 
+![arch](http://docs.maestroserver.io/en/latest/_images/discovery.png)
+
 **Core API, organized by modules:**
 
 * API Rest
