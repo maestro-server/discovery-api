@@ -44,22 +44,22 @@ Discovery App service to connect and crawler provider
 #### Installation by docker ####
 
 ```bash
-    version: '2'
+version: '2'
 
-    services:
-    discovery:
-        image: maestroserver/discovery-maestro
-        ports:
-        - "5000:5000"
-        environment:
-        - "CELERY_BROKER_URL=amqp://rabbitmq:5672"
-        - "MAESTRO_DATA_URI=http://data:5000"
+services:
+discovery:
+    image: maestroserver/discovery-maestro
+    ports:
+    - "5000:5000"
+    environment:
+    - "CELERY_BROKER_URL=amqp://rabbitmq:5672"
+    - "MAESTRO_DATA_URI=http://data:5000"
 
-    discovery-celery:
-        image: maestroserver/discovery-maestro-celery
-        environment:
-        - "CELERY_BROKER_URL=amqp://rabbitmq:5672"
-        - "MAESTRO_DATA_URI=http://data:5000"
+discovery-celery:
+    image: maestroserver/discovery-maestro-celery
+    environment:
+    - "CELERY_BROKER_URL=amqp://rabbitmq:5672"
+    - "MAESTRO_DATA_URI=http://data:5000"
 ```
 
 #### Dev Env ####
@@ -98,9 +98,9 @@ Run workers
 ```bash
 celery -A app.celery worker -E -Q discovery --hostname=discovery@%h --loglevel=info
 
-    or 
+or 
 
-    npm run celery
+npm run celery
 ```
 
 Run all tests 
