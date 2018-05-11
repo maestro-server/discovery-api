@@ -15,4 +15,5 @@ COPY gunicorn_config.py /opt/gunicorn_config.py
 
 RUN pip3 install -r requirements.txt
 
-CMD ["/usr/bin/gunicorn", "--config", "/opt/gunicorn_config.py", "run:app"]
+ENTRYPOINT ["/sbin/tini","-g","--"]
+CMD ["docker-entrypoint.sh"]
