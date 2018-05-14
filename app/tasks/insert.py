@@ -32,9 +32,11 @@ def task_insert(self, conn, conn_id, task, result, options):
     content = get(content, 'items')
     body = MergeAPI(content=content, key_comparer=key).merge(result)
 
-    path = FactoryURL.make(path=options['entity'])
-    resource = requests.put(path, json={'body': body})
+    if len(body) > 0:
+        path = FactoryURL.make(path=options['entity'])
+        requests.put(path, json={'body': body})
+        key = task_notification.delay(msg="Success.", conn_id=conn_id, task=task, status='success')
 
-    key = task_notification.delay(msg="Success.", conn_id=conn_id, task=task, status='success')
+    key = task_notification.delay(msg="Success. No changes", conn_id=conn_id, task=task, status='success')
 
-    return {'name': self.request.task, 'conn_id': conn_id, 'task': task, 'notification-id': str(key), 'result': resource.text}
+    return {'name': self.request.task, 'conn_id': conn_id, 'task': task, 'notification-id': str(key), 'body': len(body)}

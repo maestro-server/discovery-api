@@ -13,19 +13,29 @@ class MergeAPI(object):
         self.omit = ['roles', 'owner']
 
     def merge(self, insert):
-        if not isinstance(self.content, list):
+        if not isinstance(self.content, list) or len(self.content) <= 0:
             return insert
 
+        santinize = []
         for item in self.content:
             dc_id = get(item, self.key)
+            check_content = str(get(item, 'checksum'))
 
             for key, find in enumerate(insert):
                 if self.assign(find, dc_id):
-                    created = omit(insert[key], self.omit)
-                    insert[key] = merge_with(item, created, MergeAPI.merger_with)
+                    check_insert = str(insert[key]['checksum'])
+                    if check_insert != check_content:
+                        created = omit(insert[key], self.omit)
+                        merged = merge_with(item, created, MergeAPI.merger_with)
+                        santinize.append(merged)
+
+                    if len(insert) <= 1:
+                        insert = []
+                    if len(insert) > 1:
+                        del insert[key]
                     break
 
-        return insert
+        return santinize
 
     def assign(self, data, dc_id):
         return get(data, self.key) == dc_id

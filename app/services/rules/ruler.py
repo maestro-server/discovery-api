@@ -1,4 +1,4 @@
-
+import json
 from pydash.objects import get
 from app.services.iterators.iRuler import IteratorRuler
 
@@ -42,6 +42,10 @@ class Ruler(object):
     @staticmethod
     def fctRoles(source, batch):
         return get(source, 'roles')
+
+    @staticmethod
+    def checksum(source, batch):
+        return hash(repr(batch))
 
     @staticmethod
     def batch(source, batch):
