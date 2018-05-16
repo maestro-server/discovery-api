@@ -19,7 +19,7 @@ def task_translate(self, conn, conn_id, options, task, result):
     for batch in IteratorTranslate(limit).batch(result):
         translate = Translater.translate(batch)
         key = task_insert.delay(conn, conn_id, task, translate, options)
-        tkey = task_tracker.delay(translate, conn_id)
+        tkey = task_tracker.delay(translate, conn['dc_id'])
         insert_id.append(str(key))
         tracker_id.append(str(tkey))
 
