@@ -5,13 +5,15 @@ from pydash import get
 from app.libs.url import FactoryURL
 
 @celery.task(name="tracker.api", bind=True)
-def task_tracker(self, result, dc_id):
+def task_tracker(self, result, dc_id, task):
 
     ids = map(lambda x: get(x, 'unique_id'), result)
 
     body = [{
         '_id': dc_id,
-        '$addToSet': {'tracker': {'$each': list(ids)}}
+        '$addToSet': {
+            'tracker-'+task: {'$each': list(ids)}
+        }
     }]
 
     path = FactoryURL.make('datacenters')
