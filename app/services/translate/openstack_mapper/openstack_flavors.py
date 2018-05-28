@@ -13,4 +13,6 @@ def rules(conn):
         'datacenters': {'call': 'fctDcApp',
                         'source': {**conn}},
         'active': {'call': 'setV', 'source': True},
+        'checksum': {'call': 'checksum',
+                     'source': None}
     }

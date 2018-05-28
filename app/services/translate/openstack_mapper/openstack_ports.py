@@ -20,5 +20,7 @@ def rules(conn):
                   'source': {**conn}},
         'active': {'call': 'setV', 'source': True},
         'roles': {'call': 'fctRoles',
-                  'source': {**conn}}
+                  'source': {**conn}},
+        'checksum': {'call': 'checksum',
+                     'source': None}
     }
