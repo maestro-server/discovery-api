@@ -19,5 +19,7 @@ def rules(conn):
         'owner': {'call': 'fctOwner',
                   'source': {**conn}},
         'roles': {'call': 'fctRoles',
-                  'source': {**conn}}
+                  'source': {**conn}},
+        'checksum': {'call': 'checksum',
+                     'source': None}
     }

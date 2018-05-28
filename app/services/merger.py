@@ -23,7 +23,8 @@ class MergeAPI(object):
 
             for key, find in enumerate(insert):
                 if self.assign(find, dc_id):
-                    check_insert = str(insert[key]['checksum'])
+                    check_insert = str(get(insert[key], 'checksum'))
+
                     if check_insert != check_content:
                         created = omit(insert[key], self.omit)
                         merged = merge_with(item, created, MergeAPI.merger_with)
