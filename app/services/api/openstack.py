@@ -24,15 +24,15 @@ class OpenStack(Connector):
         return self
 
     def credencials(self, command):
-        prof = profile.Profile()
-        prof.set_region(profile.Profile.ALL, self._region)
 
         conn = connection.Connection(
-            profile=prof,
-            auth_url=self._conn['url'],
-            project_name=self._conn['project'],
-            username=self._access['username'],
-            password=self._access['password']
+            region_name=self._region,
+            auth=dict(
+                auth_url=self._conn['url'],
+                username=self._access['username'],
+                password=self._access['password'],
+                project_id=self._conn['project']),
+            compute_api_version='2'
         )
 
         try:
