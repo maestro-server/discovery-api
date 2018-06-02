@@ -69,19 +69,20 @@ class RulerOpenStack(Ruler):
     @staticmethod
     def fctPrivateIp(source, batch):
         dirts = Ruler.switch(source, batch, {})
-        first = next(iter(dirts.values()))
-
-        return get(first, '[0].addr')
+        if dirts:
+            first = next(iter(dirts.values()))
+            return get(first, '[0].addr')
 
     @staticmethod
     def fctPublicIp(source, batch):
         ip = None
         dirts = Ruler.switch(source, batch, {})
 
-        for key, item in dirts.items():
-            key = key.lower()
-            if re.search('internet|public', key):
-                ip = get(item, '[0].addr')
-                break
+        if dirts:
+            for key, item in dirts.items():
+                key = key.lower()
+                if re.search('internet|public', key):
+                    ip = get(item, '[0].addr')
+                    break
 
-        return ip
+            return ip

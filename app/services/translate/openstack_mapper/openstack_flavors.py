@@ -12,6 +12,8 @@ def rules(conn):
         'provider': {'call': 'setV', 'source': 'OpenStack'},
         'datacenters': {'call': 'fctDcApp',
                         'source': {**conn}},
+        'roles': {'call': 'fctRoles',
+                  'source': {**conn}},
         'active': {'call': 'setV', 'source': True},
         'checksum': {'call': 'checksum',
                      'source': None}
