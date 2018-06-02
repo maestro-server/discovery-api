@@ -1,7 +1,12 @@
 
-import re
+import requests, json, re
 from .ruler import Ruler
 from pydash.objects import get
+from pydash.numerical import divide
+from app.libs.url import FactoryURL
+
+from app.libs.cache import CacheMemory
+
 
 class RulerOpenStack(Ruler):
 
@@ -11,8 +16,10 @@ class RulerOpenStack(Ruler):
         dirts = Ruler.switch(source, batch, [])
 
         for item in dirts:
+            id = get(item, 'id')
             clean = {
-                'volume_id': get(item, 'id')
+                'name': 'vol-%s' % id[0:3],
+                'unique_id': id
             }
             storage.append(clean)
         return storage
@@ -86,3 +93,28 @@ class RulerOpenStack(Ruler):
                     break
 
             return ip
+
+    @staticmethod
+    def InstanceTypeOpenStack(source, batch, obj={}):
+        instance = Ruler.switch(source, batch)
+
+        if instance:
+            obj = CacheMemory.get(instance)
+            if not obj:
+                path = FactoryURL.make(path="flavors")
+
+                query = json.dumps({'unique_id': instance})
+                resource = requests.post(path, json={'query': query})
+
+                if resource.status_code == 200:
+                    result = resource.json()
+                    content = get(result, 'items.[0]')
+
+                    obj = {
+                        'cpu': get(content, 'vcpus'),
+                        'memory': divide(get(content, 'memory'), 1000)
+                    }
+
+                    CacheMemory.set(instance, obj)
+
+        return obj

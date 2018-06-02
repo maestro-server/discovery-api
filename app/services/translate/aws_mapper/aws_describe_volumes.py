@@ -17,7 +17,7 @@ def rules(conn):
         'iops': {'call': 'switch', 'source': 'Iops'},
         'status': {'call': 'switchOptions',
                    'source': {'field': 'State',
-                              'options': {'creating': 'Active', 'available': 'Active', 'in-use': 'Active',
+                              'options': {'creating': 'Active', 'available': 'Available', 'in-use': 'Active',
                                           'deleting': 'Deleted', 'deleted': 'Deleted', 'error': 'Error'},
                               'default': None
                               }},
