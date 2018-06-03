@@ -12,7 +12,7 @@ def rules(conn):
         'cpu|memory': {'call': 'InstanceTypeOpenStack', 'source': 'flavor.id', 'merged': True},
         'datacenters': {'call': 'fctDc',
                         'source': {**conn}},
-        'meta': {'call': 'batch',
+        'metas': {'call': 'batch',
                  'source': {
                      'addresses': {'call': 'switch', 'source': 'addresses'},
                      'has_config_drive': {'call': 'switch', 'source': 'has_config_drive'},

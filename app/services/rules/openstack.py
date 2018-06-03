@@ -11,6 +11,11 @@ from app.libs.cache import CacheMemory
 class RulerOpenStack(Ruler):
 
     @staticmethod
+    def switchRam(source, batch):
+        dirts = Ruler.switch(source, batch, [])
+        return divide(dirts, 1000)
+
+    @staticmethod
     def fctStorage(source, batch):
         storage = []
         dirts = Ruler.switch(source, batch, [])
@@ -112,7 +117,7 @@ class RulerOpenStack(Ruler):
 
                     obj = {
                         'cpu': get(content, 'vcpus'),
-                        'memory': divide(get(content, 'memory'), 1000)
+                        'memory': get(content, 'memory')
                     }
 
                     CacheMemory.set(instance, obj)

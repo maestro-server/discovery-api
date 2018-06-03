@@ -3,7 +3,7 @@ def rules(conn):
         'name': {'call': 'switch', 'source': 'name'},
         'api_name': {'call': 'switch', 'source': 'name'},
         'unique_id': {'call': 'switch', 'source': 'id'},
-        'memory': {'call': 'switch', 'source': 'ram'},
+        'memory': {'call': 'switchRam', 'source': 'ram'},
         'disk': {'call': 'switch', 'source': 'disk'},
         'vcpus': {'call': 'switch', 'source': 'vcpus'},
         'is_public': {'call': 'switch', 'source': 'is_public'},
