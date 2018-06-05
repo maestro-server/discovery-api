@@ -1,5 +1,5 @@
 
-from openstack import profile, connection
+from openstack import connection
 
 from .connector import Connector
 from pydash.objects import get, omit
@@ -24,15 +24,16 @@ class OpenStack(Connector):
         return self
 
     def credencials(self, command):
-
         conn = connection.Connection(
             region_name=self._region,
             auth=dict(
                 auth_url=self._conn['url'],
                 username=self._access['username'],
                 password=self._access['password'],
-                project_id=self._conn['project']),
-            compute_api_version='2'
+                project_id=self._conn['project'],
+                user_domain_id=self._conn['user_domain_id']
+            ),
+            compute_api_version=self._conn['api_version']
         )
 
         try:
@@ -58,12 +59,13 @@ class OpenStack(Connector):
 
         try:
             limit = get(self._params, 'limit')
-            output = getattr(self._client, resource)(details=True, **self._params)
+            output = getattr(self._client, resource)(**self._params)
             clear = []
             for server in output:
                 obj = props(server)
-                cc = omit(obj, ['_body', '_get_id', '_header', '_query_mapping', '_uri'])
+                cc = omit(obj, ['_body', '_get_id', '_header', '_query_mapping', '_uri', 'detail_for'])
                 clear.append(cc)
+
                 if len(clear) >= limit:
                     self.setPag(server.id)
                     break

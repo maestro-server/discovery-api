@@ -10,7 +10,14 @@ class Ruler(object):
 
     @staticmethod
     def switch(source, batch, default=None):
-        return get(batch, source, default)
+        fields = source.split('|')
+        for field in fields:
+            result = get(batch, field)
+            if result:
+                return result
+
+        return default
+
 
     @staticmethod
     def arrCatcher(source, batch):

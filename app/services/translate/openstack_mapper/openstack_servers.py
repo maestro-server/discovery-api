@@ -9,9 +9,10 @@ def rules(conn):
         'auth': {'call': 'fctAuth', 'source': 'key_name'},
         'storage': {'call': 'fctStorage', 'source': 'attached_volumes'},
         'created_at': {'call': 'switch', 'source': 'created_at'},
+        'cpu|memory': {'call': 'InstanceTypeOpenStack', 'source': 'flavor.id', 'merged': True},
         'datacenters': {'call': 'fctDc',
                         'source': {**conn}},
-        'meta': {'call': 'batch',
+        'metas': {'call': 'batch',
                  'source': {
                      'addresses': {'call': 'switch', 'source': 'addresses'},
                      'has_config_drive': {'call': 'switch', 'source': 'has_config_drive'},

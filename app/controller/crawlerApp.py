@@ -3,7 +3,7 @@ import requests, json
 from flask_restful import Resource
 from pydash.objects import pick
 
-from app.tasks import task_scan, task_notification
+from app.tasks import task_scan, task_notification, task_setup
 
 from app.libs.normalize import Normalize
 from app.libs.url import FactoryURL
@@ -78,9 +78,10 @@ class CrawlerApps(Resource):
         try:
             for commands in require:
                 for region in connector['regions']:
+                    task_setup(connector['dc_id'], task, region)
 
                     conn = {
-                        **pick(connector, ['dc_id', 'conn', 'provider', 'dc', 'owner_user', 'url', 'project', 'roles']),
+                        **pick(connector, ['dc_id', 'conn', 'provider', 'dc', 'owner_user', 'url', 'project', 'roles', 'user_domain_id', 'api_version']),
                         **{'region': region}
                     }
 

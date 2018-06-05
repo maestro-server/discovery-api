@@ -1,9 +1,19 @@
 
-import re
+import requests, json, re
 from .ruler import Ruler
 from pydash.objects import get
+from pydash.numerical import divide
+from app.libs.url import FactoryURL
+
+from app.libs.cache import CacheMemory
+
 
 class RulerOpenStack(Ruler):
+
+    @staticmethod
+    def switchRam(source, batch):
+        dirts = Ruler.switch(source, batch, [])
+        return divide(dirts, 1000)
 
     @staticmethod
     def fctStorage(source, batch):
@@ -11,8 +21,10 @@ class RulerOpenStack(Ruler):
         dirts = Ruler.switch(source, batch, [])
 
         for item in dirts:
+            id = get(item, 'id')
             clean = {
-                'volume_id': get(item, 'id')
+                'name': 'vol-%s' % id[0:3],
+                'unique_id': id
             }
             storage.append(clean)
         return storage
@@ -69,19 +81,45 @@ class RulerOpenStack(Ruler):
     @staticmethod
     def fctPrivateIp(source, batch):
         dirts = Ruler.switch(source, batch, {})
-        first = next(iter(dirts.values()))
-
-        return get(first, '[0].addr')
+        if dirts:
+            first = next(iter(dirts.values()))
+            return get(first, '[0].addr')
 
     @staticmethod
     def fctPublicIp(source, batch):
         ip = None
         dirts = Ruler.switch(source, batch, {})
 
-        for key, item in dirts.items():
-            key = key.lower()
-            if re.search('internet|public', key):
-                ip = get(item, '[0].addr')
-                break
+        if dirts:
+            for key, item in dirts.items():
+                key = key.lower()
+                if re.search('internet|public', key):
+                    ip = get(item, '[0].addr')
+                    break
 
-        return ip
+            return ip
+
+    @staticmethod
+    def InstanceTypeOpenStack(source, batch, obj={}):
+        instance = Ruler.switch(source, batch)
+
+        if instance:
+            obj = CacheMemory.get(instance)
+            if not obj:
+                path = FactoryURL.make(path="flavors")
+
+                query = json.dumps({'unique_id': instance})
+                resource = requests.post(path, json={'query': query})
+
+                if resource.status_code == 200:
+                    result = resource.json()
+                    content = get(result, 'items.[0]')
+
+                    obj = {
+                        'cpu': get(content, 'vcpus'),
+                        'memory': get(content, 'memory')
+                    }
+
+                    CacheMemory.set(instance, obj)
+
+        return obj

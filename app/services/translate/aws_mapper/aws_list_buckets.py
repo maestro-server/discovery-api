@@ -1,6 +1,7 @@
 def rules(conn):
     return {
         'name': {'call': 'switch', 'source': 'Name'},
+        'unique_id': {'call': 'switch', 'source': 'Name'},
         'created_at': {'call': 'switch', 'source': 'CreationDate'},
         'provider': {'call': 'setV', 'source': 'S3 (AWS)'},
         'family': {'call': 'setV', 'source': 'ObjectStorage'},
