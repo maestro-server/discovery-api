@@ -8,6 +8,7 @@ from app.tasks import task_scan, task_notification
 from app.libs.normalize import Normalize
 from app.libs.url import FactoryURL
 from app.libs.lens import lens
+from app.libs.logger import logger
 
 from app.error.factoryInvalid import FactoryInvalid
 
@@ -53,10 +54,14 @@ class CrawlerApps(Resource):
     def put(self, datacenter, instance, task):
         path = FactoryURL.make(path="adminer")
         filters = json.dumps({'key': 'connections'})
-        list = requests.post(path, json={'query': filters})
 
-        if 'items' in list.json():
-            require = lens(list.json()['items'], len='.permissions.%s.%s' % (datacenter, task))
+        try:
+            listC = requests.post(path, json={'query': filters})
+        except requests.exceptions.RequestException as error:
+            logger.error("Discovery: Error - %s", str(error))
+        
+        if listC and 'items' in listC.json():
+            require = lens(listC.json()['items'], len='.permissions.%s.%s' % (datacenter, task))
             if require:
                 return self.crawlerFactory(instance, task, require)
 

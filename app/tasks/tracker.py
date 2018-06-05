@@ -17,6 +17,11 @@ def task_tracker(self, result, dc_id, task):
     }]
 
     path = FactoryURL.make('datacenters')
-    result = requests.put(path, json={'body': body})
 
-    return {'code': result.status_code,  'dc_id': dc_id, 'ids': ids}
+    try:
+        result = requests.put(path, json={'body': body})
+        return {'code': result.status_code,  'dc_id': dc_id, 'ids': ids}
+    except requests.exceptions.RequestException as error:
+        return {'error': str(error)}
+
+    
