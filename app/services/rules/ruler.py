@@ -52,7 +52,7 @@ class Ruler(object):
 
     @staticmethod
     def checksum(source, batch):
-        return hash(repr(batch))
+        return hash(json.dumps(batch, sort_keys=True))
 
     @staticmethod
     def batch(source, batch):
