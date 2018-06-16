@@ -58,7 +58,7 @@ class CrawlerApps(Resource):
         try:
             listC = requests.post(path, json={'query': filters})
         except requests.exceptions.RequestException as error:
-            logger.error("Discovery: Error - %s", str(error))
+            return logger.error("Discovery: Error - %s", str(error))
         
         if listC and 'items' in listC.json():
             require = lens(listC.json()['items'], len='.permissions.%s.%s' % (datacenter, task))

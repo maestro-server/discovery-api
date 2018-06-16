@@ -1,4 +1,5 @@
 import json
+from hashlib import sha1
 from pydash.objects import get
 from app.services.iterators.iRuler import IteratorRuler
 
@@ -52,7 +53,7 @@ class Ruler(object):
 
     @staticmethod
     def checksum(source, batch):
-        return hash(json.dumps(batch, sort_keys=True))
+        return sha1(repr(batch).encode('utf-8')).hexdigest()
 
     @staticmethod
     def batch(source, batch):
