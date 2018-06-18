@@ -3,7 +3,7 @@ from app import celery
 from app.services.factory import FactoryAPI
 
 from app.libs.jwt import Jwt
-from app.libs.optionsVarsNormalize import optionsVarsNormalize
+from app.libs.normalize import Normalize
 from app.error import FactoryInvalid, ClientMaestroError
 
 from .translate import task_translate
@@ -18,7 +18,7 @@ def task_scan(self, conn, conn_id, task, options, vars = []):
         task_notification.delay(msg=str(error), conn_id=conn_id, task=task, status='danger')
 
 
-    oVars = optionsVarsNormalize(options['vars']),
+    oVars = Normalize.optionsVarsNormalize(options['vars']),
     vars = sum(oVars, vars)
 
     try:
