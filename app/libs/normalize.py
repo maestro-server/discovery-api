@@ -18,6 +18,7 @@ class Normalize(object):
 
         return clear
 
+
     @staticmethod
     def singleKeyObjectIdToStr(data, key):
         set_(data, key, str(get(data, key)))
