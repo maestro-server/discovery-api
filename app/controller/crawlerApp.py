@@ -14,20 +14,17 @@ from app.error.factoryInvalid import FactoryInvalid
 
 
 class CrawlerApps(Resource):
-    """
-    @api {get} /crawler/<datacenter>/<instance>/<task> 1. Health check
-    @apiName GetCrawlerInstance
-    @apiGroup Crawler
+    # @api {get} /crawler/<datacenter>/<instance>/<task> 1. Health check
+    # @apiName GetCrawlerInstance
+    # @apiGroup Crawler
 
-    @apiSuccessExample {json} Success-Response:
-    HTTP/1.1 200 OK
-    {
-        'datacenter': <string>,
-        'instance': <string>,
-        'task': <string>
-    }
-    """
-
+    # @apiSuccessExample {json} Success-Response:
+    # HTTP/1.1 200 OK
+    # {
+    #     'datacenter': <string>,
+    #     'instance': <string>,
+    #     'task': <string>
+    # }
     def get(self, datacenter, instance, task):
         return {
             'datacenter': datacenter,
@@ -35,22 +32,20 @@ class CrawlerApps(Resource):
             'task': task
         }
 
-    """
-    @api {put} /crawler/<datacenter>/<instance>/<task> 2. Execute crawler
-    @apiName PostDatacenterCrawler
-    @apiGroup Crawler
-    @apiDescription Used to run jobs, all jobs execute in workers tasks. All task is process by discovery-worker
+    # @api {put} /crawler/<datacenter>/<instance>/<task> 2. Execute crawler
+    # @apiName PostDatacenterCrawler
+    # @apiGroup Crawler
+    # @apiDescription Used to run jobs, all jobs execute in workers tasks. All task is process by discovery-worker
 
-    @apiParam (Query) {String} instance Instance ID of connection.
-    @apiParam (Query) {String} task Task (server-list, db-list)
-    @apiParam (Query) {String} datacenter Datacenter name (AWS, OpenStack)
+    # @apiParam (Query) {String} instance Instance ID of connection.
+    # @apiParam (Query) {String} task Task (server-list, db-list)
+    # @apiParam (Query) {String} datacenter Datacenter name (AWS, OpenStack)
 
-    @apiSuccessExample {json} Success-Response:
-    HTTP/1.1 200 OK
-    [{
-        'name': (string)
-    }]
-    """
+    # @apiSuccessExample {json} Success-Response:
+    # HTTP/1.1 200 OK
+    # [{
+    #     'name': (string)
+    # }]
     def put(self, datacenter, instance, task):
         path = FactoryURL.make(path="adminer")
         filters = json.dumps({'key': 'connections'})

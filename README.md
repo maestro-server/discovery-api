@@ -2,6 +2,7 @@
 [![Build Status](https://travis-ci.org/maestro-server/discovery-api.svg?branch=master)](https://travis-ci.org/maestro-server/discovery-api) 
 [![Maintainability](https://api.codeclimate.com/v1/badges/082edc45c4509b79f751/maintainability)](https://codeclimate.com/github/maestro-server/discovery-api/maintainability)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/082edc45c4509b79f751/test_coverage)](https://codeclimate.com/github/maestro-server/discovery-api/test_coverage)
+[![Coverage Status](https://coveralls.io/repos/github/maestro-server/discovery-api/badge.svg?branch=master)](https://coveralls.io/github/maestro-server/discovery-api?branch=master)
 
 # Maestro Server #
 
