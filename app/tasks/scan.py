@@ -42,18 +42,16 @@ def task_scan(self, conn, conn_id, task, options, vars = []):
             'qtd': len(result['result'])
         }
 
-    except (ClientMaestroError) as error:
-        status = 'danger'
-        code = 403
-
     except Exception as error:
         status = 'warning'
         code = 500
-
-    task_notification.delay(msg=str(error), conn_id=conn_id, task=task, status=status)
-
-    return FactoryInvalid.responseInvalid(
-        {'name': self.request.task, 'msg': str(error), 'name': error.__class__.__name__}
-        , code
-    )
-
+        
+        if error.__class__.__name__ == 'ClientMaestroError':
+            status = 'danger'
+            code = 403
+        
+        task_notification.delay(msg=str(error), conn_id=conn_id, task=task, status=status)
+        return FactoryInvalid.responseInvalid(
+            {'name': self.request.task, 'msg': str(error), 'name': error.__class__.__name__}
+            , code
+        )
