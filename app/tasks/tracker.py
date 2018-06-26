@@ -7,13 +7,13 @@ from app.libs.url import FactoryURL
 @celery.task(name="tracker.api")
 def task_tracker(result, dc_id, region, task):
 
-    ids = map(lambda x: get(x, 'unique_id'), result)
+    ids = list(map(lambda x: get(x, 'unique_id'), result))
     region = slugify(region)
 
     body = [{
         '_id': dc_id,
         '$addToSet': {
-            "tracker.%s.%s" % (task, region): {'$each': list(ids)}
+            "tracker.%s.%s" % (task, region): {'$each': ids}
         }
     }]
 
