@@ -56,13 +56,13 @@ discovery:
     - "5000:5000"
     environment:
     - "CELERY_BROKER_URL=amqp://rabbitmq:5672"
-    - "MAESTRO_DATA_URI=http://data:5000"
+    - "MAESTRO_DATA_URI=http://data:5010"
 
 discovery-celery:
     image: maestroserver/discovery-maestro-celery
     environment:
     - "CELERY_BROKER_URL=amqp://rabbitmq:5672"
-    - "MAESTRO_DATA_URI=http://data:5000"
+    - "MAESTRO_DATA_URI=http://data:5010"
 ```
 
 #### Dev Env ####
