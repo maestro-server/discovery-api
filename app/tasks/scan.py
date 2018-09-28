@@ -3,7 +3,7 @@ from app import celery
 from app.services.factory import FactoryAPI
 
 from app.libs.jwt import Jwt
-from app.libs.optionsVarsNormalize import optionsVarsNormalize
+from app.libs.normalize import Normalize
 from app.error import FactoryInvalid, ClientMaestroError
 
 from .translate import task_translate
@@ -22,7 +22,7 @@ def task_scan(self, conn, conn_id, task, options, vars = []):
         )
 
 
-    oVars = optionsVarsNormalize(options['vars']),
+    oVars = Normalize.optionsVarsNormalize(options['vars']),
     vars = sum(oVars, vars)
 
     try:
@@ -46,20 +46,16 @@ def task_scan(self, conn, conn_id, task, options, vars = []):
             'qtd': len(result['result'])
         }
 
-    except (ClientMaestroError) as error:
-
-        task_notification.delay(msg=str(error), conn_id=conn_id, task=task, status='danger')
-
-        return FactoryInvalid.responseInvalid(
-            {'name': self.request.task, 'msg': str(error), 'name': error.__class__.__name__}
-            , 403
-        )
-
     except Exception as error:
-        task_notification.delay(msg=str(error), conn_id=conn_id, task=task, status='warning')
-
+        status = 'warning'
+        code = 500
+        
+        if error.__class__.__name__ == 'ClientMaestroError':
+            status = 'danger'
+            code = 403
+        
+        task_notification.delay(msg=str(error), conn_id=conn_id, task=task, status=status)
         return FactoryInvalid.responseInvalid(
             {'name': self.request.task, 'msg': str(error), 'name': error.__class__.__name__}
-            , 500
+            , code
         )
-

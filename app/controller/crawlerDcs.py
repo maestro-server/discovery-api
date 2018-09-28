@@ -6,19 +6,17 @@ from app.libs.lens import lens
 from app.libs.logger import logger
 
 class CrawlerDcs(Resource):
-    """
-    @api {get} /crawler/<datacenter> 4. Resources allowed by provider
-    @apiName GetCrawlerDC
-    @apiGroup Crawler
+    # @api {get} /crawler/<datacenter> 4. Resources allowed by provider
+    # @apiName GetCrawlerDC
+    # @apiGroup Crawler
 
-    @apiSuccessExample {json} Success-Response:
-    HTTP/1.1 200 OK
-    {
-        "resource": (object) {
-            "<api name>": (string)
-        }
-    }
-    """
+    # @apiSuccessExample {json} Success-Response:
+    # HTTP/1.1 200 OK
+    # {
+    #     "resource": (object) {
+    #         "<api name>": (string)
+    #     }
+    # }
     def get(self, datacenter):
         path = FactoryURL.make(path="adminer")
         filters = json.dumps({'key': 'connections'})

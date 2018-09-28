@@ -4,10 +4,10 @@ engines:
     enabled: true
     config:
       languages:
-      - python
+      - python:
+        - python_version: 3
+        - mass_threshold: 32
   fixme:
-    enabled: true
-  markdownlint:
     enabled: true
   pep8:
     enabled: true
@@ -21,3 +21,4 @@ exclude_paths:
 - docs/
 - bin/
 - node_modules/
+- include/
