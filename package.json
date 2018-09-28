@@ -6,7 +6,7 @@
   "scripts": {
     "server": "FLASK_APP=run.py FLASK_DEBUG=1 flask run",
     "powershell": "$env:FLASK_APP = 'run.py'; $env:FLASK_DEBUG = '1'; flask run",
-    "celery": "celery -A app.celery worker -E -Q discovery --hostname=discovery@%h --loglevel=info",
+    "celery": "celery -A app.celery worker -E -Q discovery --loglevel=info",
     "save": "pip freeze -l > requirements.txt ",
     "test": "python -m unittest discover",
     "package-flask": "docker build -t discovery-maestro .",

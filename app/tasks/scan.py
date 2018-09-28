@@ -16,6 +16,10 @@ def task_scan(self, conn, conn_id, task, options, vars = []):
         access = Jwt.decode(conn['conn'])
     except Exception as error:
         task_notification.delay(msg=str(error), conn_id=conn_id, task=task, status='danger')
+        return FactoryInvalid.responseInvalid(
+            {'name': self.request.task, 'msg': str(error), 'name': error.__class__.__name__}
+            , 403
+        )
 
 
     oVars = optionsVarsNormalize(options['vars']),
