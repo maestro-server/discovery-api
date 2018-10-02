@@ -19,6 +19,14 @@ class Ruler(object):
 
         return default
 
+    @staticmethod
+    def arrMultiCatcher(source, batch):
+        items = source['s']
+        for item in items:
+            nsr = {**source, **{'s': item}}
+            vl = Ruler.arrCatcher(nsr, batch)
+            if vl:
+                return vl
 
     @staticmethod
     def arrCatcher(source, batch):

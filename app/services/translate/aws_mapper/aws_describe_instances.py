@@ -29,11 +29,11 @@ def rules(conn):
                               'default': True
                               }},
         'metas': {'call': 'batch',
-                 'source': {
-                     'security_groups': {'call': 'switch', 'source': 'SecurityGroups'},
-                     'iam_instance_profile': {'call': 'switch', 'source': 'IamInstanceProfile'}
-                 }
-                 },
+                  'source': {
+                      'security_groups': {'call': 'switch', 'source': 'SecurityGroups'},
+                      'iam_instance_profile': {'call': 'switch', 'source': 'IamInstanceProfile'}
+                  }
+                  },
         'datacenters': {'call': 'fctDc',
                         'source': {**conn}},
         'owner': {'call': 'fctOwner',
@@ -41,5 +41,21 @@ def rules(conn):
         'roles': {'call': 'fctRoles',
                   'source': {**conn}},
         'checksum': {'call': 'checksum',
-                        'source': None}
+                     'source': None},
+        '_sync': {'call': 'batch',
+                  'source': {
+                      'applications': {'call': 'arrMultiCatcher',
+                                      'source': {
+                                          'field': 'Tags',
+                                          'sKey': 'Key',
+                                          's': ['applications', 'application', 'app', 'apps'],
+                                          'catcher': 'Value'}},
+                      'application_id': {'call': 'arrMultiCatcher',
+                                      'source': {
+                                          'field': 'Tags',
+                                          'sKey': 'Key',
+                                          's': ['applications_id', 'application_id', 'app_id', 'apps_id'],
+                                          'catcher': 'Value'}}
+                  },
+                  }
     }

@@ -1,4 +1,3 @@
-
 import requests, json, re
 from .ruler import Ruler
 from pydash.objects import get
@@ -6,8 +5,8 @@ from app.libs.url import FactoryURL
 
 from app.libs.cache import CacheMemory
 
-class RulerAWS(Ruler):
 
+class RulerAWS(Ruler):
     @staticmethod
     def fctStorage(source, batch):
         storage = []
@@ -100,7 +99,7 @@ class RulerAWS(Ruler):
         return tags
 
     @staticmethod
-    def InstanceTypeAWS(source, batch, obj = {}):
+    def InstanceTypeAWS(source, batch, obj={}):
         instance = Ruler.switch(source, batch)
 
         if instance:
