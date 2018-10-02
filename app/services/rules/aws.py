@@ -114,11 +114,15 @@ class RulerAWS(Ruler):
                 if resource.status_code == 200:
                     result = resource.json()
                     content = get(result, 'items.[0]')
-                    obj = {
-                        'cpu': re.search(r'([0-9]*)', get(content, 'vcpus')).group(),
-                        'memory': re.search(r'([0-9\.]*)', get(content, 'memory')).group(),
-                    }
+                    vcpus = get(content, 'vcpus')
+                    memory = get(content, 'memory')
 
-                    CacheMemory.set(instance, obj)
+                    if vcpus and memory:
+                        obj = {
+                            'cpu': re.search(r'([0-9]*)', vcpus).group(),
+                            'memory': re.search(r'([0-9\.]*)', memory).group(),
+                        }
+
+                        CacheMemory.set(instance, obj)
 
         return obj
