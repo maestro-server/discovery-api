@@ -1,9 +1,8 @@
 
-import json, requests
+import json
 from flask_restful import Resource
-from app.libs.url import FactoryURL
 from app.libs.lens import lens
-from app.libs.logger import logger
+from app.repository.externalMaestroData import ExternalMaestroData
 
 class CrawlerDcs(Resource):
     # @api {get} /crawler/<datacenter> 4. Resources allowed by provider
@@ -18,13 +17,9 @@ class CrawlerDcs(Resource):
     #     }
     # }
     def get(self, datacenter):
-        path = FactoryURL.make(path="adminer")
+
         filters = json.dumps({'key': 'connections'})
-        
-        try:
-            result = requests.post(path, json={'query': filters})
-        except requests.exceptions.RequestException as error:
-            logger.error("Discovery: Error - %s", str(error))
+        result = ExternalMaestroData().post_request(path="adminer", body={'query': filters})
 
         if result and 'items' in result.json():
             return lens(result.json()['items'], len='.permissions.%s' % (datacenter))

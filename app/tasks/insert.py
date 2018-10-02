@@ -1,15 +1,15 @@
 
-import json, requests
+import json
 from pydash.objects import get
 from app import celery
 from app.services.merger import MergeAPI
-from app.libs.url import FactoryURL
+from app.repository.externalMaestroData import ExternalMaestroData
 
 from .notification import task_notification
 
 
-@celery.task(name="insert.api", bind=True)
-def task_insert(self, conn, conn_id, task, result, options):
+@celery.task(name="insert.api")
+def task_insert(conn, conn_id, task, result, options):
     query = None
     key = get(options, 'key_comparer')
     owner_user = get(conn, 'owner_user._id')
@@ -18,25 +18,18 @@ def task_insert(self, conn, conn_id, task, result, options):
         task_notification.delay(msg="Missing Owner User/Team in this connection.", conn_id=conn_id, task=task, status='danger')
         raise PermissionError('Missing Owner')
 
-    content = []
-
     ids = list(map(lambda x: get(x, key), result))
     if ids:
         query = json.dumps({key: ids, 'roles._id': owner_user})
 
-    path = FactoryURL.make(path="%s" % (options['entity']))
-    resource = requests.post(path, json={'query': query})
-
-    content = resource.json()
-
-    content = get(content, 'items')
+    content = ExternalMaestroData(entity_id=conn_id).post_request(path="%s" % (options['entity']), body={'query': query})
+    print(content)
     body = MergeAPI(content=content, key_comparer=key).merge(result)
 
     if len(body) > 0:
-        path = FactoryURL.make(path=options['entity'])
-        requests.put(path, json={'body': body})
+        ExternalMaestroData(entity_id=conn_id).put_request(path=options['entity'], body={'body': body})
         key = task_notification.delay(msg="Success.", conn_id=conn_id, task=task, status='success')
 
     key = task_notification.delay(msg="Success. No changes", conn_id=conn_id, task=task, status='success')
 
-    return {'name': self.request.task, 'conn_id': conn_id, 'task': task, 'notification-id': str(key), 'body': len(body)}
+    return {'conn_id': conn_id, 'task': task, 'notification-id': str(key), 'body': len(body)}

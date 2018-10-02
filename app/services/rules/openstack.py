@@ -1,10 +1,10 @@
 
-import requests, json, re
+import json, re
 from .ruler import Ruler
 from pydash.objects import get
 from pydash.numerical import divide
-from app.libs.url import FactoryURL
 
+from app.repository.externalMaestroData import ExternalMaestroData
 from app.libs.cache import CacheMemory
 
 
@@ -106,20 +106,20 @@ class RulerOpenStack(Ruler):
         if instance:
             obj = CacheMemory.get(instance)
             if not obj:
-                path = FactoryURL.make(path="flavors")
-
                 query = json.dumps({'unique_id': instance})
-                resource = requests.post(path, json={'query': query})
+                result = ExternalMaestroData().post_request(path="flavors", body={'query': query})
 
-                if resource.status_code == 200:
-                    result = resource.json()
+                if result:
                     content = get(result, 'items.[0]')
+                    vcpus = get(content, 'vcpus')
+                    memory = get(content, 'memory')
 
-                    obj = {
-                        'cpu': get(content, 'vcpus'),
-                        'memory': get(content, 'memory')
-                    }
+                    if vcpus and memory:
+                        obj = {
+                            'cpu': re.search(r'([0-9]*)', vcpus).group(),
+                            'memory': re.search(r'([0-9\.]*)', memory).group(),
+                        }
 
-                    CacheMemory.set(instance, obj)
+                        CacheMemory.set(instance, obj)
 
         return obj

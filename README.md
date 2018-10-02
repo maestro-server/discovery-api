@@ -122,7 +122,7 @@ apidoc -i app/controller/ -o docs/
 | Env Variables                | Example                  | Description                        |
 |------------------------------|--------------------------|------------------------------------|
 | MAESTRO_DATA_URI             | http://localhost:5005    | Data Layer API URL                 |
-| NODE_ENV                     | development|production   |                                    | 
+| FLASK_ENV                    | development|production   |                                    | 
 | MAESTRO_GWORKERS             | 2                        | Gunicorn multi process             |
 | MAESTRO_SECRETJWT            | XXXX                     | Secret key - JWT                   |
 | CELERY_BROKER_URL            | XXXX                     | Rabbitmq URL                       |

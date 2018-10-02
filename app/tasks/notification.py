@@ -1,14 +1,18 @@
 
-import requests, datetime
+import datetime
+from app.views import app
 from app import celery
-from app.libs.url import FactoryURL
+from app.repository.externalMaestro import ExternalMaestro
 
-@celery.task(name="notification.api", bind=True)
-def task_notification(self, msg, conn_id, task, status = 'success'):
+@celery.task(name="notification.api")
+def task_notification(msg, conn_id, task, status='success'):
     now = datetime.datetime.now()
     msg = "%s At %s" % (msg, now)
 
-    path = FactoryURL.make(path="connection/%s" % conn_id)
-    requests.post(path, json={'status': status, 'task': task, 'msg': msg})
+    base = app.config['MAESTRO_DATA_URI']
+    body = {'status': status, 'task': task, 'msg': msg}
 
-    return {'name': self.request.task, 'conn_id': conn_id, 'task': task}
+    ExternalMaestro(base)\
+        .post_request(path="connection/%s" % conn_id, body=body)
+
+    return {'conn_id': conn_id, 'task': task}

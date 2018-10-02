@@ -1,7 +1,6 @@
 
-import requests
 from abc import ABC, abstractmethod
-from app.libs.url import FactoryURL
+from app.repository.externalMaestroData import ExternalMaestroData
 
 class Mapper(ABC):
 
@@ -15,9 +14,8 @@ class Mapper(ABC):
         return self
 
     def getConnection(self, id):
-        path = FactoryURL.make(path="connections/%s" % id)
-        resource = requests.get(path)
-        content = resource.json()
+        ExternalRequest = ExternalMaestroData(entity_id=id)
+        content = ExternalRequest.get_request(path="connections/%s" % id)
         return content
 
     @abstractmethod

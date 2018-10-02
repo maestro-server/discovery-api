@@ -1,7 +1,8 @@
-import requests, json, re
+
+import json, re
 from .ruler import Ruler
 from pydash.objects import get
-from app.libs.url import FactoryURL
+from app.repository.externalMaestroData import ExternalMaestroData
 
 from app.libs.cache import CacheMemory
 
@@ -105,13 +106,11 @@ class RulerAWS(Ruler):
         if instance:
             obj = CacheMemory.get(instance)
             if not obj:
-                path = FactoryURL.make(path="flavors_public")
 
                 query = json.dumps({'api_name': instance})
-                resource = requests.post(path, json={'query': query})
+                result = ExternalMaestroData().post_request(path="flavors_public", body={'query': query})
 
-                if resource.status_code == 200:
-                    result = resource.json()
+                if result:
                     content = get(result, 'items.[0]')
                     vcpus = get(content, 'vcpus')
                     memory = get(content, 'memory')

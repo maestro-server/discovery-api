@@ -1,16 +1,17 @@
 
-import requests, json
+import json
 from flask_restful import Resource
 from pydash.objects import pick
 
 from app.tasks import task_scan, task_notification, task_setup
 
 from app.libs.normalize import Normalize
-from app.libs.url import FactoryURL
 from app.libs.lens import lens
-from app.libs.logger import logger
-
+from app.repository.externalMaestroData import ExternalMaestroData
 from app.error.factoryInvalid import FactoryInvalid
+
+import requests
+from app.libs.url import FactoryURL
 
 
 class CrawlerApps(Resource):
@@ -47,27 +48,29 @@ class CrawlerApps(Resource):
     #     'name': (string)
     # }]
     def put(self, datacenter, instance, task):
-        path = FactoryURL.make(path="adminer")
         filters = json.dumps({'key': 'connections'})
+        listC = ExternalMaestroData().post_request(path="adminer", body={'query': filters})
 
-        try:
-            listC = requests.post(path, json={'query': filters})
-        except requests.exceptions.RequestException as error:
-            return logger.error("Discovery: Error - %s", str(error))
-        
-        if listC and 'items' in listC.json():
-            require = lens(listC.json()['items'], len='.permissions.%s.%s' % (datacenter, task))
+        result = json.loads(listC)
+        if listC and 'items' in result:
+            require = lens(result['items'], len='.permissions.%s.%s' % (datacenter, task))
+
             if require:
                 return self.crawlerFactory(instance, task, require)
 
         return FactoryInvalid.responseInvalid('This task is not allowed', 422)
 
     def crawlerFactory(self, instance, task, require):
+        print(instance)
         path = FactoryURL.make(path="connections/%s" % instance)
         results = requests.get(path)
         connector = results.json()
 
-        if not connector and connector['conn']:
+        print(connector, instance)
+        connector = ExternalMaestroData().get_request(path="connections/%s" % instance)
+        print(connector, instance)
+
+        if connector == None:
             return FactoryInvalid.responseInvalid('This instance dont have a valid connection.')
 
         try:

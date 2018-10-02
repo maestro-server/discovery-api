@@ -1,8 +1,7 @@
 
-import requests
 from app import celery
 from pydash import get, slugify
-from app.libs.url import FactoryURL
+from app.repository.externalMaestroData import ExternalMaestroData
 
 @celery.task(name="tracker.api")
 def task_tracker(result, dc_id, region, task):
@@ -17,12 +16,7 @@ def task_tracker(result, dc_id, region, task):
         }
     }]
 
-    path = FactoryURL.make('datacenters')
+    ExternalMaestroData(entity_id=dc_id) \
+        .put_request(path="datacenters", body={'body': body})
 
-    try:
-        result = requests.put(path, json={'body': body})
-        return {'code': result.status_code,  'dc_id': dc_id, 'ids': ids}
-    except requests.exceptions.RequestException as error:
-        return {'error': str(error)}
-
-    
+    return {'dc_id': dc_id, 'ids': ids}

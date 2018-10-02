@@ -12,16 +12,10 @@ load_dotenv(find_dotenv())
 
 class Config(object):
     TESTING = os.environ.get("TESTING", False)
-    SECRETJWT = os.environ.get("MAESTRO_SECRETJWT", "defaultSecretKey")
     RESTFUL_JSON = {'cls': DateTimeEncoder}
+    SECRETJWT = os.environ.get("MAESTRO_SECRETJWT", "defaultSecretKey")
+
+    MAESTRO_DATA_URI = os.environ.get("MAESTRO_DATA_URI", "http://localhost:5010")
+
     CELERY_BROKER_URL = os.environ.get("CELERY_BROKER_URL", 'amqp://localhost')
     CELERY_DEFAULT_QUEUE = 'discovery'
-
-class ProductionConfig(Config):
-    pass
-
-class DevelopmentConfig(Config):
-    DEBUG = True
-
-class TestingConfig(Config):
-    TESTING = True
