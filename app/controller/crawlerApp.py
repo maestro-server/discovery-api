@@ -10,9 +10,6 @@ from app.libs.lens import lens
 from app.repository.externalMaestroData import ExternalMaestroData
 from app.error.factoryInvalid import FactoryInvalid
 
-import requests
-from app.libs.url import FactoryURL
-
 
 class CrawlerApps(Resource):
     # @api {get} /crawler/<datacenter>/<instance>/<task> 1. Health check
@@ -49,11 +46,12 @@ class CrawlerApps(Resource):
     # }]
     def put(self, datacenter, instance, task):
         filters = json.dumps({'key': 'connections'})
-        listC = ExternalMaestroData().post_request(path="adminer", body={'query': filters})
+        result = ExternalMaestroData()\
+                    .post_request(path="adminer", body={'query': filters})\
+                    .get_results('items')
 
-        result = json.loads(listC)
-        if listC and 'items' in result:
-            require = lens(result['items'], len='.permissions.%s.%s' % (datacenter, task))
+        if result:
+            require = lens(result, len='.permissions.%s.%s' % (datacenter, task))
 
             if require:
                 return self.crawlerFactory(instance, task, require)
@@ -61,14 +59,9 @@ class CrawlerApps(Resource):
         return FactoryInvalid.responseInvalid('This task is not allowed', 422)
 
     def crawlerFactory(self, instance, task, require):
-        print(instance)
-        path = FactoryURL.make(path="connections/%s" % instance)
-        results = requests.get(path)
-        connector = results.json()
-
-        print(connector, instance)
-        connector = ExternalMaestroData().get_request(path="connections/%s" % instance)
-        print(connector, instance)
+        connector = ExternalMaestroData()\
+                        .get_request(path="connections/%s" % instance)\
+                        .get_results()
 
         if connector == None:
             return FactoryInvalid.responseInvalid('This instance dont have a valid connection.')

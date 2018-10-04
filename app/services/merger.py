@@ -20,7 +20,7 @@ class MergeAPI(object):
         for item in self.content:
             dc_id = get(item, self.key)
             check_content = str(get(item, 'checksum'))
-            active = get(item, 'active', False) # bugfix - if is false, update to true
+            active = get(item, 'active', False) #bugfix - if is false, update to true
 
             for key, find in enumerate(insert):
                 if self.assign(find, dc_id):

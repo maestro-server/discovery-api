@@ -14,8 +14,10 @@ class Mapper(ABC):
         return self
 
     def getConnection(self, id):
-        ExternalRequest = ExternalMaestroData(entity_id=id)
-        content = ExternalRequest.get_request(path="connections/%s" % id)
+        content = ExternalMaestroData(id)\
+                    .get_request(path="connections/%s" % id)\
+                    .get_results()
+
         return content
 
     @abstractmethod

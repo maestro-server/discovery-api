@@ -22,8 +22,10 @@ def task_insert(conn, conn_id, task, result, options):
     if ids:
         query = json.dumps({key: ids, 'roles._id': owner_user})
 
-    content = ExternalMaestroData(entity_id=conn_id).post_request(path="%s" % (options['entity']), body={'query': query})
-    print(content)
+    content = ExternalMaestroData(entity_id=conn_id)\
+        .post_request(path="%s" % (options['entity']), body={'query': query})\
+        .get_results('items')
+
     body = MergeAPI(content=content, key_comparer=key).merge(result)
 
     if len(body) > 0:

@@ -10,12 +10,12 @@ class MaestroRequest(object):
         self.__headers = {}
         self.__path = None
 
-    def exec_request(self, path, json, verb='post'):
+    def exec_request(self, path, json, verb):
         self.__context = getattr(requests, verb)(path, json=json, headers=self.__headers)
         return self
 
-    def exec_request_data(self, path, xml, verb='post'):
-        self.__context = getattr(requests, verb)(path, data=xml, headers=self.__headers)
+    def exec_request_data(self, path, data, verb):
+        self.__context = getattr(requests, verb)(path, data=data, headers=self.__headers)
         return self
 
     def set_headers(self, headers):
@@ -27,8 +27,7 @@ class MaestroRequest(object):
 
     def get_results(self):
         if self.__context.status_code is 200:
-            result = self.__context.json()
-            return result.get('items')
+            return self.__context.json()
 
         logger.info("Request[CODE] - %s", self.get_status())
         raise ClientMaestroError(self.__context.text)
@@ -36,5 +35,4 @@ class MaestroRequest(object):
     def get_raw(self):
         if self.__context:
             logger.info("Request[CODE] - %s", self.get_status())
-
             return self.__context.text

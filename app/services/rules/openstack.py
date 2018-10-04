@@ -107,10 +107,12 @@ class RulerOpenStack(Ruler):
             obj = CacheMemory.get(instance)
             if not obj:
                 query = json.dumps({'unique_id': instance})
-                result = ExternalMaestroData().post_request(path="flavors", body={'query': query})
+                result = ExternalMaestroData()\
+                            .post_request(path="flavors", body={'query': query})\
+                            .get_results('items')
 
                 if result:
-                    content = get(result, 'items.[0]')
+                    content = get(result, '[0]')
                     vcpus = get(content, 'vcpus')
                     memory = get(content, 'memory')
 

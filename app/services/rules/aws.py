@@ -108,10 +108,12 @@ class RulerAWS(Ruler):
             if not obj:
 
                 query = json.dumps({'api_name': instance})
-                result = ExternalMaestroData().post_request(path="flavors_public", body={'query': query})
+                result = ExternalMaestroData()\
+                            .post_request(path="flavors_public", body={'query': query})\
+                            .get_results('items')
 
                 if result:
-                    content = get(result, 'items.[0]')
+                    content = get(result, '[0]')
                     vcpus = get(content, 'vcpus')
                     memory = get(content, 'memory')
 

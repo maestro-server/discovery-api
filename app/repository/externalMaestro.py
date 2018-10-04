@@ -4,44 +4,43 @@ from .maestroRequest import MaestroRequest
 
 class ExternalMaestro(object):
 
-    def __init__(self, base, entity_id=None, owner_id=None):
+    def __init__(self, base):
         self._base = base
-        self._owner_id = owner_id
-        self._entity_id = entity_id
         self._headers = {}
+        self._results = None
+
+    def set_headers(self, headers):
+        self._headers = headers
+        return self
 
     def get_uri(self):
         self._base
 
-    def make_filter(self, filter, active=True):
-        base = {'active': active}
+    def get_results(self, lens=None):
+        results = self._results.get_results()
+        if lens:
+            results = results.get(lens)
 
-        if self._owner_id:
-            base['roles._id'] = self._owner_id
+        return results
 
-        if any(filter) and isinstance(filter, dict):
-            return {**base, **filter}
-
-        return base
-
-
-    def get_request(self, path, query={}, active=True):
-        merged = self.make_filter(query, active)
-
-        jquery = json.dumps(merged)
-        return self.request(path, {'query': jquery}, 'get').get_results()
+    def get_request(self, path, query={}):
+        self._results = self.request(path, {'query': query}, 'get')
+        return self
 
     def get_aggregation(self, path, entity, pipeline):
         jpipeline = json.dumps(pipeline)
-        return self.request(path, {'entity': entity, 'pipeline': jpipeline}).get_results()
+        self._results = self.request(path, {'entity': entity, 'pipeline': jpipeline}, 'post')
+        return self
 
     def put_request(self, path, body={}):
-        return self.request(path, body, 'put').get_raw()
+        self._results = self.request(path, body, 'put')
+        return self
 
     def post_request(self, path, body={}):
-        return self.request(path, body, 'post').get_raw()
+        self._results = self.request(path, body, 'post')
+        return self
     
-    def request(self, path, query, verb='post'):
+    def request(self, path, query, verb):
         path = "%s/%s" % (self._base, path)
         MaestroRqt = MaestroRequest().set_headers(self._headers)
 
@@ -49,13 +48,9 @@ class ExternalMaestro(object):
             MaestroRqt.exec_request(path, query, verb)
             logger.debug("MaestroRequest External path - %s", path)
         except Exception as error:
-            self.error_handling(task='ExternalMaestro', entity_id=self._entity_id, msg=str(error))
+            self.error_handling(task='ExternalMaestro', msg=str(error))
 
         return MaestroRqt
 
-    def set_headers(self, headers):
-        self._headers = headers
-        return self
-
-    def error_handling(self, task, entity_id, msg):
-        logger.error("Discovery:  [%s][%s] - %s", task, entity_id, msg)
+    def error_handling(self, task, msg):
+        logger.error("Discovery:  [%s] - %s", task, msg)

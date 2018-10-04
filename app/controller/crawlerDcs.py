@@ -19,7 +19,9 @@ class CrawlerDcs(Resource):
     def get(self, datacenter):
 
         filters = json.dumps({'key': 'connections'})
-        result = ExternalMaestroData().post_request(path="adminer", body={'query': filters})
+        result = ExternalMaestroData()\
+                    .post_request(path="adminer", body={'query': filters})\
+                    .get_results('items')
 
-        if result and 'items' in result.json():
-            return lens(result.json()['items'], len='.permissions.%s' % (datacenter))
+        if result:
+            return lens(result['items'], len='.permissions.%s' % (datacenter))
