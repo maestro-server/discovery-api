@@ -17,4 +17,4 @@ class ExternalMaestroData(ExternalMaestro):
         if self.ent_id :
             return notify_error(task=task, msg=msg, conn_id=self.ent_id)
 
-        logger.error("Discovery:  [%s] - %s", task, msg)
+        logger.error("MaestroData:  [%s] - %s", task, msg)

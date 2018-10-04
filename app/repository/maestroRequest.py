@@ -5,27 +5,20 @@ from app.error.clientMaestroError import ClientMaestroError
 
 class MaestroRequest(object):
     
-    def __init__(self):
+    def __init__(self, verb='get', headers={}):
         self.__context = None
-        self.__headers = {}
-        self.__path = None
-
-    def exec_request(self, path, json, verb):
-        self.__context = getattr(requests, verb)(path, json=json, headers=self.__headers)
-        return self
-
-    def exec_request_data(self, path, data, verb):
-        self.__context = getattr(requests, verb)(path, data=data, headers=self.__headers)
-        return self
-
-    def set_headers(self, headers):
         self.__headers = headers
+        self.__path = None
+        self.__verb = verb
+
+    def exec_request(self, path, json=None, data=None):
+        self.__context = getattr(requests, self.__verb)(path, json=json, data=data, headers=self.__headers)
         return self
 
     def get_status(self):
         return self.__context.status_code
 
-    def get_results(self):
+    def get_json(self):
         if self.__context.status_code is 200:
             return self.__context.json()
 

@@ -15,7 +15,7 @@ class Mapper(ABC):
 
     def getConnection(self, id):
         content = ExternalMaestroData(id)\
-                    .get_request(path="connections/%s" % id)\
+                    .list_request(path="connections/%s" % id)\
                     .get_results()
 
         return content

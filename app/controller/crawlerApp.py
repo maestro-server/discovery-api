@@ -60,7 +60,7 @@ class CrawlerApps(Resource):
 
     def crawlerFactory(self, instance, task, require):
         connector = ExternalMaestroData()\
-                        .get_request(path="connections/%s" % instance)\
+                        .list_request(path="connections/%s" % instance)\
                         .get_results()
 
         if connector == None:

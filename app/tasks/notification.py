@@ -13,7 +13,6 @@ def task_notification(msg, conn_id, task, status='success'):
     body = {'status': status, 'task': task, 'msg': msg}
 
     ExternalMaestro(base)\
-        .post_request(path="connection/%s" % conn_id, body=body)\
-        .get_results()
+        .post_request(path="connection/%s" % conn_id, body=body)
 
     return {'conn_id': conn_id, 'task': task}
