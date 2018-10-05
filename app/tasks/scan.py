@@ -1,4 +1,5 @@
 
+from app.views import app
 from app import celery
 from app.services.factory import FactoryAPI
 
@@ -8,16 +9,17 @@ from app.error import FactoryInvalid, ClientMaestroError
 
 from .translate import task_translate
 from .notification import task_notification
+from .last import task_last
 
 
-@celery.task(name="scan.api", bind=True)
-def task_scan(self, conn, conn_id, task, options, vars = []):
+@celery.task(name="scan.api")
+def task_scan(conn, conn_id, task, options, vars = []):
     try:
         access = Jwt.decode(conn['conn'])
     except Exception as error:
         task_notification.delay(msg=str(error), conn_id=conn_id, task=task, status='danger')
         return FactoryInvalid.responseInvalid(
-            {'name': self.request.task, 'msg': str(error), 'name': error.__class__.__name__}
+            {'msg': str(error), 'name': error.__class__.__name__}
             , 403
         )
 
@@ -33,16 +35,19 @@ def task_scan(self, conn, conn_id, task, options, vars = []):
             raise ValueError('Empty result')
 
         factoryPag = Crawler.checkPag()
-        if factoryPag:
-            task_scan.delay(conn, conn_id, task, options, [factoryPag])
-
         key = task_translate.delay(conn, conn_id, options, task, result['result'])
 
+        if factoryPag:
+            task_scan.delay(conn, conn_id, task, options, [factoryPag])
+        else:
+            ctd = app.config['MAESTRO_COUNTDOWN_LAST']
+            task_last.apply_async((conn, task), countdown=ctd)
+
         return {
-            'name': self.request.task,
             'translate-id': str(key),
             'conn_id': conn_id,
             'options': options,
+            'next': factoryPag,
             'qtd': len(result['result'])
         }
 
@@ -56,6 +61,6 @@ def task_scan(self, conn, conn_id, task, options, vars = []):
         
         task_notification.delay(msg=str(error), conn_id=conn_id, task=task, status=status)
         return FactoryInvalid.responseInvalid(
-            {'name': self.request.task, 'msg': str(error), 'name': error.__class__.__name__}
+            {'msg': str(error), 'name': error.__class__.__name__}
             , code
         )

@@ -1,10 +1,9 @@
-
 import requests
 from app.libs.logger import logger
 from app.error.clientMaestroError import ClientMaestroError
 
+
 class MaestroRequest(object):
-    
     def __init__(self, verb='get', headers={}):
         self.__context = None
         self.__headers = headers
@@ -19,13 +18,12 @@ class MaestroRequest(object):
         return self.__context.status_code
 
     def get_json(self):
+        logger.info("Request[CODE %s] - %s", self.get_status(), self.__path)
+
         if self.__context.status_code is 200:
             return self.__context.json()
 
-        logger.info("Request[CODE] - %s", self.get_status())
-        raise ClientMaestroError(self.__context.text)
-    
-    def get_raw(self):
-        if self.__context:
-            logger.info("Request[CODE] - %s", self.get_status())
-            return self.__context.text
+        logger.info("Error %s", self.__context.text)
+
+        if self.__context.status_code in [500, 503, 504]:
+            raise ClientMaestroError(self.__context.text)

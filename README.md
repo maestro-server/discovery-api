@@ -125,8 +125,8 @@ apidoc -i app/controller/ -o docs/
 | FLASK_ENV                    | development|production   |                                    | 
 | MAESTRO_GWORKERS             | 2                        | Gunicorn multi process             |
 | MAESTRO_SECRETJWT            | XXXX                     | Secret key - JWT                   |
-| CELERY_BROKER_URL            | XXXX                     | Rabbitmq URL                       |
 | MAESTRO_TRANSLATE_QTD        | 200                      | Prefetch used in translate worker  |
+| CELERY_BROKER_URL            | XXXX                     | Rabbitmq URL                       |
 | CELERYD_TASK_TIME_LIMIT      | 500                      | Timeout - worker                   |
 
 ### Contribute ###

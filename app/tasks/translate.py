@@ -1,5 +1,5 @@
 
-import os
+from app.views import app
 from app import celery
 from app.services.translater import TranslateAPI
 from app.services.iterators.iTranslate import IteratorTranslate
@@ -8,9 +8,9 @@ from .tracker import task_tracker
 from .notification import task_notification
 
 
-@celery.task(name="translate.api", bind=True)
-def task_translate(self, conn, conn_id, options, task, result):
-    limit = os.environ.get("MAESTRO_TRANSLATE_QTD", 50)
+@celery.task(name="translate.api")
+def task_translate(conn, conn_id, options, task, result):
+    limit = app.config['MAESTRO_TRANSLATE_QTD']
     insert_id = []
     tracker_id = []
 
@@ -19,7 +19,7 @@ def task_translate(self, conn, conn_id, options, task, result):
 
     if not isinstance(result, list):
         task_notification.delay(msg="Empty", conn_id=conn_id, task=task, status='warning')
-        return {'name': self.request.task, 'task': task}
+        return {'task': task}
 
     for batch in IteratorTranslate(limit).batch(result):
         translate = Translater.translate(batch)
@@ -28,5 +28,5 @@ def task_translate(self, conn, conn_id, options, task, result):
         insert_id.append(str(key))
         tracker_id.append(str(tkey))
 
-    return {'name': self.request.task, 'insert-id': insert_id, 'tracker-id': tracker_id, 'conn_id': conn_id, 'task': task}
+    return {'insert-id': insert_id, 'tracker-id': tracker_id, 'conn_id': conn_id, 'task': task}
 

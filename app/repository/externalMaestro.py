@@ -4,12 +4,12 @@ from .maestroRequest import MaestroRequest
 
 
 class ExternalMaestro(object):
-
-    def __init__(self, base, tftm="json"):
+    def __init__(self, base, tftm="json", requester=MaestroRequest):
         self._base = base
         self._headers = {}
         self._results = None
         self._format = tftm
+        self._requester = requester
 
     def set_headers(self, headers):
         self._headers = headers
@@ -21,13 +21,10 @@ class ExternalMaestro(object):
 
     def get_results(self, lens=None):
         results = self._results.get_json()
-        if lens:
+        if results and lens:
             results = results.get(lens)
 
         return results
-
-    def get_raw(self, lens=None):
-        return self._results.get_raw()
 
     def list_request(self, path, query={}):
         self._results = self.request(path, {'query': query}, 'get')
@@ -48,7 +45,7 @@ class ExternalMaestro(object):
 
     def request(self, path, query, verb):
 
-        MaestroRqt = MaestroRequest(verb, self._headers)
+        MaestroRqt = self._requester(verb, self._headers)
         params = {
             'path': "%s/%s" % (self._base, path),
             self._format: query

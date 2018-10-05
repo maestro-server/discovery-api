@@ -1,7 +1,7 @@
 
 class IteratorTranslate(object):
     def __init__(self, limit):
-        self.limit = int(limit)
+        self.limit = limit
 
     def batch(self, result):
         x = 1
