@@ -19,10 +19,10 @@ class ExternalMaestro(object):
         self._format = format
         return self
 
-    def get_results(self, lens=None):
+    def get_results(self, lens=None, default=[]):
         results = self._results.get_json()
         if results and lens:
-            results = results.get(lens)
+            results = results.get(lens, default)
 
         return results
 

@@ -11,6 +11,7 @@ class MaestroRequest(object):
         self.__verb = verb
 
     def exec_request(self, path, json=None, data=None):
+        self.__path = path
         self.__context = getattr(requests, self.__verb)(path, json=json, data=data, headers=self.__headers)
         return self
 
