@@ -17,18 +17,20 @@ def get_tracker(dc_id, task, region):
         .get(task, {}) \
         .get(slugify(region))
 
-def entity_count(dc_id, region):
-    dps = json.dumps({'datacenters._id': dc_id, 'datacenters.region': region, 'active': True})
+def entity_count(dc_id, region, lst):
+    query = json.dumps({
+            'datacenters._id': dc_id,
+            'datacenters.region': region,
+            'active': True,
+            '_id': {'$nin': lst}
+        })
+
+    body = ({
+        'active': False
+    })
 
     return ExternalMaestroData() \
-        .post_request(path="servers", body={'query': dps}) \
-        .get_results('found')
-
-def sync_inconsistenc(lst):
-    print(lst)
-
-    return ExternalMaestroData() \
-        .put_request(path="servers", body={'query': dps}) \
+        .post_request(path="sync", body={'query': query, 'body': body}) \
         .get_results()
 
 @celery.task(name="last.api")
@@ -39,12 +41,9 @@ def task_last(conn, task):
 
     result = get_tracker(dc_id, task, region)
     if result:
-        counts = entity_count(dc_id, region)
+        counts = entity_count(dc_id, region, result)
 
-        dc_counts = len(result)
-        if dc_counts != counts:
-            result = sync_inconsistenc(result)
-            logger.info("SYNC - [%s] [%s]", dc_counts, counts)
-            logger.info(result)
+        logger.info("SYNC - [%s]", counts)
+        logger.info(counts)
 
     return {'dc_id': dc_id, 'task': task}
