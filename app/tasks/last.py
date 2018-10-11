@@ -21,16 +21,14 @@ def entity_count(dc_id, region, lst):
     query = json.dumps({
             'datacenters._id': dc_id,
             'datacenters.region': region,
-            'active': True,
-            '_id': {'$nin': lst}
+            'active': True
         })
 
-    body = ({
-        'active': False
-    })
+    body = json.dumps({'active': False})
+    nin = json.dumps(lst)
 
     return ExternalMaestroData() \
-        .post_request(path="sync", body={'query': query, 'body': body}) \
+        .post_request(path="sync", body={'query': query, 'body': body, 'nin': nin}) \
         .get_results()
 
 @celery.task(name="last.api")
