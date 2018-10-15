@@ -41,7 +41,7 @@ def task_scan(conn, conn_id, task, options, vars = []):
             task_scan.delay(conn, conn_id, task, options, [factoryPag])
         else:
             ctd = app.config['MAESTRO_COUNTDOWN_LAST']
-            task_last.apply_async((conn, task), countdown=ctd)
+            task_last.apply_async((conn, task, options), countdown=ctd)
 
         return {
             'translate-id': str(key),

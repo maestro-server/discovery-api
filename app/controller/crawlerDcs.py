@@ -23,5 +23,6 @@ class CrawlerDcs(Resource):
                     .post_request(path="adminer", body={'query': filters})\
                     .get_results('items')
 
+        print(result)
         if result:
-            return lens(result['items'], len='.permissions.%s' % (datacenter))
+            return lens(result, len='.permissions.%s' % (datacenter))

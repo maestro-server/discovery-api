@@ -1,4 +1,3 @@
-
 import json
 from app import celery
 from pydash import slugify
@@ -17,29 +16,32 @@ def get_tracker(dc_id, task, region):
         .get(task, {}) \
         .get(slugify(region))
 
-def entity_count(dc_id, region, lst):
-    query = json.dumps({
-            'datacenters._id': dc_id,
-            'datacenters.region': region,
-            'active': True
-        })
 
-    body = json.dumps({'active': False})
-    nin = json.dumps(lst)
+def entity_count(dc_id, region, lst, options):
+    entity = options.get('entity')
+    key_comparer = options.get('key_comparer')
+
+    query = {
+        'datacenters._id': dc_id,
+        'datacenters.region': region,
+        'active': True
+    }
+    query[key_comparer] = {'$nin': lst}
+    body = {'active': False}
 
     return ExternalMaestroData() \
-        .post_request(path="sync", body={'query': query, 'body': body, 'nin': nin}) \
+        .post_request(path="sync", body={'entity': entity, 'query': json.dumps(query), 'body': json.dumps(body)}) \
         .get_results()
 
-@celery.task(name="last.api")
-def task_last(conn, task):
 
+@celery.task(name="last.api")
+def task_last(conn, task, options):
     dc_id = conn.get('dc_id')
     region = conn.get('region')
 
     result = get_tracker(dc_id, task, region)
     if result:
-        counts = entity_count(dc_id, region, result)
+        counts = entity_count(dc_id, region, result, options)
 
         logger.info("SYNC - [%s]", counts)
         logger.info(counts)
