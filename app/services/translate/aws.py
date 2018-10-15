@@ -24,6 +24,8 @@ from .aws_mapper.aws_describe_security_groups import rules as rules_aws_describe
 from .aws_mapper.aws_describe_snapshots import rules as rules_aws_describe_snapshots
 from .aws_mapper.aws_describe_cdns import rules as rules_describe_cdns
 from .aws_mapper.aws_describe_db_list import rules as rules_describe_db_list
+from .aws_mapper.aws_describe_autoscaling_group import rules as rules_describe_autoscaling_group
+from .aws_mapper.aws_describe_scaling_plans import rules as rules_aws_describe_scaling_plans
 
 
 class MapperAWS(Mapper):
@@ -65,6 +67,8 @@ class MapperAWS(Mapper):
             'describe_nat_gateways': rules_aws_describe_nat_gateways(conn),
             'describe_network_acls': rules_aws_describe_network_acls(conn),
             'describe_security_groups': rules_aws_describe_security_groups(conn),
+            'describe_auto_scaling_groups': rules_describe_autoscaling_group(conn),
+            'describe_scaling_plans': rules_aws_describe_scaling_plans(conn)
         }
 
         return mapper[command]
