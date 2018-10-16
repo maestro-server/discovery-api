@@ -43,7 +43,4 @@ def task_last(conn, task, options):
     if result:
         counts = entity_count(dc_id, region, result, options)
 
-        logger.info("SYNC - [%s]", counts)
-        logger.info(counts)
-
-    return {'dc_id': dc_id, 'task': task}
+    return {'sync': counts, 'dc_id': dc_id, 'task': task}
