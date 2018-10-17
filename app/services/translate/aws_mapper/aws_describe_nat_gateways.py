@@ -9,6 +9,7 @@ def rules(conn):
         'failure_message': {'call': 'switch', 'source': 'FailureMessage'},
         'delete_time': {'call': 'switch', 'source': 'DeleteTime'},
         'created_at': {'call': 'switch', 'source': 'CreateTime'},
+        'updated_at': {'call': 'switch', 'source': 'CreateTime'},
         'family': {'call': 'setV', 'source': 'NatGateway'},
         'datacenters': {'call': 'fctDcApp',
                         'source': {**conn}},

@@ -14,7 +14,7 @@ def get_tracker(dc_id, task, region):
         .pop() \
         .get('tracker', {}) \
         .get(task, {}) \
-        .get(slugify(region))
+        .get(slugify(region), [])
 
 
 def entity_count(dc_id, region, lst, options):
@@ -26,6 +26,7 @@ def entity_count(dc_id, region, lst, options):
         'datacenters.region': region,
         'active': True
     }
+
     query[key_comparer] = {'$nin': lst}
     body = {'active': False}
 
@@ -40,7 +41,6 @@ def task_last(conn, task, options):
     region = conn.get('region')
 
     result = get_tracker(dc_id, task, region)
-    if result:
-        counts = entity_count(dc_id, region, result, options)
+    counts = entity_count(dc_id, region, result, options)
 
     return {'sync': counts, 'dc_id': dc_id, 'task': task}

@@ -8,6 +8,7 @@ def rules(conn):
         'environment': {'call': 'arrCatcher',
                         'source': {'field': 'Tags', 'sKey': 'Key', 's': 'environment', 'catcher': 'Value'}},
         'created_at': {'call': 'switch', 'source': 'LaunchTime'},
+        'updated_at': {'call': 'switch', 'source': 'LaunchTime'},
         'ipv4_private': {'call': 'switch', 'source': 'PrivateIpAddress'},
         'ipv4_public': {'call': 'switch', 'source': 'PublicIpAddress'},
         'dns_public': {'call': 'switch', 'source': 'PublicDnsName'},

@@ -71,16 +71,37 @@ class RulerAWS(Ruler):
         dc = {
             'name': Ruler.switch('dc', source),
             'provider': Ruler.switch('provider', source),
-            '_id': Ruler.switch('_id', source),
+            '_id': Ruler.switch('dc_id', source),
             'region': Ruler.switch('region', source),
-            'zone': Ruler.switch('AvailabilityZones', batch),
+            'zone': RulerAWS.getZones('AvailabilityZones|AvailabilityZone', batch),
+            'subnet_zones': Ruler.switch('AvailabilityZones|AvailabilityZone', batch),
             'security_groups': Ruler.switch('SecurityGroups', batch),
             'canonical_hosted_zone_name': Ruler.switch('CanonicalHostedZoneName', batch),
             'canonical_hosted_zone_name_id': Ruler.switch('CanonicalHostedZoneNameID', batch),
             'listener_descriptions': Ruler.switch('ListenerDescriptions', batch),
-            'listener_descriptions': Ruler.switch('Policies', batch)
+            'listener_descriptions': Ruler.switch('Policies', batch),
+            'cloudwatch_monitoring': Ruler.switch('Monitoring.State', batch)
         }
         return dc
+
+    @staticmethod
+    def getZones(source, batch):
+        zones = Ruler.switch(source, batch)
+
+        if zones:
+            if isinstance(zones, str):
+                return [zones]
+
+            tmp = []
+            for zone in zones:
+                if isinstance(zone, dict):
+                    zone = Ruler.switch('ZoneName', zone)
+
+                if zone:
+                    tmp.append(zone)
+
+            return tmp
+
 
     @staticmethod
     def fctTags(source, batch):

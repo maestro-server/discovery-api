@@ -1,6 +1,6 @@
 
 import json
-from pydash.objects import get
+from pydash.objects import get, has
 from app import celery
 from app.services.merger import MergeAPI
 from app.repository.externalMaestroData import ExternalMaestroData
@@ -9,7 +9,7 @@ from .notification import task_notification
 
 def get_data_list(result, key, owner_user, conn_id, entity):
 
-    ids = [get(x, key) for x in result if (key in x)]
+    ids = [get(x, key) for x in result if has(x, key)]
     if not ids:
         raise PermissionError('[Insert Task] Key Comparer missing')
 
@@ -30,7 +30,6 @@ def task_insert(conn, conn_id, task, result, options):
         raise PermissionError('[Insert Task] Missing Owner')
 
     content = get_data_list(result, key, owner_user, conn_id, options['entity'])
-
     body = MergeAPI(content=content, key_comparer=key).merge(result)
 
     if len(body) > 0:

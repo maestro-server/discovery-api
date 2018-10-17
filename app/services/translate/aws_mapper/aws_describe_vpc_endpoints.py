@@ -12,7 +12,7 @@ def rules(conn):
         'network_interface_ids': {'call': 'switch', 'source': 'NetworkInterfaceIds'},
         'dns_entries': {'call': 'switch', 'source': 'DnsEntries'},
         'created_at': {'call': 'switch', 'source': 'CreationTimestamp'},
-
+        'updated_at': {'call': 'switch', 'source': 'CreationTimestamp'},
         'family': {'call': 'setV', 'source': 'VpcEndpoint'},
         'datacenters': {'call': 'fctDcApp',
                         'source': {**conn}},

@@ -1,6 +1,7 @@
 def rules(conn):
     return {
         'name': {'call': 'switch', 'source': 'LoadBalancerName'},
+        'unique_id': {'call': 'switch', 'source': 'LoadBalancerName'},
         'role': {'call': 'batch',
                  'source': {
                      'endpoint': {'call': 'switch', 'source': 'DNSName'},
@@ -27,6 +28,7 @@ def rules(conn):
         'environment': {'call': 'arrCatcher',
                         'source': {'field': 'Tags', 'sKey': 'Key', 's': 'environment', 'catcher': 'Value'}},
         'created_at': {'call': 'switch', 'source': 'CreatedTime'},
+        'updated_at': {'call': 'switch', 'source': 'CreatedTime'},
         'provider': {'call': 'setV', 'source': 'ELB (AWS)'},
         'own': {'call': 'setV', 'source': 1},
         'tags': {'call': 'fctTags', 'source': 'Tags'},

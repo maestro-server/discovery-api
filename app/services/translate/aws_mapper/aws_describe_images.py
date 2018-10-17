@@ -26,6 +26,7 @@ def rules(conn):
                               'default': True
                               }},
         'created_at': {'call': 'switch', 'source': 'CreationDate'},
+        'updated_at': {'call': 'switch', 'source': 'CreationDate'},
         'owner': {'call': 'fctOwner',
                   'source': {**conn}},
         'roles': {'call': 'fctRoles',

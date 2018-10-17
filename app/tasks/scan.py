@@ -32,6 +32,7 @@ def task_scan(conn, conn_id, task, options, vars = []):
         result = Crawler.execute(options, vars)
 
         if not result['result']:
+            task_last.apply_async((conn, task, options))
             raise ValueError('Empty result')
 
         factoryPag = Crawler.checkPag()

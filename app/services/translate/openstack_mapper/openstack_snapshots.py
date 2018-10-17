@@ -9,6 +9,7 @@ def rules(conn):
         'volume_size': {'call': 'switch', 'source': 'size'},
         'status': {'call': 'switch', 'source': 'status'},
         'created_at': {'call': 'switch', 'source': 'created_at'},
+        'updated_at': {'call': 'switch', 'source': 'created_at'},
         'datacenters': {'call': 'fctDcApp',
                         'source': {**conn}},
         'own': {'call': 'setV', 'source': 1},

@@ -15,6 +15,7 @@ def rules(conn):
         'environment': {'call': 'arrCatcher',
                         'source': {'field': 'Tags', 'sKey': 'Key', 's': 'environment', 'catcher': 'Value'}},
         'created_at': {'call': 'switch', 'source': 'CreatedTime'},
+        'updated_at': {'call': 'switch', 'source': 'CreatedTime'},
         'provider': {'call': 'setV', 'source': 'CloudFront (AWS)'},
         'own': {'call': 'setV', 'source': 1},
         'tags': {'call': 'fctTags', 'source': 'Tags'},

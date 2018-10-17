@@ -9,6 +9,7 @@ def rules(conn):
         'auth': {'call': 'fctAuth', 'source': 'key_name'},
         'storage': {'call': 'fctStorage', 'source': 'attached_volumes'},
         'created_at': {'call': 'switch', 'source': 'created_at'},
+        'updated_at': {'call': 'switch', 'source': 'created_at'},
         'cpu|memory': {'call': 'InstanceTypeOpenStack', 'source': 'flavor.id', 'merged': True},
         'datacenters': {'call': 'fctDc',
                         'source': {**conn}},

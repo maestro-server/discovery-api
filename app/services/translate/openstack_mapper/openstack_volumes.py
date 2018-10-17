@@ -15,6 +15,7 @@ def rules(conn):
         'size': {'call': 'switch', 'source': 'size'},
         'service': {'call': 'switch', 'source': 'service'},
         'created_at': {'call': 'switch', 'source': 'created_at'},
+        'updated_at': {'call': 'switch', 'source': 'created_at'},
         'status': {'call': 'switchOptions',
                    'source': {'field': 'status',
                               'options': {'creating': 'Active', 'available': 'Available', 'in-use': 'Active',

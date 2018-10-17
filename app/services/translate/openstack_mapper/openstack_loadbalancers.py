@@ -3,6 +3,7 @@ def rules(conn):
         'name': {'call': 'switch', 'source': 'name'},
         'unique_id': {'call': 'switch', 'source': 'id'},
         'created_at': {'call': 'switch', 'source': 'created_at'},
+        'updated_at': {'call': 'switch', 'source': 'created_at'},
         'provider': {'call': 'setV', 'source': 'OpenStack (HaProxy)'},
         'own': {'call': 'setV', 'source': 1},
         'family': {'call': 'setV', 'source': 'Loadbalance'},

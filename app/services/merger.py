@@ -6,7 +6,7 @@ from pydash.utilities import identity
 
 class MergeAPI(object):
 
-    def __init__(self, content = None, key_comparer = 'name'):
+    def __init__(self, content = None, key_comparer='name'):
         self.content = content
         self.inserted = []
         self.key = key_comparer
@@ -23,6 +23,7 @@ class MergeAPI(object):
             active = get(item, 'active', False) #bugfix - if is false, update to true
 
             for key, find in enumerate(insert):
+
                 if self.assign(find, dc_id):
                     check_insert = str(get(insert[key], 'checksum'))
 
@@ -37,7 +38,7 @@ class MergeAPI(object):
                         del insert[key]
                     break
 
-        return santinize
+        return santinize + insert
 
     def assign(self, data, dc_id):
         return get(data, self.key) == dc_id
