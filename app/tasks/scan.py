@@ -5,7 +5,7 @@ from app.services.factory import FactoryAPI
 
 from app.libs.jwt import Jwt
 from app.libs.normalize import Normalize
-from app.error import FactoryInvalid, ClientMaestroError
+from app.error import FactoryInvalid
 
 from .translate import task_translate
 from .notification import task_notification
