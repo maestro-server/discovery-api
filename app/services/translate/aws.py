@@ -26,6 +26,7 @@ from .aws_mapper.aws_describe_cdns import rules as rules_describe_cdns
 from .aws_mapper.aws_describe_db_list import rules as rules_describe_db_list
 from .aws_mapper.aws_describe_autoscaling_group import rules as rules_describe_autoscaling_group
 from .aws_mapper.aws_describe_scaling_plans import rules as rules_aws_describe_scaling_plans
+from .aws_mapper.aws_describe_cdns_rtmp import rules as rules_aws_describe_cdns_rtmp
 
 
 class MapperAWS(Mapper):
@@ -52,6 +53,7 @@ class MapperAWS(Mapper):
             'describe_instances': rules_aws_describe_instances(conn),
             'describe_load_balancers': rules_aws_describe_load_balancers(conn),
             'list_distributions': rules_describe_cdns(conn),
+            'list_streaming_distributions': rules_aws_describe_cdns_rtmp(conn),
             'describe_db_instances': rules_describe_db_list(conn),
             'list_buckets': rules_aws_list_buckets(conn),
             'describe_volumes': rules_aws_describe_volumes(conn),

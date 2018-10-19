@@ -31,6 +31,8 @@ def task_scan(conn, conn_id, task, options, vars = []):
         Crawler = FactoryAPI(access=access, conn=conn)
         result = Crawler.execute(options, vars)
 
+        print(result['result'])
+
         if not result['result']:
             task_last.apply_async((conn, task, options))
             raise ValueError('Empty result')

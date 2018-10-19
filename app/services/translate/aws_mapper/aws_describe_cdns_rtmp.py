@@ -1,26 +1,20 @@
 def rules(conn):
     return {
         'name': {'call': 'switch', 'source': 'DomainName'},
-        'origins': {'call': 'switch', 'source': 'Origins'},
-        'cache_behavior': {'call': 'switch', 'source': 'CacheBehaviors'},
         'unique_id': {'call': 'switch', 'source': 'Id'},
 
         'role': {'call': 'batch',
                  'source': {
-                     'origins': {'call': 'switch', 'source': 'Origins.Items'},
-                     'default_cache_behavior': {'call': 'switch', 'source': 'DefaultCacheBehavior'},
-                     'cache_behaviors': {'call': 'switch', 'source': 'CacheBehaviors.Items'},
-                     'custom_error': {'call': 'switch', 'source': 'CustomErrorResponses.Items'},
-                     'restrictions': {'call': 'switch', 'source': 'Restrictions'},
-                     'web_acl_id': {'call': 'switch', 'source': 'WebACLId'},
-                     'http_version': {'call': 'switch', 'source': 'HttpVersion'},
-                     'ipv6_enabled': {'call': 'switch', 'source': 'IsIPV6Enabled'}
+                     's3_origin': {'call': 'switch', 'source': 'S3Origin'},
+                     'trusted_signers': {'call': 'switch', 'source': 'TrustedSigners'},
+                     'Aliases': {'call': 'switch', 'source': 'Aliases.Items'},
+                     'price_class': {'call': 'switch', 'source': 'PriceClass'},
+                     'enabled': {'call': 'switch', 'source': 'Enabled'}
                  }
                  },
 
 
         'status': {'call': 'switch', 'source': 'Status'},
-        'state': {'call': 'switch', 'source': 'Enabled'},
         'datacenters': {'call': 'fctDcApp',
                         'source': {**conn}},
         'active': {'call': 'switchOptions',
@@ -32,7 +26,7 @@ def rules(conn):
                         'source': {'field': 'Tags', 'sKey': 'Key', 's': 'environment', 'catcher': 'Value'}},
         'created_at': {'call': 'switch', 'source': 'CreatedTime'},
         'updated_at': {'call': 'switch', 'source': 'CreatedTime'},
-        'type': {'call': 'setV', 'source': 'Web'},
+        'type': {'call': 'setV', 'source': 'RTMP'},
         'provider': {'call': 'setV', 'source': 'CloudFront (AWS)'},
         'own': {'call': 'setV', 'source': 1},
         'tags': {'call': 'fctTags', 'source': 'Tags'},
