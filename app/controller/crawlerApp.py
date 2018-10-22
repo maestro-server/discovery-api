@@ -3,7 +3,7 @@ import json
 from flask_restful import Resource
 from pydash.objects import pick
 
-from app.tasks import task_scan, task_notification, task_setup
+from app.tasks import task_ws, task_scan, task_notification, task_setup
 
 from app.libs.normalize import Normalize
 from app.libs.lens import lens
@@ -67,24 +67,36 @@ class CrawlerApps(Resource):
             return FactoryInvalid.responseInvalid('This instance dont have a valid connection.')
 
         try:
-            for commands in require:
-                for region in connector['regions']:
+
+            lastp = (len(require)-1, len(connector['regions'])-1)
+            for ireq, commands in enumerate(require):
+                for iregion, region in enumerate(connector['regions']):
+                    lasted = lastp[0] == ireq and lastp[1] == iregion
+
                     task_setup(connector['dc_id'], task, region)
+                    self.spawnScan(connector, region, task, commands, lasted)
 
-                    conn = {
-                        **pick(connector, ['dc_id', 'conn', 'provider', 'dc', 'owner_user', 'url', 'project', 'roles', 'user_domain_id', 'api_version']),
-                        **{'region': region}
-                    }
 
-                    Normalize.singleKeyObjectIdToStr(conn, 'owner_user._id')
-                    Normalize.arrayKeyObjectIdToStr(conn, 'roles', '_id')
-                    Normalize.singleKeyObjectIdToStr(connector, '_id')
-                    key = task_scan.delay(conn, connector['_id'], task, commands)
+        except Exception as error:
+            task_ws.delay(connector, task, 'danger')
+            task_notification.delay(msg=str(error), conn_id=instance, task=task, status='danger')
+            return FactoryInvalid.responseInvalid({'msg': str(error), 'name': error.__class__.__name__}, 500)
 
-            message = {'msg': 'In progress. %s' % key, 'conn_id': instance, 'task': task, 'status': 'warning'}
+        else:
+            message = {'msg': 'In progress. %s' % task, 'conn_id': instance, 'task': task, 'status': 'warning'}
             task_notification.delay(**message)
             return message, 201
 
-        except Exception as error:
-            task_notification.delay(msg=str(error), conn_id=instance, task=task, status='danger')
-            return FactoryInvalid.responseInvalid({'msg': str(error), 'name': error.__class__.__name__}, 500)
+
+    def spawnScan(self, connector, region, task, commands, lasted):
+        conn = {
+            **pick(connector,
+                   ['dc_id', 'conn', 'provider', 'dc', 'owner_user', 'url', 'project', 'roles', 'user_domain_id',
+                    'api_version']),
+            **{'region': region}
+        }
+
+        Normalize.singleKeyObjectIdToStr(conn, 'owner_user._id')
+        Normalize.arrayKeyObjectIdToStr(conn, 'roles', '_id')
+        Normalize.singleKeyObjectIdToStr(connector, '_id')
+        task_scan.delay(conn, connector['_id'], task, commands, lasted)

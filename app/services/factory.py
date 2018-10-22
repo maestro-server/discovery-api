@@ -28,6 +28,9 @@ class FactoryAPI(object):
 
         return self.provider.getPag()
 
+    def isLast(self):
+        return not self.provider.getPag()
+
     def run(self, options, params):
         provider = self.able[self.dc]
         self.provider = provider(access=self.access, region=self.region, conn=self.conn)

@@ -1,16 +1,25 @@
 
+from app.views import app
+import math
+
 class IteratorTranslate(object):
-    def __init__(self, limit):
-        self.limit = limit
+    def __init__(self, result):
+        self.limit = app.config['MAESTRO_TRANSLATE_QTD']
+        self.result = result
+        self.total = len(result)
+        self.page = math.ceil(self.total/self.limit)
+        self.iter = 1
 
-    def batch(self, result):
+    def isLast(self):
+        return self.iter > self.page
+
+    def batch(self):
         x = 1
-        i = 1
-        total = len(result)
 
-        while (x + self.limit) <= (total + self.limit):
-            x = (i * self.limit)
+        while (x + self.limit) <= (self.total + self.limit):
+            x = (self.iter * self.limit)
             pref = (x - self.limit)
-            i += 1
-            if len(result[pref:x]):
-                yield result[pref:x]
+            self.iter += 1
+
+            if len(self.result[pref:x]):
+                yield self.result[pref:x]

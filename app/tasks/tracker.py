@@ -16,7 +16,8 @@ def task_tracker(result, dc_id, region, task, options):
         }
     }]
 
-    ExternalMaestroData(entity_id=dc_id) \
-        .put_request(path="datacenters", body={'body': body})
+    result = ExternalMaestroData(entity_id=dc_id) \
+        .put_request(path="datacenters", body={'body': body})\
+        .get_results()
 
-    return {'dc_id': dc_id, 'ids': ids}
+    return {'dc_id': dc_id, 'result': result}

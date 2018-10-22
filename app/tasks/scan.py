@@ -10,12 +10,12 @@ from app.error import FactoryInvalid
 from .translate import task_translate
 from .notification import task_notification
 from .last import task_last
+from .ws import task_ws
 
 
-@celery.task(name="scan.api")
-def task_scan(conn, conn_id, task, options, vars = []):
+def decodeConn(conn, conn_id, task):
     try:
-        access = Jwt.decode(conn['conn'])
+        return Jwt.decode(conn['conn'])
     except Exception as error:
         task_notification.delay(msg=str(error), conn_id=conn_id, task=task, status='danger')
         return FactoryInvalid.responseInvalid(
@@ -24,6 +24,11 @@ def task_scan(conn, conn_id, task, options, vars = []):
         )
 
 
+@celery.task(name="scan.api")
+def task_scan(conn, conn_id, task, options, lasted=False, vars=[]):
+
+    access = decodeConn(conn, conn_id, task)
+
     oVars = Normalize.optionsVarsNormalize(options['vars']),
     vars = sum(oVars, vars)
 
@@ -31,26 +36,20 @@ def task_scan(conn, conn_id, task, options, vars = []):
         Crawler = FactoryAPI(access=access, conn=conn)
         result = Crawler.execute(options, vars)
 
-        print(result['result'])
-
         if not result['result']:
-            task_last.apply_async((conn, task, options))
             raise ValueError('Empty result')
 
-        factoryPag = Crawler.checkPag()
-        key = task_translate.delay(conn, conn_id, options, task, result['result'])
+        tlasted = lasted and Crawler.isLast() #lasted of regions and lasted of scan iter
+        key = task_translate.delay(conn, conn_id, options, task, result['result'], tlasted)
 
-        if factoryPag:
-            task_scan.delay(conn, conn_id, task, options, [factoryPag])
-        else:
-            ctd = app.config['MAESTRO_COUNTDOWN_LAST']
-            task_last.apply_async((conn, task, options), countdown=ctd)
+        if Crawler.isLast() == False:
+            factoryPag = Crawler.checkPag()
+            task_scan.delay(conn, conn_id, task, options, lasted, [factoryPag])
 
         return {
             'translate-id': str(key),
             'conn_id': conn_id,
             'options': options,
-            'next': factoryPag,
             'qtd': len(result['result'])
         }
 
@@ -63,6 +62,11 @@ def task_scan(conn, conn_id, task, options, vars = []):
             code = 403
         
         task_notification.delay(msg=str(error), conn_id=conn_id, task=task, status=status)
+
+        if lasted:
+            task_ws.delay(conn, task, status)
+            task_last.delay(conn, task, options)
+
         return FactoryInvalid.responseInvalid(
             {'msg': str(error), 'name': error.__class__.__name__}
             , code

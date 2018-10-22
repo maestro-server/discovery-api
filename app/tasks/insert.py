@@ -4,7 +4,10 @@ from pydash.objects import get, has
 from app import celery
 from app.services.merger import MergeAPI
 from app.repository.externalMaestroData import ExternalMaestroData
+
 from .notification import task_notification
+from .last import task_last
+from .ws import task_ws
 
 
 def get_data_list(result, key, owner_user, conn_id, entity):
@@ -21,7 +24,7 @@ def get_data_list(result, key, owner_user, conn_id, entity):
 
 
 @celery.task(name="insert.api")
-def task_insert(conn, conn_id, task, result, options):
+def task_insert(conn, conn_id, task, result, options, lasted=False):
     key = get(options, 'key_comparer')
     owner_user = get(conn, 'owner_user._id')
 
@@ -35,7 +38,18 @@ def task_insert(conn, conn_id, task, result, options):
     if len(body) > 0:
         ExternalMaestroData(entity_id=conn_id).put_request(path=options['entity'], body={'body': body})
         task_notification.delay(msg="Success.", conn_id=conn_id, task=task, status='success')
+    else:
+        task_notification.delay(msg="Success. No changes", conn_id=conn_id, task=task, status='success')
 
-    task_notification.delay(msg="Success. No changes", conn_id=conn_id, task=task, status='success')
+    if lasted:
+        task_ws.delay(conn, task)
+        task_last.delay(conn, task, options)
 
-    return {'conn_id': conn_id, 'task': task, 'notification-id': str(key), 'body': len(body)}
+
+    return {
+        'lasted': lasted,
+        'conn_id': conn_id,
+        'task': task,
+        'notification-id': str(key),
+        'body': len(body)
+    }
