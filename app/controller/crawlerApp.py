@@ -76,9 +76,8 @@ class CrawlerApps(Resource):
                     task_setup(connector['dc_id'], task, region)
                     self.spawnScan(connector, region, task, commands, lasted)
 
-
         except Exception as error:
-            task_ws.delay(connector, task, 'danger')
+            task_ws.delay(connector, connector['_id'], task, 'danger')
             task_notification.delay(msg=str(error), conn_id=instance, task=task, status='danger')
             return FactoryInvalid.responseInvalid({'msg': str(error), 'name': error.__class__.__name__}, 500)
 

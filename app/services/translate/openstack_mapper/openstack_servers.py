@@ -43,5 +43,21 @@ def rules(conn):
         'roles': {'call': 'fctRoles',
                   'source': {**conn}},
         'checksum': {'call': 'checksum',
-                     'source': None}
+                     'source': None},
+        '_sync': {'call': 'batch',
+                  'source': {
+                      'applications': {'call': 'arrMultiCatcher',
+                                       'source': {
+                                           'field': 'Tags',
+                                           'sKey': 'Key',
+                                           's': ['applications', 'application', 'app', 'apps'],
+                                           'catcher': 'Value'}},
+                      'application_id': {'call': 'arrMultiCatcher',
+                                         'source': {
+                                             'field': 'Tags',
+                                             'sKey': 'Key',
+                                             's': ['applications_id', 'application_id', 'app_id', 'apps_id'],
+                                             'catcher': 'Value'}}
+                  },
+                  }
     }

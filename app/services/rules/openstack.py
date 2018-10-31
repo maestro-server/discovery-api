@@ -118,10 +118,19 @@ class RulerOpenStack(Ruler):
 
                     if vcpus and memory:
                         obj = {
-                            'cpu': re.search(r'([0-9]*)', vcpus).group(),
-                            'memory': re.search(r'([0-9\.]*)', memory).group(),
+                            'cpu': RulerOpenStack.getNumbers(vcpus),
+                            'memory': RulerOpenStack.getNumbers(memory),
                         }
 
                         CacheMemory.set(instance, obj)
 
         return obj
+
+    @staticmethod
+    def getNumbers(vcpus):
+
+        if isinstance(vcpus, str):
+            return re.search(r'([0-9]*)', vcpus).group()
+
+        if isinstance(vcpus, (int, float)):
+            return vcpus

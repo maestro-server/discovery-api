@@ -4,7 +4,7 @@ from app import celery
 from app.repository.externalMaestroWS import ExternalMaestroWS
 
 @celery.task(name="ws.api")
-def task_ws(conn, task, status='success'):
+def task_ws(conn, conn_id, task, status='success'):
     owner_id = get(conn, 'owner_user._id')
     dc_name = get(conn, 'dc')
     provider = get(conn, 'provider')
@@ -23,7 +23,7 @@ def task_ws(conn, task, status='success'):
                     "type": status
                 },
                 "event": {
-                    "caller": "connections-update"
+                    "caller": ["connections-update", "connections-{}".format(conn_id)]
                 }
             }
         }

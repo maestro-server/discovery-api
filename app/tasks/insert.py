@@ -42,7 +42,7 @@ def task_insert(conn, conn_id, task, result, options, lasted=False):
         task_notification.delay(msg="Success. No changes", conn_id=conn_id, task=task, status='success')
 
     if lasted:
-        task_ws.delay(conn, task)
+        task_ws.delay(conn, conn_id, task)
         task_last.delay(conn, task, options)
 
 

@@ -64,7 +64,7 @@ def task_scan(conn, conn_id, task, options, lasted=False, vars=[]):
         task_notification.delay(msg=str(error), conn_id=conn_id, task=task, status=status)
 
         if lasted:
-            task_ws.delay(conn, task, status)
+            task_ws.delay(conn, conn_id, task, status)
             task_last.delay(conn, task, options)
 
         return FactoryInvalid.responseInvalid(
