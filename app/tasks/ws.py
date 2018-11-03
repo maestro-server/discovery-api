@@ -10,7 +10,7 @@ def task_ws(conn, conn_id, task, status='success'):
     provider = get(conn, 'provider')
 
     msg = "Finish Sync - [%s] %s" % (provider, task)
-    channel = "maestro#%s" % owner_id
+    channel = "maestro-%s" % owner_id
 
     body = {
         "method": "publish",
