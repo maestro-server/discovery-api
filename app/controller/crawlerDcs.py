@@ -5,19 +5,21 @@ from app.libs.lens import lens
 from app.repository.externalMaestroData import ExternalMaestroData
 
 class CrawlerDcs(Resource):
-    # @api {get} /crawler/<datacenter> 4. Resources allowed by provider
-    # @apiName GetCrawlerDC
-    # @apiGroup Crawler
 
-    # @apiSuccessExample {json} Success-Response:
-    # HTTP/1.1 200 OK
-    # {
-    #     "resource": (object) {
-    #         "<api name>": (string)
-    #     }
-    # }
     def get(self, datacenter):
+        """
+        @api {get} /crawler/<datacenter> 4. Resources allowed by provider
+        @apiName GetCrawlerDC
+        @apiGroup Crawler
 
+        @apiSuccessExample {json} Success-Response:
+        HTTP/1.1 200 OK
+        {
+            "resource": (object) {
+                "<api name>": (string)
+            }
+        }
+        """
         filters = json.dumps({'key': 'connections'})
         result = ExternalMaestroData()\
                     .post_request(path="adminer", body={'query': filters})\
