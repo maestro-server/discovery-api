@@ -1,4 +1,4 @@
-import json
+
 from hashlib import sha1
 from pydash.objects import get
 from app.services.iterators.iRuler import IteratorRuler
@@ -29,11 +29,16 @@ class Ruler(object):
                 return vl
 
     @staticmethod
-    def arrCatcher(source, batch):
+    def arrCatcher(source, batch, cap=True):
         list = get(batch, source['field'], [])
         for item in list:
             if item[source['sKey']].lower() == source['s'].lower():
-                return item[source['catcher']].capitalize()
+                tmp = item[source['catcher']]
+
+                if cap:
+                    tmp = tmp.capitalize()
+
+                return tmp
 
     @staticmethod
     def switchOptions(source, batch):
