@@ -10,6 +10,7 @@ def rules(conn):
         'storage': {'call': 'fctStorage', 'source': 'attached_volumes'},
         'created_at': {'call': 'switch', 'source': 'created_at'},
         'updated_at': {'call': 'switch', 'source': 'created_at'},
+        'applications': {'call': 'SyncForeignEntityByTag', 'source': 'applications'},
         'cpu|memory': {'call': 'InstanceTypeOpenStack', 'source': 'flavor.id', 'merged': True},
         'datacenters': {'call': 'fctDc',
                         'source': {**conn}},
@@ -43,21 +44,5 @@ def rules(conn):
         'roles': {'call': 'fctRoles',
                   'source': {**conn}},
         'checksum': {'call': 'checksum',
-                     'source': None},
-        '_sync': {'call': 'batch',
-                  'source': {
-                      'applications': {'call': 'arrMultiCatcher',
-                                       'source': {
-                                           'field': 'Tags',
-                                           'sKey': 'Key',
-                                           's': ['applications', 'application', 'app', 'apps'],
-                                           'catcher': 'Value'}},
-                      'application_id': {'call': 'arrMultiCatcher',
-                                         'source': {
-                                             'field': 'Tags',
-                                             'sKey': 'Key',
-                                             's': ['applications_id', 'application_id', 'app_id', 'apps_id'],
-                                             'catcher': 'Value'}}
-                  },
-                  }
+                     'source': None}
     }

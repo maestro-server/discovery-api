@@ -2,6 +2,7 @@
 import json, re
 from .ruler import Ruler
 from pydash.objects import get
+from .libs.sync_foreign import sync_apps
 from pydash.numerical import divide
 
 from app.repository.externalMaestroData import ExternalMaestroData
@@ -125,6 +126,22 @@ class RulerOpenStack(Ruler):
                         CacheMemory.set(instance, obj)
 
         return obj
+
+    @staticmethod
+    def SyncForeignEntityByTag(source, batch):
+        result = []
+
+        tentity = Ruler.switch('metadata.%s' % source, batch)
+
+        if tentity:
+            result += sync_apps(tentity, source)
+
+        tentity = Ruler.switch('metadata.%s_id' % source, batch)
+
+        if tentity:
+            result += sync_apps(tentity, source, '_id')
+
+        return result
 
     @staticmethod
     def getNumbers(vcpus):

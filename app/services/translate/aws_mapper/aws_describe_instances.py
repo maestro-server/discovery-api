@@ -18,6 +18,7 @@ def rules(conn):
         'tags': {'call': 'fctTags', 'source': 'Tags'},
         'ebs_optimized': {'call': 'switch', 'source': 'EbsOptimized'},
         'cpu|memory': {'call': 'InstanceTypeAWS', 'source': 'InstanceType', 'merged': True},
+        'applications': {'call': 'SyncForeignEntityByTag', 'source': 'applications'},
         'status': {'call': 'switchOptions',
                    'source': {'field': 'State.Name',
                               'options': {'running': 'Active', 'pending': 'Active', 'stopping': 'Stopped',
@@ -42,21 +43,5 @@ def rules(conn):
         'roles': {'call': 'fctRoles',
                   'source': {**conn}},
         'checksum': {'call': 'checksum',
-                     'source': None},
-        '_sync': {'call': 'batch',
-                  'source': {
-                      'applications': {'call': 'arrMultiCatcher',
-                                      'source': {
-                                          'field': 'Tags',
-                                          'sKey': 'Key',
-                                          's': ['applications', 'application', 'app', 'apps'],
-                                          'catcher': 'Value'}},
-                      'application_id': {'call': 'arrMultiCatcher',
-                                      'source': {
-                                          'field': 'Tags',
-                                          'sKey': 'Key',
-                                          's': ['applications_id', 'application_id', 'app_id', 'apps_id'],
-                                          'catcher': 'Value'}}
-                  },
-                  }
+                     'source': None}
     }
