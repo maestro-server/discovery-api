@@ -29,9 +29,13 @@ def task_ws(conn, conn_id, task, status='success'):
         }
     }
 
-    result = ExternalMaestroWS()\
-        .auth_header()\
-        .post_request(path="api", body=body)\
-        .get_results()
+    try:
+        result = ExternalMaestroWS() \
+            .auth_header() \
+            .post_request(path="api", body=body) \
+            .get_results()
 
-    return {'result': result, 'task': 'ws-notification'}
+        return {'result': result, 'task': 'ws-notification'}
+
+    except Exception as error:
+        return {'message': str(error)}
