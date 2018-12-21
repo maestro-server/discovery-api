@@ -13,8 +13,12 @@ load_dotenv(find_dotenv())
 class Config(object):
     TESTING = os.environ.get("TESTING", False)
     RESTFUL_JSON = {'cls': DateTimeEncoder}
+
     SECRETJWT = os.environ.get("MAESTRO_SECRETJWT", "defaultSecretKey")
     WS_SECRET = os.environ.get("MAESTRO_WEBSOCKET_SECRET", "wsSecretKey")
+
+    SECRETJWT_PRIVATE = os.environ.get("MAESTRO_SECRETJWT_PRIVATE", "defaultSecretKeyPrivate")
+    NOAUTH = os.environ.get("MAESTRO_NOAUTH", "defaultSecretNoAuthToken")
 
     MAESTRO_DATA_URI = os.environ.get("MAESTRO_DATA_URI", "http://localhost:5010")
     MAESTRO_WEBSOCKET_URI = os.environ.get("MAESTRO_WEBSOCKET_URI", "http://localhost:8000")

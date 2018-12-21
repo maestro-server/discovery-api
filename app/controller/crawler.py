@@ -1,8 +1,11 @@
 
 from flask_restful import Resource
 
-class Crawler(Resource):
+from app.services.privateAuth import private_auth
 
+
+class Crawler(Resource):
+    @private_auth
     def get(self):
         """
         @api {get} /crawler/ 3. Endpoints allowed

@@ -3,9 +3,11 @@ import json
 from flask_restful import Resource
 from app.libs.lens import lens
 from app.repository.externalMaestroData import ExternalMaestroData
+from app.services.privateAuth import private_auth
+
 
 class CrawlerDcs(Resource):
-
+    @private_auth
     def get(self, datacenter):
         """
         @api {get} /crawler/<datacenter> 4. Resources allowed by provider

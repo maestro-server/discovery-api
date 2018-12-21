@@ -3,6 +3,7 @@ import json
 from flask_restful import Resource
 from pydash.objects import pick
 
+from app.services.privateAuth import private_auth
 from app.tasks import task_ws, task_scan, task_notification, task_setup
 
 from app.libs.normalize import Normalize
@@ -12,7 +13,7 @@ from app.error.factoryInvalid import FactoryInvalid
 
 
 class CrawlerApps(Resource):
-
+    @private_auth
     def get(self, datacenter, instance, task):
         """
         @api {get} /crawler/<datacenter>/<instance>/<task> 1. Health check
@@ -33,7 +34,7 @@ class CrawlerApps(Resource):
             'task': task
         }
 
-
+    @private_auth
     def put(self, datacenter, instance, task):
         """
         @api {put} /crawler/<datacenter>/<instance>/<task> 2. Execute crawler
@@ -64,6 +65,7 @@ class CrawlerApps(Resource):
                 return self.crawlerFactory(instance, task, require)
 
         return FactoryInvalid.responseInvalid('This task is not allowed', 422)
+
 
     def crawlerFactory(self, instance, task, require):
         connector = ExternalMaestroData()\
