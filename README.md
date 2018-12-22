@@ -119,15 +119,23 @@ apidoc -i app/controller/ -o docs/
 
 ### Env variables ###
 
-| Env Variables                | Example                  | Description                        |
-|------------------------------|--------------------------|------------------------------------|
-| MAESTRO_DATA_URI             | http://localhost:5005    | Data Layer API URL                 |
-| FLASK_ENV                    | development|production   |                                    | 
-| MAESTRO_GWORKERS             | 2                        | Gunicorn multi process             |
-| MAESTRO_SECRETJWT            | XXXX                     | Secret key - JWT                   |
-| MAESTRO_TRANSLATE_QTD        | 200                      | Prefetch used in translate worker  |
-| CELERY_BROKER_URL            | XXXX                     | Rabbitmq URL                       |
-| CELERYD_TASK_TIME_LIMIT      | 500                      | Timeout - worker                   |
+| Env Variables                | Example                  | Description                                |
+|------------------------------|--------------------------|--------------------------------------------|
+| MAESTRO_DATA_URI             | http://localhost:5005    | Data Layer API URL                         |
+| MAESTRO_WEBSOCKET_URI        | http://localhost:8000    | Webosocket App - API URL                   |
+|                              |                          |                                            |
+| FLASK_ENV                    | development|production   |                                            | 
+| MAESTRO_GWORKERS             | 2                        | Gunicorn multi process                     |
+| MAESTRO_TRANSLATE_QTD        | 200                      | Prefetch used in translate worker          |
+| MAESTRO_COUNTDOWN_LAST       | 10                       | Time in seconds to run the last task       |
+|                              |                          |                                            |
+| MAESTRO_SECRETJWT            | XXXX                     | Secret key - JWT for connections           |
+| MAESTRO_WEBSOCKET_SECRET     | XXXX                     | Secret Key - JWT Websocket connections     |
+| MAESTRO_SECRETJWT_PRIVATE    | XXX                      | Secret Key - JWT private connections       |
+| MAESTRO_NOAUTH               | XXX                      | Secret Pass to validate private connections|
+|                              |                          |                                            |
+| CELERY_BROKER_URL            | XXXX                     | Rabbitmq URL                               |
+| CELERYD_TASK_TIME_LIMIT      | 500                      | Timeout - worker                           |
 
 ### Contribute ###
 

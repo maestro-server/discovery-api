@@ -26,5 +26,5 @@ class MaestroRequest(object):
 
         logger.info("Error %s", self.__context.text)
 
-        if self.__context.status_code in [500, 503, 504]:
+        if self.__context.status_code in [500, 503, 504, 404, 401, 0]:
             raise ClientMaestroError(self.__context.text)

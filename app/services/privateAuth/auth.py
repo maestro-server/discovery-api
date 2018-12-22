@@ -23,16 +23,16 @@ class PrivateAuth(object):
 
     @staticmethod
     def create_token(info):
-
         body = {
+            **info,
             'noauth': app.config['NOAUTH']
-        };
+        }
 
-        return PrivateAuth.encode({**info, **body})
+        return PrivateAuth.encode(body)
 
     @staticmethod
     def encode(body):
-        return jwt.encode(body, app.config['SECRETJWT_PRIVATE'], algorithms=['HS256'])
+        return jwt.encode(body, app.config['SECRETJWT_PRIVATE'], algorithm='HS256').decode('utf-8')
 
     @staticmethod
     def decode(encoded):
