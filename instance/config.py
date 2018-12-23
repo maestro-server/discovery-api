@@ -21,6 +21,7 @@ class Config(object):
     NOAUTH = os.environ.get("MAESTRO_NOAUTH", "defaultSecretNoAuthToken")
 
     MAESTRO_DATA_URI = os.environ.get("MAESTRO_DATA_URI", "http://localhost:5010")
+    MAESTRO_AUDIT_URI = os.environ.get("MAESTRO_AUDIT_URI", "http://localhost:10900")
     MAESTRO_WEBSOCKET_URI = os.environ.get("MAESTRO_WEBSOCKET_URI", "http://localhost:8000")
 
     MAESTRO_COUNTDOWN_LAST = int(os.environ.get("MAESTRO_COUNTDOWN_LAST", 10))

@@ -8,6 +8,7 @@ from app.repository.externalMaestroData import ExternalMaestroData
 from .notification import task_notification
 from .last import task_last
 from .ws import task_ws
+from .audit import task_audit
 
 
 def get_data_list(result, key, owner_user, conn_id, entity):
@@ -35,9 +36,14 @@ def task_insert(conn, conn_id, task, result, options, lasted=False):
     content = get_data_list(result, key, owner_user, conn_id, options['entity'])
     body = MergeAPI(content=content, key_comparer=key).merge(result)
 
+
     if len(body) > 0:
-        ExternalMaestroData(entity_id=conn_id).put_request(path=options['entity'], body={'body': body})
+        dataresult = ExternalMaestroData(entity_id=conn_id)\
+            .put_request(path=options['entity'], body={'body': body})\
+            .get_results()
+
         task_notification.delay(msg="Success.", conn_id=conn_id, task=task, status='success')
+        task_audit.delay(options['entity'], dataresult.get('upserted'), body)
     else:
         task_notification.delay(msg="Success. No changes", conn_id=conn_id, task=task, status='success')
 

@@ -121,7 +121,8 @@ apidoc -i app/controller/ -o docs/
 
 | Env Variables                | Example                  | Description                                |
 |------------------------------|--------------------------|--------------------------------------------|
-| MAESTRO_DATA_URI             | http://localhost:5005    | Data Layer API URL                         |
+| MAESTRO_DATA_URI             | http://localhost:5005    | Data App - API URL                         |
+| MAESTRO_AUDIT_URI            | http://localhost:10900   | Audit App - API URL                        |
 | MAESTRO_WEBSOCKET_URI        | http://localhost:8000    | Webosocket App - API URL                   |
 |                              |                          |                                            |
 | FLASK_ENV                    | development|production   |                                            | 
