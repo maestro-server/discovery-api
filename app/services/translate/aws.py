@@ -28,6 +28,9 @@ from .aws_mapper.aws_describe_autoscaling_group import rules as rules_describe_a
 from .aws_mapper.aws_describe_scaling_plans import rules as rules_aws_describe_scaling_plans
 from .aws_mapper.aws_describe_cdns_rtmp import rules as rules_aws_describe_cdns_rtmp
 
+from .aws_mapper.aws_list_functions import rules as rules_aws_list_functions
+from .aws_mapper.aws_list_layers import rules as rules_aws_list_layers
+
 
 class MapperAWS(Mapper):
     def translate(self, data):
@@ -70,7 +73,9 @@ class MapperAWS(Mapper):
             'describe_network_acls': rules_aws_describe_network_acls(conn),
             'describe_security_groups': rules_aws_describe_security_groups(conn),
             'describe_auto_scaling_groups': rules_describe_autoscaling_group(conn),
-            'describe_scaling_plans': rules_aws_describe_scaling_plans(conn)
+            'describe_scaling_plans': rules_aws_describe_scaling_plans(conn),
+            'list_functions': rules_aws_list_functions(conn),
+            'list_layers': rules_aws_list_layers(conn)
         }
 
         return mapper[command]
