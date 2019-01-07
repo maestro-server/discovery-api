@@ -4,11 +4,10 @@ MAINTAINER Felipe Signorini <felipe.signorini@maestroserver.io>
 COPY docker-entrypoint.sh /usr/local/bin/
 RUN chmod +x /usr/local/bin/docker-entrypoint.sh
 
-RUN apk add --no-cache tini su-exec
+RUN apk add --no-cache --virtual .build-dependencies build-base tini su-exec curl-dev libressl-dev
 RUN addgroup app && adduser -S app
 
 ENV APP_PATH=/opt/application
-RUN pip3 install gunicorn
 
 WORKDIR $APP_PATH
 
@@ -19,7 +18,11 @@ COPY package.json package.json
 COPY run.py $APP_PATH/run.py
 COPY gunicorn_config.py /opt/gunicorn_config.py
 
+RUN pip3 install --upgrade pip gunicorn
 RUN pip3 install -r requirements.txt
+
+RUN apk del --no-cache --purge .build-deps \
+RUN rm -rf /var/cache/apk/*
 
 ENTRYPOINT ["/sbin/tini","-g","--"]
 CMD ["docker-entrypoint.sh"]

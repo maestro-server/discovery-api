@@ -4,7 +4,7 @@ MAINTAINER Felipe Signorini <felipe.signorini@maestroserver.io>
 COPY docker-entrypoint-workers.sh /usr/local/bin/
 RUN chmod +x /usr/local/bin/docker-entrypoint-workers.sh
 
-RUN apk add --no-cache tini su-exec
+RUN apk add --no-cache --virtual .build-dependencies build-base tini su-exec curl-dev libressl-dev
 RUN addgroup app && adduser -S app
 
 ENV APP_PATH=/opt/application
@@ -16,7 +16,11 @@ COPY requirements.txt requirements.txt
 COPY package.json package.json
 COPY run.py $APP_PATH/run.py
 
+RUN pip3 install --upgrade pip
 RUN pip3 install -r requirements.txt
+
+RUN apk del --no-cache --purge .build-deps \
+RUN rm -rf /var/cache/apk/*
 
 ENTRYPOINT ["/sbin/tini","-g","--"]
 CMD ["docker-entrypoint-workers.sh"]
