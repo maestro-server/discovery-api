@@ -1,10 +1,8 @@
 
-import json
-from flask_restful import Resource
-from app.libs.lens import lens
-from app.repository.externalMaestroData import ExternalMaestroData
-from app.services.privateAuth import private_auth
 
+from flask_restful import Resource
+from app.libs.providersRules import providersRules
+from app.services.privateAuth import private_auth
 
 class CrawlerDcs(Resource):
     @private_auth
@@ -28,10 +26,6 @@ class CrawlerDcs(Resource):
             }
         }
         """
-        filters = json.dumps({'key': 'connections'})
-        result = ExternalMaestroData()\
-                    .post_request(path="adminer", body={'query': filters})\
-                    .get_results('items')
-
+        result = providersRules('rules').get('permissions', {}).get(datacenter)
         if result:
-            return lens(result, len='.permissions.%s' % (datacenter))
+            return result

@@ -1,5 +1,4 @@
 
-import json
 from flask_restful import Resource
 from pydash.objects import pick
 
@@ -7,9 +6,9 @@ from app.services.privateAuth import private_auth
 from app.tasks import task_ws, task_scan, task_notification, task_setup
 
 from app.libs.normalize import Normalize
-from app.libs.lens import lens
 from app.repository.externalMaestroData import ExternalMaestroData
 from app.error.factoryInvalid import FactoryInvalid
+from app.libs.providersRules import providersRules
 
 
 class CrawlerApps(Resource):
@@ -19,6 +18,9 @@ class CrawlerApps(Resource):
         @api {get} /crawler/<datacenter>/<instance>/<task> 1. Health check
         @apiName GetCrawlerInstance
         @apiGroup Crawler
+
+        @apiParam (Param) {String} [datacenter] datacenter provider.
+        @apiParam (Param) {String} [task] Name task [server-list, loadbalance-list, storage-list].
 
         @apiPermission JWT Private (MAESTRO_SECRETJWT_PRIVATE)
         @apiHeader (Header) {String} Authorization JWT {Token}
@@ -65,16 +67,11 @@ class CrawlerApps(Resource):
         }]
         """
 
-        filters = json.dumps({'key': 'connections'})
-        result = ExternalMaestroData()\
-                    .post_request(path="adminer", body={'query': filters})\
-                    .get_results('items')
+        result = providersRules('rules')
+        require = result.get('permissions', {}).get(datacenter, {}).get(task)
 
-        if result:
-            require = lens(result, len='.permissions.%s.%s' % (datacenter, task))
-
-            if require:
-                return self.crawlerFactory(instance, task, require)
+        if require:
+            return self.crawlerFactory(instance, task, require)
 
         return FactoryInvalid.responseInvalid('This task is not allowed', 422)
 
@@ -111,7 +108,7 @@ class CrawlerApps(Resource):
     def spawnScan(self, connector, region, task, commands, lasted):
         conn = {
             **pick(connector,
-                   ['dc_id', 'conn', 'provider', 'dc', 'owner_user', 'url', 'project', 'roles', 'user_domain_id',
+                   ['dc_id', 'conn', 'provider', 'service', 'dc', 'owner_user', 'url', 'project', 'roles', 'user_domain_id',
                     'api_version']),
             **{'region': region}
         }

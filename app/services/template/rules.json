@@ -1,0 +1,900 @@
+{
+  "permissions": {
+    "AWS": {
+      "server-list": [
+        {
+          "access": "describe_instances",
+          "command": "ec2",
+          "entity": "servers",
+          "result_path": "Reservations",
+          "single_result_path": "Instances",
+          "key_comparer": "unique_id",
+          "vars": [
+            {
+              "name": "MaxResults",
+              "env": "MAESTRO_SCAN_QTD",
+              "default": 200,
+              "type": "int"
+            }
+          ],
+          "init_job": true
+        }
+      ],
+      "loadbalance-list": [
+        {
+          "access": "describe_load_balancers",
+          "command": "elbv2",
+          "entity": "applications",
+          "family": "Loadbalance",
+          "provider": "ELB (AWS)",
+          "result_path": "LoadBalancers",
+          "key_comparer": "unique_id",
+          "vars": [
+            {
+              "name": "PageSize",
+              "env": "MAESTRO_SCAN_QTD",
+              "default": 200,
+              "type": "int"
+            }
+          ],
+          "init_job": true
+        },
+        {
+          "access": "describe_load_balancers",
+          "command": "elb",
+          "entity": "applications",
+          "family": "Loadbalance",
+          "provider": "ELB (AWS)",
+          "result_path": "LoadBalancerDescriptions",
+          "single_result_path": "",
+          "key_comparer": "unique_id",
+          "vars": [
+            {
+              "name": "PageSize",
+              "env": "MAESTRO_SCAN_QTD",
+              "default": 200,
+              "type": "int"
+            }
+          ],
+          "init_job": true
+        }
+      ],
+      "autoscaling-list": [
+        {
+          "access": "describe_auto_scaling_groups",
+          "command": "autoscaling",
+          "entity": "applications",
+          "family": "AutoScaling",
+          "provider": "AutoScaling (AWS)",
+          "result_path": "AutoScalingGroups",
+          "key_comparer": "unique_id",
+          "vars": [
+            {
+              "name": "MaxRecords",
+              "env": "MAESTRO_SCAN_QTD",
+              "default": 100,
+              "type": "int"
+            }
+          ],
+          "init_job": true
+        }
+      ],
+      "autoscaling-support-list": [
+        {
+          "access": "describe_scaling_plans",
+          "command": "autoscaling-plans",
+          "entity": "applications",
+          "family": "AutoScalingPlan",
+          "result_path": "ScalingPlans",
+          "key_comparer": "unique_id",
+          "vars": [
+            {
+              "name": "MaxResults",
+              "env": "MAESTRO_SCAN_QTD",
+              "default": 50,
+              "type": "int"
+            }
+          ],
+          "init_job": true
+        }
+      ],
+      "dbs-list": [
+        {
+          "access": "describe_db_instances",
+          "command": "rds",
+          "entity": "applications",
+          "family": "Database",
+          "provider": "RDS (AWS)",
+          "result_path": "DBInstances",
+          "key_comparer": "unique_id",
+          "vars": [
+            {
+              "name": "MaxRecords",
+              "env": "MAESTRO_DB_SCAN_QTD",
+              "default": 100,
+              "type": "int"
+            }
+          ],
+          "init_job": true
+        }
+      ],
+      "storage-object-list": [
+        {
+          "access": "list_buckets",
+          "command": "s3",
+          "entity": "applications",
+          "family": "ObjectStorage",
+          "provider": "S3 (AWS)",
+          "result_path": "Buckets",
+          "key_comparer": "unique_id",
+          "vars": [],
+          "init_job": true
+        }
+      ],
+      "brokers-list": [
+        {
+          "access": "list_queues",
+          "command": "sqs",
+          "entity": "applications",
+          "family": "Broker",
+          "provider": "SQS (AWS)",
+          "result_path": "",
+          "key_comparer": "unique_id",
+          "vars": [],
+          "init_job": true
+        }
+      ],
+      "cache-list": [
+        {
+          "access": "describe_cache_clusters",
+          "command": "elasticache",
+          "entity": "applications",
+          "family": "Cache",
+          "provider": "Elastic Cache (AWS)",
+          "result_path": "CacheClusters",
+          "key_comparer": "unique_id",
+          "vars": [
+            {
+              "name": "MaxRecords",
+              "env": "MAESTRO_SCAN_QTD",
+              "default": 200,
+              "type": "int"
+            }
+          ],
+          "init_job": true
+        }
+      ],
+      "smtp-list": [
+        {
+          "access": "list_identities",
+          "command": "ses",
+          "entity": "applications",
+          "family": "SMTP",
+          "provider": "SES (AWS)",
+          "result_path": "",
+          "key_comparer": "unique_id",
+          "vars": [
+            {
+              "name": "MaxItems",
+              "env": "MAESTRO_SCAN_QTD",
+              "default": 500,
+              "type": "int"
+            }
+          ],
+          "init_job": true
+        }
+      ],
+      "volumes-list": [
+        {
+          "access": "describe_volumes",
+          "command": "ec2",
+          "entity": "volumes",
+          "result_path": "Volumes",
+          "key_comparer": "unique_id",
+          "vars": [
+            {
+              "name": "MaxResults",
+              "env": "MAESTRO_SCAN_QTD",
+              "default": 200,
+              "type": "int"
+            }
+          ],
+          "init_job": true
+        }
+      ],
+      "cdns-list": [
+        {
+          "access": "list_distributions",
+          "command": "cloudfront",
+          "entity": "applications",
+          "family": "CDN",
+          "provider": "CloudFront (AWS)",
+          "result_path": "DistributionList.Items",
+          "key_comparer": "unique_id",
+          "vars": [
+            {
+              "name": "MaxItems",
+              "env": "MAESTRO_SCAN_CDN_QTD",
+              "default": 100,
+              "type": "str"
+            }
+          ],
+          "init_job": true
+        },
+        {
+          "access": "list_streaming_distributions",
+          "command": "cloudfront",
+          "entity": "applications",
+          "family": "CDN",
+          "provider": "CloudFront (AWS)",
+          "result_path": "StreamingDistributionList.Items",
+          "key_comparer": "unique_id",
+          "vars": [
+            {
+              "name": "MaxItems",
+              "env": "MAESTRO_SCAN_CDN_QTD",
+              "default": 100,
+              "type": "str"
+            }
+          ],
+          "init_job": true
+        }
+      ],
+      "snapshot-list": [
+        {
+          "access": "describe_snapshots",
+          "command": "ec2",
+          "entity": "snapshots",
+          "result_path": "Snapshots",
+          "key_comparer": "unique_id",
+          "vars": [
+            {
+              "name": "MaxResults",
+              "env": "MAESTRO_SCAN_QTD",
+              "default": 200,
+              "type": "int"
+            },
+            {
+              "name": "OwnerIds",
+              "env": "MAESTRO_OWNERIDS",
+              "default": [
+                "self"
+              ],
+              "type": "list"
+            }
+          ],
+          "init_job": true
+        }
+      ],
+      "images-list": [
+        {
+          "access": "describe_images",
+          "command": "ec2",
+          "entity": "images",
+          "result_path": "Images",
+          "key_comparer": "unique_id",
+          "vars": [
+            {
+              "name": "Owners",
+              "env": "MAESTRO_OWNERIDS",
+              "default": [
+                "self"
+              ],
+              "type": "list"
+            }
+          ],
+          "init_job": true
+        }
+      ],
+      "security-list": [
+        {
+          "access": "describe_security_groups",
+          "command": "ec2",
+          "entity": "networks",
+          "family": "SecurityGroup",
+          "result_path": "SecurityGroups",
+          "key_comparer": "unique_id",
+          "vars": [
+            {
+              "name": "MaxResults",
+              "env": "MAESTRO_SCAN_QTD",
+              "default": 200,
+              "type": "int"
+            }
+          ],
+          "init_job": true
+        }
+      ],
+      "serverless-list": [
+        {
+          "access": "list_functions",
+          "command": "lambda",
+          "entity": "applications",
+          "result_path": "Functions",
+          "family": "Serverless",
+          "provider": "Lambda (AWS)",
+          "key_comparer": "unique_id",
+          "vars": [
+            {
+              "name": "MaxItems",
+              "env": "MAESTRO_SCAN_QTD",
+              "default": 50,
+              "type": "int"
+            }
+          ],
+          "init_job": true
+        }
+      ],
+      "serverless-support-list": [
+        {
+          "access": "list_layers",
+          "command": "lambda",
+          "entity": "applications",
+          "family": "ServerlessLayer",
+          "result_path": "LayerVersions",
+          "provider": "Lambda Layer (AWS)",
+          "key_comparer": "unique_id",
+          "vars": [
+            {
+              "name": "MaxItems",
+              "env": "MAESTRO_SCAN_QTD",
+              "default": 50,
+              "type": "int"
+            }
+          ],
+          "init_job": true
+        }
+      ],
+      "search-list": [
+        {
+          "access": "describe_domains",
+          "command": "cloudsearch",
+          "entity": "applications",
+          "family": "Database",
+          "result_path": "DomainStatusList",
+          "provider": "CloudSearch (AWS)",
+          "key_comparer": "unique_id",
+          "vars": [],
+          "init_job": true
+        }
+      ],
+      "dynamodb-list": [
+        {
+          "access": "list_tables",
+          "command": "dynamodb",
+          "entity": "applications",
+          "family": "Database",
+          "result_path": "TableNames",
+          "provider": "DynamoDB (AWS)",
+          "key_comparer": "unique_id",
+          "vars": [
+            {
+              "name": "Limit",
+              "env": "MAESTRO_SCAN_QTD",
+              "default": 200,
+              "type": "int"
+            }
+          ],
+          "conf": {
+            "pag_key": "ExclusiveStartTableName",
+            "pag_next": "LastEvaluatedTableName"
+          },
+          "init_job": true
+        }
+      ],
+      "gateway-list": [
+        {
+          "access": "get_rest_apis",
+          "command": "apigateway",
+          "entity": "applications",
+          "family": "ApiGateway",
+          "result_path": "items",
+          "provider": "ApiGateway (AWS)",
+          "key_comparer": "unique_id",
+          "vars": [
+            {
+              "name": "limit",
+              "env": "MAESTRO_SCAN_QTD",
+              "default": 500,
+              "type": "int"
+            }
+          ],
+          "conf": {
+            "pag_key": "position",
+            "pag_next": "position"
+          },
+          "init_job": true
+        }
+      ],
+      "network-list": [
+        {
+          "access": "describe_vpcs",
+          "command": "ec2",
+          "entity": "networks",
+          "result_path": "Vpcs",
+          "key_comparer": "unique_id",
+          "family": "Vpc",
+          "vars": [],
+          "init_job": true
+        },
+        {
+          "access": "describe_subnets",
+          "command": "ec2",
+          "entity": "networks",
+          "result_path": "Subnets",
+          "key_comparer": "unique_id",
+          "family": "Subnet",
+          "vars": [],
+          "init_job": true
+        },
+        {
+          "access": "describe_vpc_peering_connections",
+          "command": "ec2",
+          "entity": "networks",
+          "result_path": "VpcPeeringConnections",
+          "key_comparer": "unique_id",
+          "family": "Vpc",
+          "vars": [],
+          "init_job": true
+        },
+        {
+          "access": "describe_vpn_gateways",
+          "command": "ec2",
+          "entity": "networks",
+          "result_path": "VpnGateways",
+          "key_comparer": "unique_id",
+          "family": "VpcPeering",
+          "vars": [],
+          "init_job": true
+        },
+        {
+          "access": "describe_vpc_endpoints",
+          "command": "ec2",
+          "entity": "networks",
+          "result_path": "VpcEndpoints",
+          "key_comparer": "unique_id",
+          "family": "VpcEndpoint",
+          "vars": [
+            {
+              "name": "MaxResults",
+              "env": "MAESTRO_SCAN_QTD",
+              "default": 200,
+              "type": "int"
+            }
+          ],
+          "init_job": true
+        },
+        {
+          "access": "describe_route_tables",
+          "command": "ec2",
+          "entity": "networks",
+          "result_path": "RouteTables",
+          "key_comparer": "unique_id",
+          "family": "RouteTable",
+          "vars": [],
+          "init_job": true
+        },
+        {
+          "access": "describe_network_interfaces",
+          "command": "ec2",
+          "entity": "networks",
+          "result_path": "NetworkInterfaces",
+          "key_comparer": "unique_id",
+          "family": "NetworkInterfaces",
+          "vars": [],
+          "init_job": true
+        },
+        {
+          "access": "describe_nat_gateways",
+          "command": "ec2",
+          "entity": "networks",
+          "result_path": "NatGateways",
+          "key_comparer": "unique_id",
+          "family": "NatGateway",
+          "vars": [
+            {
+              "name": "MaxResults",
+              "env": "MAESTRO_SCAN_QTD",
+              "default": 200,
+              "type": "int"
+            }
+          ],
+          "init_job": true
+        },
+        {
+          "access": "describe_network_acls",
+          "command": "ec2",
+          "entity": "networks",
+          "result_path": "NetworkAcls",
+          "key_comparer": "unique_id",
+          "family": "NetworkAcl",
+          "vars": [],
+          "init_job": true
+        }
+      ]
+    },
+    "OpenStack": {
+      "server-list": [
+        {
+          "access": "servers",
+          "command": "compute",
+          "entity": "servers",
+          "result_path": "",
+          "single_result_path": "",
+          "key_comparer": "unique_id",
+          "vars": [
+            {
+              "name": "limit",
+              "env": "MAESTRO_SCAN_QTD",
+              "default": 200,
+              "type": "int"
+            },
+            {
+              "name": "details",
+              "env": "MAESTRO_OPENSTACK_DETAILS",
+              "default": true,
+              "type": "bool"
+            }
+          ],
+          "init_job": true
+        }
+      ],
+      "loadbalance-list": [
+        {
+          "access": "load_balancers",
+          "command": "load_balancer",
+          "entity": "applications",
+          "family": "Loadbalance",
+          "provider": "OpenStack (HaProxy)",
+          "result_path": "",
+          "single_result_path": "",
+          "key_comparer": "unique_id",
+          "vars": [
+            {
+              "name": "limit",
+              "env": "MAESTRO_SCAN_QTD",
+              "default": 200,
+              "type": "int"
+            }
+          ],
+          "init_job": true
+        }
+      ],
+      "volumes-list": [
+        {
+          "access": "volumes",
+          "command": "block_store",
+          "entity": "volumes",
+          "result_path": "",
+          "single_result_path": "",
+          "key_comparer": "unique_id",
+          "vars": [
+            {
+              "name": "limit",
+              "env": "MAESTRO_SCAN_QTD",
+              "default": 200,
+              "type": "int"
+            }
+          ],
+          "init_job": true
+        }
+      ],
+      "snapshot-list": [
+        {
+          "access": "snapshots",
+          "command": "block_store",
+          "entity": "snapshots",
+          "result_path": "",
+          "single_result_path": "",
+          "key_comparer": "unique_id",
+          "vars": [
+            {
+              "name": "limit",
+              "env": "MAESTRO_SCAN_QTD",
+              "default": 200,
+              "type": "int"
+            }
+          ],
+          "init_job": true
+        }
+      ],
+      "images-list": [
+        {
+          "access": "images",
+          "command": "compute",
+          "entity": "images",
+          "result_path": "",
+          "single_result_path": "",
+          "key_comparer": "unique_id",
+          "vars": [
+            {
+              "name": "limit",
+              "env": "MAESTRO_SCAN_QTD",
+              "default": 200,
+              "type": "int"
+            }
+          ],
+          "init_job": true
+        }
+      ],
+      "security-list": [
+        {
+          "access": "security_groups",
+          "command": "network",
+          "entity": "networks",
+          "family": "SecurityGroup",
+          "result_path": "",
+          "single_result_path": "",
+          "key_comparer": "unique_id",
+          "vars": [
+            {
+              "name": "limit",
+              "env": "MAESTRO_SCAN_QTD",
+              "default": 200,
+              "type": "int"
+            }
+          ],
+          "init_job": true
+        }
+      ],
+      "flavor-list": [
+        {
+          "access": "flavors",
+          "command": "compute",
+          "entity": "flavors",
+          "result_path": "",
+          "single_result_path": "",
+          "key_comparer": "unique_id",
+          "vars": [
+            {
+              "name": "limit",
+              "env": "MAESTRO_SCAN_QTD",
+              "default": 200,
+              "type": "int"
+            }
+          ],
+          "init_job": true
+        }
+      ],
+      "network-list": [
+        {
+          "access": "networks",
+          "command": "network",
+          "entity": "networks",
+          "result_path": "",
+          "single_result_path": "",
+          "key_comparer": "unique_id",
+          "vars": [
+            {
+              "name": "limit",
+              "env": "MAESTRO_SCAN_QTD",
+              "default": 200,
+              "type": "int"
+            }
+          ],
+          "init_job": true
+        },
+        {
+          "access": "subnets",
+          "command": "network",
+          "entity": "networks",
+          "result_path": "",
+          "single_result_path": "",
+          "key_comparer": "unique_id",
+          "vars": [
+            {
+              "name": "limit",
+              "env": "MAESTRO_SCAN_QTD",
+              "default": 200,
+              "type": "int"
+            }
+          ],
+          "init_job": true
+        },
+        {
+          "access": "ports",
+          "command": "network",
+          "entity": "networks",
+          "result_path": "",
+          "single_result_path": "",
+          "key_comparer": "unique_id",
+          "vars": [
+            {
+              "name": "limit",
+              "env": "MAESTRO_SCAN_QTD",
+              "default": 200,
+              "type": "int"
+            }
+          ],
+          "init_job": true
+        },
+        {
+          "access": "routers",
+          "command": "network",
+          "entity": "networks",
+          "result_path": "",
+          "single_result_path": "",
+          "key_comparer": "unique_id",
+          "vars": [
+            {
+              "name": "limit",
+              "env": "MAESTRO_SCAN_QTD",
+              "default": 200,
+              "type": "int"
+            }
+          ],
+          "init_job": true
+        }
+      ]
+    },
+    "Digital Ocean": {
+      "server-list": [
+        {
+          "access": "get_all_droplets",
+          "command": "",
+          "entity": "servers",
+          "result_path": "droplets",
+          "single_result_path": "",
+          "key_comparer": "unique_id",
+          "vars": [
+            {
+              "name": "per_page",
+              "env": "MAESTRO_SCAN_QTD",
+              "default": 200,
+              "type": "int"
+            }
+          ],
+          "init_job": true
+        }
+      ],
+      "volumes-list": [
+        {
+          "access": "get_all_volumes",
+          "command": "",
+          "entity": "volumes",
+          "result_path": "volumes",
+          "key_comparer": "unique_id",
+          "vars": [
+            {
+              "name": "per_page",
+              "env": "MAESTRO_SCAN_QTD",
+              "default": 200,
+              "type": "int"
+            }
+          ],
+          "init_job": true
+        }
+      ],
+      "images-list": [
+        {
+          "access": "get_my_images",
+          "command": "",
+          "entity": "images",
+          "result_path": "images",
+          "key_comparer": "unique_id",
+          "vars": [
+            {
+              "name": "per_page",
+              "env": "MAESTRO_SCAN_QTD",
+              "default": 200,
+              "type": "int"
+            }
+          ],
+          "init_job": true
+        }
+      ],
+      "loadbalance-list": [
+        {
+          "access": "get_all_load_balancers",
+          "command": "",
+          "entity": "applications",
+          "family": "Loadbalance",
+          "provider": "LB (DigitalOcean)",
+          "result_path": "load_balancers",
+          "key_comparer": "unique_id",
+          "vars": [
+            {
+              "name": "per_page",
+              "env": "MAESTRO_SCAN_QTD",
+              "default": 200,
+              "type": "int"
+            }
+          ],
+          "init_job": true
+        }
+      ],
+      "snapshot-list": [
+        {
+          "access": "get_all_snapshots",
+          "command": "",
+          "entity": "snapshots",
+          "result_path": "snapshots",
+          "key_comparer": "unique_id",
+          "vars": [
+            {
+              "name": "per_page",
+              "env": "MAESTRO_SCAN_QTD",
+              "default": 200,
+              "type": "int"
+            }
+          ],
+          "init_job": true
+        }
+      ],
+      "cdns-list": [
+        {
+          "access": "get_all_cdns",
+          "command": "",
+          "entity": "applications",
+          "family": "CDN",
+          "provider": "CDN (DigitalOcean)",
+          "result_path": "endpoints",
+          "key_comparer": "unique_id",
+          "vars": [
+            {
+              "name": "per_page",
+              "env": "MAESTRO_SCAN_QTD",
+              "default": 200,
+              "type": "int"
+            }
+          ],
+          "init_job": true
+        }
+      ],
+      "container-orchestration-list": [
+        {
+          "access": "get_all_kubernetes",
+          "command": "",
+          "entity": "applications",
+          "family": "ContainerOrchestration",
+          "provider": "Kubernetes (DigitalOcean)",
+          "result_path": "kubernetes_clusters",
+          "key_comparer": "unique_id",
+          "vars": [
+            {
+              "name": "per_page",
+              "env": "MAESTRO_SCAN_QTD",
+              "default": 200,
+              "type": "int"
+            }
+          ],
+          "init_job": true
+        }
+      ],
+      "network-list": [
+        {
+          "access": "get_all_firewalls",
+          "command": "",
+          "entity": "networks",
+          "family": "Firewall",
+          "result_path": "firewalls",
+          "key_comparer": "unique_id",
+          "vars": [
+            {
+              "name": "per_page",
+              "env": "MAESTRO_SCAN_QTD",
+              "default": 200,
+              "type": "int"
+            }
+          ],
+          "init_job": true
+        }
+      ]
+    },
+    "Spaces (DO)": {
+      "storage-object-list": [
+        {
+          "access": "list_buckets",
+          "command": "s3",
+          "entity": "applications",
+          "family": "ObjectStorage",
+          "provider": "Spaces (DigitalOcean)",
+          "result_path": "Buckets",
+          "key_comparer": "unique_id",
+          "vars": [],
+          "init_job": true
+        }
+      ]
+    }
+  }
+}

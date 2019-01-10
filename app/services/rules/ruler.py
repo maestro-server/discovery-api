@@ -1,4 +1,5 @@
 
+import datetime
 from hashlib import sha1
 from pydash.objects import get
 from app.services.iterators.iRuler import IteratorRuler
@@ -6,7 +7,7 @@ from app.services.iterators.iRuler import IteratorRuler
 class Ruler(object):
 
     @staticmethod
-    def setV(source, batch):
+    def setV(source, batch={}):
         return source
 
     @staticmethod
@@ -72,3 +73,7 @@ class Ruler(object):
     def batch(source, batch):
         items = source.items()
         return IteratorRuler().batch(items=items, Ruler=Ruler, source=batch).result()
+
+    @staticmethod
+    def now(source, batch):
+        return datetime.datetime.now()

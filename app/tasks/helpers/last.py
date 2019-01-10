@@ -18,16 +18,22 @@ def get_tracker(dc_id, task, region):
 def make_query(dc_id, region, lst, options):
     key_comparer = options.get('key_comparer')
     family = options.get('family')
+    provider = options.get('provider')
 
     query = {
         'datacenters._id': dc_id,
-        'datacenters.region': region,
         'active': True,
         key_comparer: {'$nin': lst}
     }
 
+    if region != 'all':
+        query['datacenters.region'] = region
+
     if family:
         query['family'] = family
+
+    if provider:
+        query['provider'] = provider
 
     return json.dumps(query)
 

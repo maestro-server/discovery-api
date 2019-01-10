@@ -4,7 +4,7 @@ def rules(conn):
         'unique_id': {'call': 'switch', 'source': 'LayerVersionArn'},
         'created_at': {'call': 'switch', 'source': 'CreationDate'},
         'updated_at': {'call': 'switch', 'source': 'CreationDate'},
-        'provider': {'call': 'setV', 'source': 'AWS Lambda Layer'},
+        'provider': {'call': 'setV', 'source': 'Lambda Layer (AWS)'},
 
         'family': {'call': 'setV', 'source': 'ServerlessLayer'},
         'Description': {'call': 'setV', 'source': 'Description'},

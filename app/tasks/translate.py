@@ -18,18 +18,22 @@ def task_translate(conn, conn_id, options, task, result, lasted=False):
     tracker_id = []
 
     connection = {**conn, 'id': conn_id}
-    Translater = TranslateAPI(conn['provider'], options, task, connection)
+    Translater = TranslateAPI(conn['service'], options, task, connection)
     GenerateTranslate = IteratorTranslate(result)
 
     for batch in GenerateTranslate.batch():
         translate = Translater.translate(batch)
-
         tlasted = lasted and GenerateTranslate.isLast()  # lasted of result and lasted of IteratorTranslate
-        key = task_insert.delay(conn, conn_id, task, translate, options, tlasted)
-        insert_id.append(str(key))
 
-        tkey = task_tracker.delay(translate, conn['dc_id'], conn['region'], task, options)
-        tracker_id.append(str(tkey))
+        if translate:
+            key = task_insert.delay(conn, conn_id, task, translate, options, tlasted)
+            insert_id.append(str(key))
+
+            tkey = task_tracker.delay(translate, conn['dc_id'], conn['region'], task, options)
+            tracker_id.append(str(tkey))
+
+    if len(insert_id) == 0:
+        task_notification.delay(msg="[Translate] Empty result", conn_id=conn_id, task=task, status='warning')
 
     return {
         'insert-id': insert_id,

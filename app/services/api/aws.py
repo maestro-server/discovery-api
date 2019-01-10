@@ -9,10 +9,6 @@ from botocore.exceptions import ClientError, ParamValidationError
 
 class AWS(Connector):
 
-    def setNextToken(self, val):
-        self.setParams('NextToken', val)
-        return self
-
     def credencials(self, command):
         config = Config(connect_timeout=10, read_timeout=10)
 
@@ -30,9 +26,12 @@ class AWS(Connector):
         return self
 
     def setPag(self, data):
-        token = get(data, 'NextToken')
+        next = self._opts.get('pag_next', 'NextToken')
+        token = get(data, next)
+
         if token:
-            self._pagination = {'NextToken': token}
+            key = self._opts.get('pag_key', 'NextToken')
+            self._pagination = {key: token}
 
     def getPag(self):
         return self._pagination
@@ -41,7 +40,10 @@ class AWS(Connector):
         try:
             output = getattr(self._client, resource)(**self._params)
             self.setPag(output)
-            return get(output, self._path_result)
+            if self._path_result:
+                return get(output, self._path_result)
+
+            return [output]
 
         except (ClientError, ParamValidationError) as error:
             raise ClientMaestroError(error)

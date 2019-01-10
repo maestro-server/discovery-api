@@ -13,6 +13,7 @@ from .controller import *
 api = Api(app)
 
 api.add_resource(HomeApp, '/')
+api.add_resource(Available, '/available/<action>')
 api.add_resource(Crawler, '/crawler')
 
 api.add_resource(CrawlerDcs, '/crawler/<datacenter>', '/crawler/<datacenter>/')

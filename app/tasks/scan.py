@@ -1,5 +1,4 @@
 
-from app.views import app
 from app import celery
 from app.services.factory import FactoryAPI
 
@@ -37,6 +36,7 @@ def task_scan(conn, conn_id, task, options, lasted=False, vars=[]):
         result = Crawler.execute(options, vars)
 
         if not result['result']:
+            task_last.delay(conn, task, options)
             raise ValueError('Empty result')
 
         tlasted = lasted and Crawler.isLast() #lasted of regions and lasted of scan iter

@@ -81,7 +81,9 @@ class RulerAWS(Ruler):
             'canonical_hosted_zone_name_id': Ruler.switch('CanonicalHostedZoneNameID', batch),
             'listener_descriptions': Ruler.switch('ListenerDescriptions', batch),
             'listener_descriptions': Ruler.switch('Policies', batch),
-            'cloudwatch_monitoring': Ruler.switch('Monitoring.State', batch)
+            'cloudwatch_monitoring': Ruler.switch('Monitoring.State', batch),
+            'cache_security_groups': Ruler.switch('CacheSecurityGroups', batch),
+            'cache_parameter_group': Ruler.switch('CacheParameterGroup', batch)
         }
         return dc
 
@@ -166,3 +168,44 @@ class RulerAWS(Ruler):
             result += sync_apps(tentity, source, '_id')
 
         return result
+
+    @staticmethod
+    def QueueSQS(source, batch):
+        urls = Ruler.switch(source, batch, [])
+
+        if urls:
+            first = urls[0]
+            unique_id = re.search(r'\.com\/([0-9]*)\/', first).group(1)
+            name = "SQS - " + unique_id
+
+            queue = list(map(lambda x: re.search(r'\/(((?!\/).)*)$', x).group(1), urls))
+
+            obj = {
+                'name': name,
+                'unique_id': unique_id,
+                'urls': urls,
+                'queues': queue
+            }
+            return obj
+
+    @staticmethod
+    def IdentitySES(source, batch):
+        domains = Ruler.switch(source['key'], batch, [])
+
+        unique_id = get(source, 'conn._id') + '_ses'
+
+        if domains:
+            obj = {
+                'name': "SES - SMTP",
+                'unique_id': unique_id,
+                'domain': domains
+            }
+            return obj
+
+    @staticmethod
+    def tablesDynamoDB(source, batch):
+        obj = {
+            'name': "DynamoDB - {}".format(batch),
+            'unique_id': batch
+        }
+        return obj

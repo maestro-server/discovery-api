@@ -1,0 +1,231 @@
+{
+  "providers": [
+    {
+      "icon": "icon-aws",
+      "label": "AWS",
+      "dc": "AWS",
+      "authClass": "AWS",
+      "method": [
+        {
+          "label": "AWS Access Key(IAM)"
+        }
+      ],
+      "template": {
+        "intro": "Please add your AWS Access Key ID and Secret Access Key.",
+        "dc": [
+          true,
+          true
+        ],
+        "conn": [
+          {
+            "comp": "bs-input",
+            "validate": "required",
+            "metas": {
+              "class": "mt20",
+              "name": "access",
+              "label": "AWS AccessKey ID*"
+            }
+          },
+          {
+            "comp": "bs-input",
+            "validate": "required",
+            "metas": {
+              "name": "secret",
+              "type": "password",
+              "label": "AWS SecretAccess Key*"
+            }
+          }
+        ],
+        "extra": [
+          {
+            "comp": "p",
+            "validate": "",
+            "html": "Just copy the following code and paste it under your Policy Document at AWS Console.<div class='well well-primary'><small>Maestro need only for read only access.<br/>Use arn:aws:iam::aws:policy/ReadOnlyAccess.</small></div>",
+            "metas": {
+              "name": "aws-p"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "icon": "icon-digital-ocean",
+      "label": "Digital Ocean",
+      "dc": "Digital Ocean",
+      "authClass": "Digital Ocean",
+      "method": [
+        {
+          "label": "Api Token"
+        }
+      ],
+      "template": {
+        "intro": "Please add your Api token.",
+        "dc": [
+          true,
+          false
+        ],
+        "conn": [
+          {
+            "comp": "bs-input",
+            "validate": "required",
+            "metas": {
+              "class": "mt20",
+              "name": "token",
+              "label": "Token*"
+            }
+          }
+        ],
+        "extra": [
+          {
+            "comp": "p",
+            "validate": "",
+            "html": "Digital Ocean dont have region filter",
+            "metas": {
+              "name": "aws-p"
+            }
+          },
+          {
+            "comp": "bs-select",
+            "validate": "required",
+            "metas": {
+              "multiple": "multiple",
+              "options": ["all"],
+              "name": "regions",
+              "label": "Region*",
+              "placeholder": "Select all region"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "icon": "icon-digital-ocean",
+      "label": "Spaces (DO)",
+      "dc": "Digital Ocean",
+      "authClass": "S3",
+      "method": [
+        {
+          "label": "Spaces Token"
+        }
+      ],
+      "template": {
+        "intro": "Please add your Spaces token.",
+        "dc": [
+          true,
+          true
+        ],
+        "conn": [
+          {
+            "comp": "bs-input",
+            "validate": "required",
+            "metas": {
+              "class": "mt20",
+              "name": "access",
+              "label": "Space AccessKey ID*"
+            }
+          },
+          {
+            "comp": "bs-input",
+            "validate": "required",
+            "metas": {
+              "name": "secret",
+              "type": "password",
+              "label": "Space SecretAccess Key*"
+            }
+          }
+        ],
+        "extra": [
+          {
+            "comp": "p",
+            "validate": "",
+            "html": "Create Spaces token on digital ocean dashboard, read only policy.",
+            "metas": {
+              "name": "do-p"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "icon": "icon-openstack",
+      "label": "OpenStack",
+      "dc": "Openstack",
+      "authClass": "OpenStack",
+      "method": [
+        {
+          "label": "Api (Horizon)"
+        }
+      ],
+      "template": {
+        "intro": "Hit: All information may be found in Access & Security page inside of GUI OpenStack",
+        "dc": [
+          true,
+          true
+        ],
+        "conn": [
+          {
+            "comp": "bs-input",
+            "validate": "required",
+            "metas": {
+              "class": "mt20",
+              "name": "username",
+              "label": "Username ID*"
+            }
+          },
+          {
+            "comp": "bs-input",
+            "validate": "required",
+            "metas": {
+              "name": "password",
+              "type": "password",
+              "label": "Password*"
+            }
+          }
+        ],
+        "extra": [
+          {
+            "comp": "bs-select",
+            "validate": "required",
+            "metas": {
+              "name": "api_version",
+              "label": "Api Version",
+              "options": [
+                "2",
+                "3"
+              ],
+              "placeholder": "Select API Version"
+            }
+          },
+          {
+            "comp": "bs-input",
+            "validate": "required",
+            "metas": {
+              "name": "url",
+              "label": "Auth URL*",
+              "help": "Its a keystone url",
+              "placeholder": "https://keystone.br-maestro-server.com.br:5000/v2.0"
+            }
+          },
+          {
+            "comp": "bs-input",
+            "validate": "required",
+            "metas": {
+              "name": "project",
+              "label": "Project Id*",
+              "placeholder": "33aa1afc-03fe-43b8-8201-4e0d3b4b8ab5"
+            }
+          },
+          {
+            "comp": "bs-input",
+            "validate": "required",
+            "metas": {
+              "name": "user_domain_id",
+              "label": "User Domain Id*",
+              "placeholder": "default"
+            }
+          }
+        ]
+      }
+    }
+  ]
+}
