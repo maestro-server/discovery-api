@@ -20,6 +20,7 @@ itsdangerous==1.1.0
 Jinja2==2.10
 jmespath==0.9.3
 jsonpatch==1.23
+jsonpickle==1.0
 jsonpointer==2.0
 keystoneauth1==3.5.0
 kombu==4.2.2.post1
@@ -36,6 +37,7 @@ PyJWT==1.7.1
 pymongo==3.6.1
 pyparsing==2.2.0
 python-dateutil==2.7.2
+python-digitalocean==1.14.0
 python-dotenv==0.8.2
 pytz==2018.4
 PyYAML==3.12
