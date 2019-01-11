@@ -7,13 +7,12 @@ def task_external_audit(path, tmp, method="post"):
 
     rfunction = "%s_request" % method
 
-
     try:
         ExternalAudit = ExternalMaestroAudit()
         getattr(ExternalAudit, rfunction)(path=path, body=tmp)
+        ExternalAudit.get_raw()
 
     except Exception as error:
         return {'message': str(error)}
 
-    result = ExternalAudit.get_results()
-    return {'api': result}
+    return {'api': path}

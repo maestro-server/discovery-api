@@ -35,6 +35,11 @@ class MaestroRequest(object):
         logger.info("Error %s", msg)
         raise ClientMaestroError(msg)
 
+    def get_text(self):
+        if self.__context:
+            logger.info("Request[CODE %s] - %s", self.get_status(), self.__path)
+            return self.__context.text
+
     def get_json(self):
 
         if self.__context:

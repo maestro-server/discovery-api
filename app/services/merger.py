@@ -27,7 +27,7 @@ class MergeAPI(object):
                 if self.assign(find, dc_id):
                     check_insert = str(get(insert[key], 'checksum'))
 
-                    if (active is False) or (check_insert != check_content) or 1==1:
+                    if (active is False) or (check_insert != check_content):
                         created = omit(insert[key], self.omit)
                         merged = merge_with(item, created, MergeAPI.merger_with)
                         santinize.append(merged)
