@@ -9,8 +9,8 @@ def rules(conn):
             'merged': True
         },
 
-        'created_at': {'call': 'switch', 'source': 'createdDate'},
-        'updated_at': {'call': 'switch', 'source': 'createdDate'},
+        'created_at': {'call': 'now', 'source': 'createdDate'},
+        'updated_at': {'call': 'now', 'source': 'createdDate'},
 
         'description': {'call': 'switch', 'source': 'description'},
 

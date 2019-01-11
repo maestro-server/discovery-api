@@ -3,7 +3,7 @@ def rules(conn):
         'name': {'call': 'switch', 'source': 'DomainName'},
         'unique_id': {'call': 'switch', 'source': 'DomainId'},
 
-        'created_at': {'call': 'now', 'source': 'Created'},
+        'created_at': {'call': '', 'source': 'Created'},
         'updated_at': {'call': 'now', 'source': 'Created'},
 
         'provider': {'call': 'setV', 'source': 'CloudSearch (AWS)'},
