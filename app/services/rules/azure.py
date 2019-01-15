@@ -1,3 +1,4 @@
+from hashlib import sha1
 import re
 from .ruler import Ruler
 
@@ -48,6 +49,7 @@ class RulerAzure(Ruler):
 
     @staticmethod
     def fctDc(source, batch):
+
         dc = {
             'name': Ruler.switch('dc', source),
             'provider': Ruler.switch('provider', source),
@@ -55,7 +57,7 @@ class RulerAzure(Ruler):
             'region': Ruler.switch('location', batch),
             'zones': Ruler.switch('zones', batch),
 
-            'instance': Ruler.switch('hardwareProfile.vmSize', batch),
+            'instance': Ruler.switch('hardware_profile.vm_size', batch),
             'type': 'Virtual',
             'resource': Ruler.switch('type', batch),
             'instance_id': Ruler.switch('vm_id', batch),
@@ -92,3 +94,8 @@ class RulerAzure(Ruler):
             data = data.serialize()
 
         return data
+
+    @staticmethod
+    def checksum(source, batch):
+        serialized = batch.serialize()
+        return sha1(repr(serialized).encode('utf-8')).hexdigest()

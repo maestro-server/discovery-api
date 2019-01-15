@@ -123,34 +123,6 @@ class RulerAWS(Ruler):
                 tags.append(clean)
         return tags
 
-    @staticmethod
-    def InstanceTypeAWS(source, batch, obj={}):
-        instance = Ruler.switch(source, batch)
-
-        if instance:
-            obj = CacheMemory.get(instance)
-            if not obj:
-
-                query = json.dumps({'api_name': instance})
-                result = ExternalMaestroData()\
-                            .post_request(path="flavors_public", body={'query': query})\
-                            .get_results('items')
-
-                if result:
-                    content = get(result, '[0]')
-                    vcpus = get(content, 'vcpus')
-                    memory = get(content, 'memory')
-
-                    if vcpus and memory:
-                        obj = {
-                            'cpu': re.search(r'([0-9]*)', vcpus).group(),
-                            'memory': re.search(r'([0-9\.]*)', memory).group(),
-                        }
-
-                        CacheMemory.set(instance, obj)
-
-        return obj
-
 
     @staticmethod
     def QueueSQS(source, batch):

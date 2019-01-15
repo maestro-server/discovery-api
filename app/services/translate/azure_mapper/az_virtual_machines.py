@@ -14,6 +14,8 @@ def rules(conn):
         'environment': {'call': 'switch', 'source': 'tags.environment'},
         'role': {'call': 'switch', 'source': 'tags.role'},
 
+        'network_interface': {'call': 'serialize', 'source': 'network_profile.network_interfaces'},
+
         'tags': {'call': 'fctTags', 'source': 'tags'},
         'applications': {'call': 'SyncForeignEntityByTag', 'source': {
             'field': 'tags.applications',
@@ -31,11 +33,8 @@ def rules(conn):
                               'default': "Avaliable"
                               }},
 
-        'active': {'call': 'switchOptions',
-                   'source': {'field': 'status',
-                              'options': {},
-                              'default': True
-                              }},
+        'active': {'call': 'setV', 'source': True},
+
         'owner': {'call': 'fctOwner',
                   'source': {**conn}},
         'roles': {'call': 'fctRoles',

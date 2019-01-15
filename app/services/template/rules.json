@@ -9,6 +9,9 @@
           "result_path": "Reservations",
           "single_result_path": "Instances",
           "key_comparer": "unique_id",
+          "hooks": [
+            {"key": "cpu|memory", "hook": "AWS", "method": "cpuAndMemoryByInstanceType"}
+          ],
           "vars": [
             {
               "name": "MaxResults",
@@ -907,6 +910,11 @@
           "conf": {
             "exec": "list_all"
           },
+          "hooks": [
+            {"key": "ipv4_private", "hook": "Azure", "method": "ipv4Private"},
+            {"key": "ipv4_public", "hook": "Azure", "method": "ipv4Public"},
+            {"key": "cpu|memory", "hook": "Azure", "method": "cpuAndMemoryByInstanceType"}
+          ],
           "vars": [
             {
               "name": "per_page",

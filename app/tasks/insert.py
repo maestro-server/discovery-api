@@ -3,13 +3,13 @@ import json
 from pydash.objects import get, has
 from app import celery
 from app.services.merger import MergeAPI
+from app.services.hooks.hooker import Hooker
 from app.repository.externalMaestroData import ExternalMaestroData
 
 from .notification import task_notification
 from .last import task_last
 from .ws import task_ws
 from .audit import task_audit
-from app.libs.jsonEncoder import DateTimeEncoder
 
 
 def get_data_list(result, key, owner_user, conn_id, entity):
@@ -19,6 +19,7 @@ def get_data_list(result, key, owner_user, conn_id, entity):
         raise PermissionError('[Insert Task] Key Comparer missing')
 
     query = json.dumps({key: ids, 'roles._id': owner_user})
+
     return ExternalMaestroData(entity_id=conn_id) \
         .post_request(path="%s" % (entity), body={'query': query}) \
         .get_results('items')
@@ -35,8 +36,11 @@ def task_insert(conn, conn_id, task, result, options, lasted=False):
         task_notification.delay(msg="Missing Owner User/Team in this connection.", conn_id=conn_id, task=task, status='danger')
         raise PermissionError('[Insert Task] Missing Owner')
 
+
+
     content = get_data_list(result, key, owner_user, conn_id, options['entity'])
-    body = MergeAPI(content=content, key_comparer=key).merge(result)
+    CHooker = Hooker(options.get('hooks'), conn)
+    body = MergeAPI(content=content, key_comparer=key, hooker=CHooker).merge(result)
 
 
     if len(body) > 0:

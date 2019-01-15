@@ -109,7 +109,7 @@ class CrawlerApps(Resource):
         conn = {
             **pick(connector,
                    ['dc_id', 'conn', 'provider', 'service', 'dc', 'owner_user', 'url', 'project', 'roles', 'user_domain_id',
-                    'api_version']),
+                    'api_version', '_id']),
             **{'region': region}
         }
 

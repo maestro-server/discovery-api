@@ -2,7 +2,6 @@
 import os
 import json
 from app import app
-from pydash import pick
 
 
 def providersRules(action):

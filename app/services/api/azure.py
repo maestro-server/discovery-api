@@ -44,14 +44,26 @@ class Azure(Connector):
 
             yield itertools.chain((first_el,), chunk_it)
 
+    def handle_per_page(self):
+        page = self._params.get('per_page', 50)
+
+        if 'per_page' in self._params:
+            del self._params['per_page']
+
+        return page
+
     def execute(self, resource):
         executor = self._opts.get('exec', 'list_all')
+        page = self.handle_per_page()
 
         try:
             client = getattr(self._client, resource)
             output = getattr(client, executor)(**self._params)
 
-            return self.grouper_it(self._params.get('per_page'), output) #simulate a pagination with interator
+            if hasattr(output, '__iter__'):
+                return self.grouper_it(page, output) #simulate a pagination with interator
+
+            return output
 
         except Exception as error:
             raise ClientMaestroError(error)
