@@ -1,7 +1,12 @@
-FROM alpine:3.7
+FROM alpine:3.8
 RUN apk add --no-cache python3-dev && \
     apk add --no-cache --virtual .build-deps g++ && \
     apk add --no-cache build-base && \
     apk add --no-cache linux-headers && \
+    apk add --no-cache curl-dev  && \
+    apk add --no-cache libressl-dev && \
+    apk add --no-cache tini && \
+    apk add --no-cache su-exec && \
+    apk add --no-cache libffi-dev && \
     ln -s /usr/include/locale.h /usr/include/xlocale.h && \
     apk del .build-deps
