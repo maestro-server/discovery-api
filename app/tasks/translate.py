@@ -7,7 +7,7 @@ from .tracker import task_tracker
 from .notification import task_notification
 
 
-@celery.task(name="translate.api")
+@celery.task(name="translate.api", serializer="pickle")
 def task_translate(conn, conn_id, options, task, result, lasted=False):
 
     if not isinstance(result, list):

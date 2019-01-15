@@ -9,6 +9,7 @@ from .notification import task_notification
 from .last import task_last
 from .ws import task_ws
 from .audit import task_audit
+from app.libs.jsonEncoder import DateTimeEncoder
 
 
 def get_data_list(result, key, owner_user, conn_id, entity):
@@ -26,6 +27,7 @@ def get_data_list(result, key, owner_user, conn_id, entity):
 
 @celery.task(name="insert.api")
 def task_insert(conn, conn_id, task, result, options, lasted=False):
+
     key = get(options, 'key_comparer')
     owner_user = get(conn, 'owner_user._id')
 

@@ -13,8 +13,8 @@ def rules(conn):
         'family': {'call': 'setV', 'source': 'SMTP'},
         'active': {'call': 'setV', 'source': True},
 
-        'created_at': {'call': 'now', 'source': 'createdDate'},
-        'updated_at': {'call': 'now', 'source': 'createdDate'},
+        'created_at': {'call': 'now'},
+        'updated_at': {'call': 'now'},
 
         'datacenters': {'call': 'fctDcApp',
                         'source': {**conn}},

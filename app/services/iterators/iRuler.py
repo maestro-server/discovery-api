@@ -19,7 +19,7 @@ class IteratorRuler(object):
 
     def batch(self, items, Ruler, source = {}):
         for key, item in items:
-            res = getattr(Ruler, item['call'])(item['source'], source)
+            res = getattr(Ruler, item.get('call'))(item.get('source'), source)
 
             if isinstance(res, dict):
                 res = pick_by(res, identity)

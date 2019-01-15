@@ -2,7 +2,6 @@ import json
 from app.libs.logger import logger
 from .maestroRequest import MaestroRequest
 
-
 class ExternalMaestro(object):
     def __init__(self, base, tftm="json", requester=MaestroRequest):
         self._base = base

@@ -11,7 +11,6 @@ def sync_apps(tentity, source, key='name'):
 
     for tmp in tentity:
         tmp = tmp.strip()
-
         app = request_apps(tmp, source, key)
         if app:
             apps += app

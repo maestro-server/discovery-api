@@ -4,10 +4,11 @@ from app.services.api.aws import AWS
 from app.services.api.openstack import OpenStack
 from app.services.api.digitalocean import DigitalOcean
 from app.services.api.s3 import S3
+from app.services.api.azure import Azure
 
 class FactoryAPI(object):
 
-    able = {'AWS': AWS, 'OpenStack': OpenStack, 'Digital Ocean': DigitalOcean, 'Spaces (DO)': S3}
+    able = {'AWS': AWS, 'OpenStack': OpenStack, 'Digital Ocean': DigitalOcean, 'Spaces (DO)': S3, 'Azure': Azure}
 
     def __init__(self, access, conn):
         self.access = access

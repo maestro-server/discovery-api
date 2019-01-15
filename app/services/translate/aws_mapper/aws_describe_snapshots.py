@@ -11,7 +11,7 @@ def rules(conn):
         'start_time': {'call': 'switch', 'source': 'StartTime'},
         'state_message': {'call': 'fctStorageImage', 'source': 'StateMessage'},
         'volume_id': {'call': 'switch', 'source': 'VolumeId'},
-        'volume_size': {'call': 'switch', 'source': 'VolumeSize'},
+        'size': {'call': 'switch', 'source': 'VolumeSize'},
         'owner_alias': {'call': 'switch', 'source': 'OwnerAlias'},
         'datacenters': {'call': 'fctDcApp',
                         'source': {**conn}},

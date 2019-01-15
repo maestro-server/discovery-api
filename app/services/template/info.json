@@ -4,7 +4,6 @@
       "icon": "icon-aws",
       "label": "AWS",
       "dc": "AWS",
-      "authClass": "AWS",
       "method": [
         {
           "label": "AWS Access Key(IAM)"
@@ -43,6 +42,80 @@
             "html": "Just copy the following code and paste it under your Policy Document at AWS Console.<div class='well well-primary'><small>Maestro need only for read only access.<br/>Use arn:aws:iam::aws:policy/ReadOnlyAccess.</small></div>",
             "metas": {
               "name": "aws-p"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "icon": "icon-azure",
+      "label": "Azure",
+      "dc": "Azure",
+      "method": [
+        {
+          "label": "Subscription Secret Key"
+        }
+      ],
+      "template": {
+        "intro": "Please add your Client Id, Secret, Tenant id and subscription Id.",
+        "dc": [
+          true,
+          false
+        ],
+        "conn": [
+          {
+            "comp": "bs-input",
+            "validate": "required",
+            "metas": {
+              "class": "mt20",
+              "name": "client",
+              "label": "Client ID*"
+            }
+          },
+          {
+            "comp": "bs-input",
+            "validate": "required",
+            "metas": {
+              "name": "secret",
+              "label": "Secret Key*"
+            }
+          },
+          {
+            "comp": "bs-input",
+            "validate": "required",
+            "metas": {
+              "class": "mt20",
+              "name": "tenant",
+              "label": "Tenant ID*"
+            }
+          },
+          {
+            "comp": "bs-input",
+            "validate": "required",
+            "metas": {
+              "name": "sub",
+              "label": "Subscription Id*"
+            }
+          }
+        ],
+        "extra": [
+          {
+            "comp": "p",
+            "validate": "",
+            "html": "Azure dont have region filter",
+            "metas": {
+              "name": "aws-p"
+            }
+          },
+          {
+            "comp": "bs-select",
+            "validate": "required",
+            "metas": {
+              "multiple": "multiple",
+              "options": ["all"],
+              "name": "regions",
+              "label": "Region*",
+              "placeholder": "Select all region"
             }
           }
         ]

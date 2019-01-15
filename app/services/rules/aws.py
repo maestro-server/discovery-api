@@ -1,8 +1,8 @@
 
 import json, re
 from .ruler import Ruler
-from .libs.sync_foreign import sync_apps
 from pydash.objects import get
+from .libs.sync_foreign import sync_apps
 from app.repository.externalMaestroData import ExternalMaestroData
 
 from app.libs.cache import CacheMemory
@@ -151,23 +151,6 @@ class RulerAWS(Ruler):
 
         return obj
 
-    @staticmethod
-    def SyncForeignEntityByTag(source, batch):
-        result = []
-
-        opts = {'field': 'Tags', 'sKey': 'Key', 's': source, 'catcher': 'Value'}
-        tentity = Ruler.arrCatcher(opts, batch, cap=False)
-
-        if tentity:
-            result += sync_apps(tentity, source)
-
-        opts = {'field': 'Tags', 'sKey': 'Key', 's': "%s_id" % source, 'catcher': 'Value'}
-        tentity = Ruler.arrCatcher(opts, batch, cap=False)
-
-        if tentity:
-            result += sync_apps(tentity, source, '_id')
-
-        return result
 
     @staticmethod
     def QueueSQS(source, batch):
@@ -209,3 +192,21 @@ class RulerAWS(Ruler):
             'unique_id': batch
         }
         return obj
+
+    @staticmethod
+    def SyncForeignEntityByTag(source, batch):
+        result = []
+
+        opts = {'field': 'Tags', 'sKey': 'Key', 's': source, 'catcher': 'Value'}
+        tentity = Ruler.arrCatcher(opts, batch, cap=False)
+
+        if tentity:
+            result += sync_apps(tentity, source)
+
+        opts = {'field': 'Tags', 'sKey': 'Key', 's': "%s_id" % source, 'catcher': 'Value'}
+        tentity = Ruler.arrCatcher(opts, batch, cap=False)
+
+        if tentity:
+            result += sync_apps(tentity, source, '_id')
+
+        return result

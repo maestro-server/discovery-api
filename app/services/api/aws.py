@@ -40,6 +40,7 @@ class AWS(Connector):
         try:
             output = getattr(self._client, resource)(**self._params)
             self.setPag(output)
+
             if self._path_result:
                 return get(output, self._path_result)
 

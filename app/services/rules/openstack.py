@@ -67,19 +67,6 @@ class RulerOpenStack(Ruler):
         return dc
 
     @staticmethod
-    def fctTags(source, batch):
-        tags = []
-        dirts = Ruler.switch(source, batch, {})
-
-        for key, item in dirts.items():
-            clean = {
-                'key': key,
-                'value': item
-            }
-            tags.append(clean)
-        return tags
-
-    @staticmethod
     def fctPrivateIp(source, batch):
         dirts = Ruler.switch(source, batch, {})
         if dirts:

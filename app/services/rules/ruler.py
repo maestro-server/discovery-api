@@ -2,6 +2,7 @@
 import datetime
 from hashlib import sha1
 from pydash.objects import get
+from .libs.sync_foreign import sync_apps
 from app.services.iterators.iRuler import IteratorRuler
 
 class Ruler(object):
@@ -75,5 +76,32 @@ class Ruler(object):
         return IteratorRuler().batch(items=items, Ruler=Ruler, source=batch).result()
 
     @staticmethod
+    def fctTags(source, batch):
+        tags = []
+        dirts = Ruler.switch(source, batch, {})
+
+        for key, item in dirts.items():
+            clean = {
+                'key': key,
+                'value': item
+            }
+            tags.append(clean)
+        return tags
+
+    @staticmethod
     def now(source, batch):
         return datetime.datetime.now()
+
+    @staticmethod
+    def SyncForeignEntityByTag(source, batch):
+        result = []
+
+        tentity = Ruler.switch(source['field'], batch)
+        if tentity:
+            result += sync_apps(tentity, source['resource'])
+
+        tentity = Ruler.switch("%s_id" % source['field'], batch)
+        if tentity:
+            result += sync_apps(tentity, source['resource'], '_id')
+
+        return result

@@ -1,8 +1,8 @@
-
+from types import GeneratorType;
 from app import celery
 from app.services.factory import FactoryAPI
 
-from app.libs.jwt import Jwt
+from app.libs.decodeConn import decodeConn
 from app.libs.normalize import Normalize
 from app.error import FactoryInvalid
 
@@ -12,15 +12,19 @@ from .last import task_last
 from .ws import task_ws
 
 
-def decodeConn(conn, conn_id, task):
-    try:
-        return Jwt.decode(conn['conn'])
-    except Exception as error:
-        task_notification.delay(msg=str(error), conn_id=conn_id, task=task, status='danger')
-        return FactoryInvalid.responseInvalid(
-            {'msg': str(error), 'name': error.__class__.__name__}
-            , 403
-        )
+def iterTranslate(conn, conn_id, options, task, result, tlasted):
+
+    if isinstance(result, list):
+        return task_translate.delay(conn, conn_id, options, task, result, tlasted)
+
+    if isinstance(result, GeneratorType):
+        for generator in result:
+            iterTranslate(conn, conn_id, options, task, generator, tlasted)
+        return
+
+    if hasattr(result, '__iter__'): #get chunk of iterator, transform to list and send for translate task
+        iterTranslate(conn, conn_id, options, task, list(result), tlasted)
+
 
 
 @celery.task(name="scan.api")
@@ -40,7 +44,7 @@ def task_scan(conn, conn_id, task, options, lasted=False, vars=[]):
             raise ValueError('Empty result')
 
         tlasted = lasted and Crawler.isLast() #lasted of regions and lasted of scan iter
-        key = task_translate.delay(conn, conn_id, options, task, result['result'], tlasted)
+        key = iterTranslate(conn, conn_id, options, task, result['result'], tlasted)
 
         if Crawler.isLast() == False:
             factoryPag = Crawler.checkPag()
@@ -53,6 +57,7 @@ def task_scan(conn, conn_id, task, options, lasted=False, vars=[]):
             'qtd': len(result['result'])
         }
 
+
     except Exception as error:
         status = 'warning'
         code = 500
@@ -60,6 +65,9 @@ def task_scan(conn, conn_id, task, options, lasted=False, vars=[]):
         if error.__class__.__name__ == 'ClientMaestroError':
             status = 'danger'
             code = 403
+
+        if error.__class__.__name__ == 'TypeError':
+            error = "Empty result"
         
         task_notification.delay(msg=str(error), conn_id=conn_id, task=task, status=status)
 
