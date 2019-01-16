@@ -6,20 +6,27 @@ from azure.mgmt.network import NetworkManagementClient
 from azure.common.credentials import ServicePrincipalCredentials
 from app.error.clientMaestroError import ClientMaestroError
 
+from azure.common.exceptions import AuthenticationError
+
 class Azure(Connector):
 
     _exec = {'compute': ComputeManagementClient, 'network': NetworkManagementClient}
 
     def credencials(self, command):
 
-        credencials = ServicePrincipalCredentials(
-            client_id=self._access['client'],
-            secret=self._access['secret'],
-            tenant=self._access['tenant']
-        )
+        try:
+            credencials = ServicePrincipalCredentials(
+                client_id=self._access['client'],
+                secret=self._access['secret'],
+                tenant=self._access['tenant']
+            )
 
-        cls = self._exec[command]
-        self._client = cls(credencials, self._access['sub'])
+            cls = self._exec[command]
+            self._client = cls(credencials, self._access['sub'])
+
+        except AuthenticationError as error:
+            raise ClientMaestroError(error)
+
         return self
 
     def select(self, command):
