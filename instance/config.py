@@ -25,7 +25,7 @@ class Config(object):
     MAESTRO_WEBSOCKET_URI = os.environ.get("MAESTRO_WEBSOCKET_URI", "http://localhost:8000")
 
     MAESTRO_COUNTDOWN_LAST = int(os.environ.get("MAESTRO_COUNTDOWN_LAST", 10))
-    MAESTRO_COUNTDOWN_WS = int(os.environ.get("MAESTRO_COUNTDOWN_WS", 2))
+    MAESTRO_COUNTDOWN_WS = int(os.environ.get("MAESTRO_COUNTDOWN_WS", 1))
     MAESTRO_TRANSLATE_QTD = int(os.environ.get("MAESTRO_TRANSLATE_QTD", 50))
 
     CELERY_BROKER_URL = os.environ.get("CELERY_BROKER_URL", 'amqp://localhost')
