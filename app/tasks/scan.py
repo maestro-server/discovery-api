@@ -29,7 +29,6 @@ def iterTranslate(conn, conn_id, options, task, result, tlasted):
 
 @celery.task(name="scan.api")
 def task_scan(conn, conn_id, task, options, lasted=False, vars=[]):
-
     access = decodeConn(conn, conn_id, task)
 
     oVars = Normalize.optionsVarsNormalize(options['vars']),
@@ -57,23 +56,22 @@ def task_scan(conn, conn_id, task, options, lasted=False, vars=[]):
             'qtd': len(result['result'])
         }
 
+    except TypeError as error:
+        return {'msg': str(error), 'name': error.__class__.__name__}
 
     except Exception as error:
         status = 'warning'
         code = 500
-        
+
         if error.__class__.__name__ == 'ClientMaestroError':
             status = 'danger'
             code = 403
 
-        if error.__class__.__name__ == 'TypeError':
-            error = "Empty result"
-        
-        task_notification.delay(msg=str(error), conn_id=conn_id, task=task, status=status)
-
         if lasted:
             task_ws.delay(conn, conn_id, task, status)
             task_last.delay(conn, task, options)
+
+        task_notification.delay(msg=str(error), conn_id=conn_id, task=task, status=status)
 
         return FactoryInvalid.responseInvalid(
             {'msg': str(error), 'name': error.__class__.__name__}

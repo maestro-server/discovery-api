@@ -1,5 +1,6 @@
 
 import json
+from app import app
 from pydash.objects import get, has
 from app import celery
 from app.services.merger import MergeAPI
@@ -55,7 +56,7 @@ def task_insert(conn, conn_id, task, result, options, lasted=False):
 
     if lasted:
         task_ws.delay(conn, conn_id, task)
-        task_last.delay(conn, task, options)
+        task_last.apply_async((conn, task, options), countdown=app.config['MAESTRO_COUNTDOWN_LAST'])
 
 
     return {

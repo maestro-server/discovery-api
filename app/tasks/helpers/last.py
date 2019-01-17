@@ -22,9 +22,11 @@ def make_query(dc_id, region, lst, options):
 
     query = {
         'datacenters._id': dc_id,
-        'active': True,
-        key_comparer: {'$nin': lst}
+        'active': True
     }
+
+    if lst:
+        query[key_comparer] = {'$nin': lst}
 
     if region != 'all':
         query['datacenters.region'] = region
