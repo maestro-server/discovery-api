@@ -53,7 +53,7 @@ def task_insert(conn, conn_id, task, result, options, lasted=False):
         task_notification.delay(msg="Success. No changes", conn_id=conn_id, task=task, status='success')
 
     if lasted:
-        task_ws.delay(conn, conn_id, task)
+        task_ws.apply_async((conn, conn_id, task), countdown=app.config['MAESTRO_COUNTDOWN_WS'])
         task_last.apply_async((conn, task, options), countdown=app.config['MAESTRO_COUNTDOWN_LAST'])
 
 

@@ -69,7 +69,7 @@ def task_scan(conn, conn_id, task, options, lasted=False, vars=[]):
             code = 403
 
         if lasted:
-            task_ws.delay(conn, conn_id, task, status)
+            task_ws.apply_async((conn, conn_id, task, status), countdown=app.config['MAESTRO_COUNTDOWN_WS'])
             task_last.apply_async((conn, task, options), countdown=app.config['MAESTRO_COUNTDOWN_LAST'])
 
         task_notification.delay(msg=str(error), conn_id=conn_id, task=task, status=status)

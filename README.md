@@ -130,6 +130,7 @@ apidoc -i app/controller/ -o docs/
 | MAESTRO_GWORKERS             | 2                        | Gunicorn multi process                     |
 | MAESTRO_TRANSLATE_QTD        | 200                      | Prefetch used in translate worker          |
 | MAESTRO_COUNTDOWN_LAST       | 10                       | Time in seconds to run the last task       |
+| MAESTRO_COUNTDOWN_WS         | 2                        | Delayed time to run ws notification        |
 |                              |                          |                                            |
 | MAESTRO_SECRETJWT            | XXXX                     | Secret key - JWT for connections           |
 | MAESTRO_WEBSOCKET_SECRET     | XXXX                     | Secret Key - JWT Websocket connections     |
