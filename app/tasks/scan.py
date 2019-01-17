@@ -1,4 +1,5 @@
-from types import GeneratorType;
+from types import GeneratorType
+from app import app
 from app import celery
 from app.services.factory import FactoryAPI
 
@@ -69,7 +70,7 @@ def task_scan(conn, conn_id, task, options, lasted=False, vars=[]):
 
         if lasted:
             task_ws.delay(conn, conn_id, task, status)
-            task_last.delay(conn, task, options)
+            task_last.apply_async((conn, task, options), countdown=app.config['MAESTRO_COUNTDOWN_LAST'])
 
         task_notification.delay(msg=str(error), conn_id=conn_id, task=task, status=status)
 

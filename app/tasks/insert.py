@@ -37,8 +37,6 @@ def task_insert(conn, conn_id, task, result, options, lasted=False):
         task_notification.delay(msg="Missing Owner User/Team in this connection.", conn_id=conn_id, task=task, status='danger')
         raise PermissionError('[Insert Task] Missing Owner')
 
-
-
     content = get_data_list(result, key, owner_user, conn_id, options['entity'])
     CHooker = Hooker(options.get('hooks'), conn)
     body = MergeAPI(content=content, key_comparer=key, hooker=CHooker).merge(result)

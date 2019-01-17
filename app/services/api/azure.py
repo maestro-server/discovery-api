@@ -42,11 +42,16 @@ class Azure(Connector):
 
     def grouper_it(self, n, iterable):
         it = iter(iterable)
+        counter = 0
+
         while True:
             chunk_it = itertools.islice(it, n)
             try:
                 first_el = next(chunk_it)
+                counter += 1
             except StopIteration:
+                if counter == 0:
+                    raise ValueError('Empty result')
                 return
 
             yield itertools.chain((first_el,), chunk_it)
