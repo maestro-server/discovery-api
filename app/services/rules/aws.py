@@ -22,8 +22,8 @@ class RulerAWS(Ruler):
                 'attach_time': get(item, 'Ebs.AttachTime'),
                 'status': get(item, 'Ebs.Status')
             }
-            storage.append(clean)
-        return pick_by(storage, identity)
+            storage.append(pick_by(clean, identity))
+        return storage
 
     @staticmethod
     def fctStorageImage(source, batch):
@@ -41,8 +41,8 @@ class RulerAWS(Ruler):
                 'volume_size': get(item, 'Ebs.VolumeSize'),
                 'volume_type': get(item, 'Ebs.VolumeType')
             }
-            storage.append(clean)
-        return pick_by(storage, identity)
+            storage.append(pick_by(clean, identity))
+        return storage
 
     @staticmethod
     def fctDc(source, batch):
