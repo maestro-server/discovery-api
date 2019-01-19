@@ -6,14 +6,14 @@ from pydash.utilities import identity
 
 class MergeAPI(object):
 
-    def __init__(self, content = None, key_comparer='name', hooker=None):
+    def __init__(self, content = None, key_comparer='name'):
         self.content = content
         self.inserted = []
         self.key = key_comparer
         self.omit = ['roles', 'owner']
-        self._hooker = hooker
 
     def merge(self, insert):
+        return insert
         if not isinstance(self.content, list) or len(self.content) <= 0:
             return insert
 
@@ -31,7 +31,6 @@ class MergeAPI(object):
                     if (active is False) or (check_insert != check_content):
                         created = omit(insert[key], self.omit)
                         merged = merge_with(item, created, MergeAPI.merger_with)
-                        merged = self._hooker.apply(merged)
                         santinize.append(merged)
 
                     if len(insert) <= 1:

@@ -38,11 +38,12 @@ def task_insert(conn, conn_id, task, result, options, lasted=False):
         raise PermissionError('[Insert Task] Missing Owner')
 
     content = get_data_list(result, key, owner_user, conn_id, options['entity'])
-    CHooker = Hooker(options.get('hooks'), conn)
-    body = MergeAPI(content=content, key_comparer=key, hooker=CHooker).merge(result)
-
+    body = MergeAPI(content=content, key_comparer=key).merge(result)
 
     if len(body) > 0:
+        CHooker = Hooker(options.get('hooks'), conn)
+        body = CHooker.run(body)
+
         dataresult = ExternalMaestroData(entity_id=conn_id)\
             .put_request(path=options['entity'], body={'body': body})\
             .get_results()

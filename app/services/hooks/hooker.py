@@ -33,3 +33,8 @@ class Hooker(object):
             self.rules(obj)
 
         return obj
+
+    def run(self, objs):
+
+        if self._rules:
+            return [self.apply(obj) for obj in objs]
