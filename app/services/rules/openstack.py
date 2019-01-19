@@ -1,9 +1,10 @@
 
 import json, re
 from .ruler import Ruler
-from pydash.objects import get
-from .libs.sync_foreign import sync_apps
+from pydash.objects import get, pick_by
 from pydash.numerical import divide
+from pydash.utilities import identity
+from .libs.sync_foreign import sync_apps
 
 from app.repository.externalMaestroData import ExternalMaestroData
 from app.libs.cache import CacheMemory
@@ -53,7 +54,7 @@ class RulerOpenStack(Ruler):
             'security_groups': Ruler.switch('security_groups', batch),
             'terminated_at': Ruler.switch('terminated_at', batch)
         }
-        return dc
+        return pick_by(dc, identity)
 
     @staticmethod
     def fctDcApp(source, batch):
@@ -64,7 +65,7 @@ class RulerOpenStack(Ruler):
             'region': Ruler.switch('region', source),
             'zone': Ruler.switch('availability_zones', batch)
         }
-        return dc
+        return pick_by(dc, identity)
 
     @staticmethod
     def fctPrivateIp(source, batch):

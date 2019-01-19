@@ -1,11 +1,10 @@
 
-import json, re
+import re
 from .ruler import Ruler
 from pydash.objects import get
 from .libs.sync_foreign import sync_apps
-from app.repository.externalMaestroData import ExternalMaestroData
-
-from app.libs.cache import CacheMemory
+from pydash.objects import pick_by
+from pydash.utilities import identity
 
 
 class RulerAWS(Ruler):
@@ -24,7 +23,7 @@ class RulerAWS(Ruler):
                 'status': get(item, 'Ebs.Status')
             }
             storage.append(clean)
-        return storage
+        return pick_by(storage, identity)
 
     @staticmethod
     def fctStorageImage(source, batch):
@@ -43,7 +42,7 @@ class RulerAWS(Ruler):
                 'volume_type': get(item, 'Ebs.VolumeType')
             }
             storage.append(clean)
-        return storage
+        return pick_by(storage, identity)
 
     @staticmethod
     def fctDc(source, batch):
@@ -65,7 +64,7 @@ class RulerAWS(Ruler):
             'state_reason': Ruler.switch('StateReason', batch),
             'cloudwatch_monitoring': Ruler.switch('Monitoring.State', batch)
         }
-        return dc
+        return pick_by(dc, identity)
 
     @staticmethod
     def fctDcApp(source, batch):
@@ -85,7 +84,7 @@ class RulerAWS(Ruler):
             'cache_security_groups': Ruler.switch('CacheSecurityGroups', batch),
             'cache_parameter_group': Ruler.switch('CacheParameterGroup', batch)
         }
-        return dc
+        return pick_by(dc, identity)
 
     @staticmethod
     def getZones(source, batch):

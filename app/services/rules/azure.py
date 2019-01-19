@@ -1,7 +1,8 @@
 from hashlib import sha1
 import re
 from .ruler import Ruler
-
+from pydash.objects import pick_by
+from pydash.utilities import identity
 
 class RulerAzure(Ruler):
     @staticmethod
@@ -31,7 +32,7 @@ class RulerAzure(Ruler):
 
     @staticmethod
     def fcSingleStorage(built):
-        return {
+        data = {
             'size': Ruler.switch('disk_size_gb', built),
             'name': Ruler.switch('name', built),
             'unique_id': RulerAzure.createID(
@@ -46,6 +47,7 @@ class RulerAzure(Ruler):
             'create_option': Ruler.switch('name', built),
             'status': 'Active'
         }
+        return pick_by(data, identity)
 
     @staticmethod
     def fctDc(source, batch):
@@ -63,7 +65,7 @@ class RulerAzure(Ruler):
             'instance_id': Ruler.switch('vm_id', batch),
             'license_type': Ruler.switch('license_type', batch)
         }
-        return dc
+        return pick_by(dc, identity)
 
     @staticmethod
     def fcOS(source, batch):

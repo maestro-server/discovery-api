@@ -1,5 +1,7 @@
 
 from .ruler import Ruler
+from pydash.objects import pick_by
+from pydash.utilities import identity
 
 class RulerDigitalOcean(Ruler):
     @staticmethod
@@ -61,7 +63,7 @@ class RulerDigitalOcean(Ruler):
             'ipv6': Ruler.setV("ipv6" in features),
             'private_networking': Ruler.setV("private_networking" in features)
         }
-        return dc
+        return pick_by(dc, identity)
 
     @staticmethod
     def fctDcBuckets(source, batch):
@@ -71,7 +73,7 @@ class RulerDigitalOcean(Ruler):
             '_id': Ruler.switch('dc_id', source),
             'region': Ruler.switch('region', source)
         }
-        return dc
+        return pick_by(dc, identity)
 
     @staticmethod
     def fctPrivateIp(source, batch):
