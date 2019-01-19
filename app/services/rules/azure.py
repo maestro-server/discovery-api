@@ -83,7 +83,7 @@ class RulerAzure(Ruler):
         lst = re.findall(source['reg'], data)
         if lst:
             id = '_'.join(str(i) for i in lst[0])
-            return Ruler.checksum(None, id)
+            return sha1(id.encode('utf-8')).hexdigest()
 
     @staticmethod
     def serialize(source, batch):
