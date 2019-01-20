@@ -13,7 +13,6 @@ class MergeAPI(object):
         self.omit = ['roles', 'owner']
 
     def merge(self, insert):
-        return insert
         if not isinstance(self.content, list) or len(self.content) <= 0:
             return insert
 

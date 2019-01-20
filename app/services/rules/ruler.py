@@ -2,6 +2,7 @@
 import datetime
 from hashlib import sha1
 from pydash.objects import get
+from collections import OrderedDict
 from .libs.sync_foreign import sync_apps
 from app.services.iterators.iRuler import IteratorRuler
 
@@ -68,7 +69,8 @@ class Ruler(object):
 
     @staticmethod
     def checksum(source, batch):
-        return sha1(repr(batch).encode('utf-8')).hexdigest()
+        dsort = OrderedDict(sorted(batch.items(), key=lambda x: x[0]))
+        return sha1(repr(dsort).encode('utf-8')).hexdigest()
 
     @staticmethod
     def batch(source, batch):

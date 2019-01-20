@@ -3,6 +3,7 @@ import re
 from .ruler import Ruler
 from pydash.objects import pick_by
 from pydash.utilities import identity
+from collections import OrderedDict
 
 class RulerAzure(Ruler):
     @staticmethod
@@ -83,7 +84,7 @@ class RulerAzure(Ruler):
         lst = re.findall(source['reg'], data)
         if lst:
             id = '_'.join(str(i) for i in lst[0])
-            return sha1(id.encode('utf-8')).hexdigest()
+            return sha1(id.encode()).hexdigest()
 
     @staticmethod
     def serialize(source, batch):
@@ -100,4 +101,5 @@ class RulerAzure(Ruler):
     @staticmethod
     def checksum(source, batch):
         serialized = batch.serialize()
-        return sha1(repr(serialized).encode('utf-8')).hexdigest()
+        dsort = OrderedDict(sorted(serialized.items(), key=lambda x: x[0]))
+        return sha1(repr(dsort).encode('utf-8')).hexdigest()
