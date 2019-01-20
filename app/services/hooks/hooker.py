@@ -23,6 +23,7 @@ class Hooker(object):
             val = self.exec(rule, obj)
             if isinstance(val, dict):
                 obj.update(val)
+                break
 
             if val:
                 obj[key] = val
