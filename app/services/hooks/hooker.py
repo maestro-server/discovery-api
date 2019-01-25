@@ -13,7 +13,6 @@ class Hooker(object):
         hook = rule.get('hook')
         method = rule.get('method')
 
-
         return getattr(self._register[hook], method)(obj, self._conn)
 
     def rules(self, obj):
