@@ -92,8 +92,8 @@ class HookedAzure(object):
 
                     if vcpus and memory:
                         data = {
-                            'cpu': vcpus,
-                            'memory': memory,
+                            'cpu': int(vcpus),
+                            'memory': float(memory),
                         }
 
                         CacheMemory.set(instance, data)

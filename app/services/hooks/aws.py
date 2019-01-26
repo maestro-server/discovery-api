@@ -28,8 +28,8 @@ class HookedAWS(object):
 
                     if vcpus and memory:
                         data = {
-                            'cpu': re.search(r'([0-9]*)', vcpus).group(),
-                            'memory': re.search(r'([0-9\.]*)', memory).group(),
+                            'cpu': int(re.search(r'([0-9]*)', vcpus).group()),
+                            'memory': float(re.search(r'([0-9\.]*)', memory).group()),
                         }
 
                         CacheMemory.set(instance, data)
