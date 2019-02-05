@@ -1,4 +1,5 @@
-
+from hashlib import sha1
+from collections import OrderedDict
 from .ruler import Ruler
 from pydash.objects import pick_by, omit
 from pydash.utilities import identity
