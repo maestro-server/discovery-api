@@ -125,8 +125,8 @@
             "validate": "",
             "panel": [
               {
-                "header": "Create and get Application ID",
-                "body": "Create application in Azure Active Directory and you can then note the application ID. <ol><li>Sign in to your Azure Account through the Azure portal.</li><li>Select Azure Active Directory.</li><li>Select App registrations.</li></ol>"
+                "header": "Create and get Client ID",
+                "body": "Create application in Azure Active Directory and you can then note the application ID. <ol><li>Sign in to your Azure Account through the Azure portal.</li><li>Select Azure Active Directory.</li><li>Select App registrations.</li><li>Get Client ID and Tenant ID.</li></ol>"
               },
               {
                 "header": "Generate Authentication Key",
