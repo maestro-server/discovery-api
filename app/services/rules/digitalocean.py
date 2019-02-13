@@ -1,6 +1,7 @@
-
+from hashlib import sha1
+from collections import OrderedDict
 from .ruler import Ruler
-from pydash.objects import pick_by
+from pydash.objects import pick_by, omit
 from pydash.utilities import identity
 
 class RulerDigitalOcean(Ruler):
@@ -90,3 +91,9 @@ class RulerDigitalOcean(Ruler):
         for net in ips:
             if net['type'] == 'public':
                 return net['ip_address']
+
+    @staticmethod
+    def checksum(source, batch):
+        batch = omit(batch, ['checksum', 'backup_ids', 'next_backup_window'])
+        dsort = OrderedDict(sorted(batch.items(), key=lambda x: x[0]))
+        return sha1(repr(dsort).encode('utf-8')).hexdigest()
