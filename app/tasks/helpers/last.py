@@ -15,13 +15,14 @@ def get_tracker(dc_id, task, region):
         .get(task, {}) \
         .get(slugify(region), [])
 
-def make_query(dc_id, region, lst, options):
+def make_query(dc_id, owner, region, lst, options):
     key_comparer = options.get('key_comparer')
     family = options.get('family')
     provider = options.get('provider')
 
     query = {
         'datacenters._id': dc_id,
+        'roles': { '$elemMatch': { '_id': owner}},
         'active': True
     }
 
@@ -42,11 +43,11 @@ def make_query(dc_id, region, lst, options):
 def make_body():
     return json.dumps({'active': False})
 
-def entity_count(dc_id, region, lst, options):
+def entity_count(dc_id, owner, region, lst, options):
 
     body = {
         'entity': options.get('entity'),
-        'query': make_query(dc_id, region, lst, options),
+        'query': make_query(dc_id, owner, region, lst, options),
         'body': make_body()
     }
 
