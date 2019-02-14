@@ -141,7 +141,7 @@
             {
               "name": "MaxRecords",
               "env": "MAESTRO_SCAN_QTD",
-              "default": 200,
+              "default": 100,
               "type": "int"
             }
           ],

@@ -130,7 +130,7 @@
               },
               {
                 "header": "Generate Authentication Key",
-                "body": "<b>Provide Permission</b><ol><li>Go to Settings > Required permissions.</li><li>Click Add > Select an API > Windows Azure Service Management API and click Select.</li><li>Select required Delegated Permissions, click Select and then click Done.</li><li>Create a secret key</li><li>Select the application and go to Settings > Keys.</li><li>Add a description and expiry duration for the key and click Save.</li><li>The value of the key appears in the Value field.</li></ol>"
+                "body": "<b>Provide Permission</b>, select the application created and<ol><li>Go to Settings > Required permissions.</li><li>Click Add > Select an API > Windows Azure Service Management API and click Select.</li><li>Select required Delegated Permissions, click Select and then click Done.</li><li>Create a secret key</li><li>Select the application and go to Settings > Keys.</li><li>Add a description and expiry duration for the key and click Save.</li><li>The value of the key appears in the Value field.</li></ol>"
               },
               {
                 "header": "Get tenant ID",
