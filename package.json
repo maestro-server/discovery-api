@@ -1,6 +1,6 @@
 {
   "name": "discovery-maestro",
-  "version": "0.5.4",
+  "version": "0.5.5",
   "description": "Flask, discovery services",
   "main": "run.py",
   "scripts": {
