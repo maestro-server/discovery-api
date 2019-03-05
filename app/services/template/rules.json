@@ -82,25 +82,6 @@
           "init_job": true
         }
       ],
-      "autoscaling-support-list": [
-        {
-          "access": "describe_scaling_plans",
-          "command": "autoscaling-plans",
-          "entity": "applications",
-          "family": "AutoScalingPlan",
-          "result_path": "ScalingPlans",
-          "key_comparer": "unique_id",
-          "vars": [
-            {
-              "name": "MaxResults",
-              "env": "MAESTRO_SCAN_QTD",
-              "default": 50,
-              "type": "int"
-            }
-          ],
-          "init_job": true
-        }
-      ],
       "dbs-list": [
         {
           "access": "describe_db_instances",
@@ -160,7 +141,7 @@
             {
               "name": "MaxRecords",
               "env": "MAESTRO_SCAN_QTD",
-              "default": 200,
+              "default": 100,
               "type": "int"
             }
           ],
@@ -374,7 +355,7 @@
             {
               "name": "Limit",
               "env": "MAESTRO_SCAN_QTD",
-              "default": 200,
+              "default": 100,
               "type": "int"
             }
           ],
