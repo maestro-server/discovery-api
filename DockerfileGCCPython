@@ -9,4 +9,5 @@ RUN apk add --no-cache python3-dev && \
     apk add --no-cache su-exec && \
     apk add --no-cache libffi-dev && \
     ln -s /usr/include/locale.h /usr/include/xlocale.h && \
-    apk del .build-deps
+    apk del --no-cache --purge .build-deps && \
+    rm -rf /var/cache/apk/*

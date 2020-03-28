@@ -17,9 +17,6 @@ COPY gunicorn_config.py /opt/gunicorn_config.py
 RUN pip3 install --upgrade pip gunicorn
 RUN pip3 install -r requirements.txt
 
-RUN apk del --no-cache --purge .build-deps \
-RUN rm -rf /var/cache/apk/*
-
 USER app
 ENTRYPOINT ["/sbin/tini","-g","--"]
 CMD ["docker-entrypoint.sh"]

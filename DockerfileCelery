@@ -15,9 +15,6 @@ COPY run.py $APP_PATH/run.py
 
 RUN pip3 install -r requirements.txt
 
-RUN apk del --no-cache --purge .build-deps \
-RUN rm -rf /var/cache/apk/*
-
 USER app
 ENTRYPOINT ["/sbin/tini","-g","--"]
-CMD ["docker-entrypoint-workers.sh"]
+CMD ["docker-entrypoint-workers.git sh"]
