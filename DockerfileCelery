@@ -15,4 +15,4 @@ RUN addgroup -S app && adduser -S app -G app
 RUN pip3 install -r requirements.txt
 
 ENTRYPOINT ["/sbin/tini","-g","--"]
-CMD ["docker-entrypoint-workers.git sh"]
+CMD ["docker-entrypoint-workers.sh"]
