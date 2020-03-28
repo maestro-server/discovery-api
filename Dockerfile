@@ -2,7 +2,6 @@ FROM maestroserver/maestro-python-gcc
 
 COPY docker-entrypoint.sh /usr/local/bin/
 RUN chmod +x /usr/local/bin/docker-entrypoint.sh
-RUN addgroup app && adduser -S app
 
 ENV APP_PATH=/opt/application
 
@@ -21,5 +20,6 @@ RUN pip3 install -r requirements.txt
 RUN apk del --no-cache --purge .build-deps \
 RUN rm -rf /var/cache/apk/*
 
+USER app
 ENTRYPOINT ["/sbin/tini","-g","--"]
 CMD ["docker-entrypoint.sh"]
