@@ -1,11 +1,10 @@
 FROM maestroserver/maestro-python-gcc
-MAINTAINER Felipe Signorini <felipe.signorini@maestroserver.io>
 
-COPY docker-entrypoint-workers.sh /usr/local/bin/
-RUN chmod +x /usr/local/bin/docker-entrypoint-workers.sh
-RUN addgroup app && adduser -S app
+COPY docker-entrypoint.sh /usr/local/bin/
+RUN chmod +x /usr/local/bin/docker-entrypoint.sh
 
 ENV APP_PATH=/opt/application
+
 WORKDIR $APP_PATH
 
 COPY ./app $APP_PATH/app
@@ -14,10 +13,11 @@ COPY requirements.txt requirements.txt
 COPY package.json package.json
 COPY run.py $APP_PATH/run.py
 
-RUN pip3 install --upgrade pip && \
-    pip3 install -r requirements.txt && \
-    apk del --no-cache --purge .build-deps && \
-    rm -rf /var/cache/apk/*
+RUN pip3 install -r requirements.txt
 
+RUN apk del --no-cache --purge .build-deps \
+RUN rm -rf /var/cache/apk/*
+
+USER app
 ENTRYPOINT ["/sbin/tini","-g","--"]
 CMD ["docker-entrypoint-workers.sh"]
