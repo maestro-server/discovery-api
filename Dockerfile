@@ -1,12 +1,9 @@
 FROM maestroserver/maestro-python-gcc
 
-COPY docker-entrypoint.sh /usr/local/bin/
-RUN chmod +x /usr/local/bin/docker-entrypoint.sh
-
 ENV APP_PATH=/opt/application
-
 WORKDIR $APP_PATH
 
+COPY docker-entrypoint.sh /usr/local/bin/
 COPY ./app $APP_PATH/app
 COPY ./instance $APP_PATH/instance
 COPY requirements.txt requirements.txt
@@ -14,9 +11,10 @@ COPY package.json package.json
 COPY run.py $APP_PATH/run.py
 COPY gunicorn_config.py /opt/gunicorn_config.py
 
-RUN pip3 install --upgrade pip gunicorn
-RUN pip3 install -r requirements.txt
+RUN chmod +x /usr/local/bin/docker-entrypoint.sh
+RUN addgroup -S app && adduser -S app -G app
+RUN pip3 install --upgrade pip gunicorn && \
+    pip3 install -r requirements.txt
 
-USER app
 ENTRYPOINT ["/sbin/tini","-g","--"]
 CMD ["docker-entrypoint.sh"]

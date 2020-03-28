@@ -9,7 +9,7 @@
     "celery": "celery -A app.celery worker -E -Q discovery --hostname=discovery@%h --loglevel=info",
     "save": "pip freeze -l > requirements.txt ",
     "test": "python -m unittest discover",
-    "package-flask": "docker build -t discovery-maestro .",
+    "package-flask": "docker build -t discovery-maestro -t discovery-maestro .",
     "package-celery": "docker build -f DockerfileCelery -t discovery-maestro-celery .",
     "docs": "apidoc -i app/controller/ -o docs/"
   },
