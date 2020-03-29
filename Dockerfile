@@ -4,11 +4,11 @@ ENV APP_PATH=/opt/application
 WORKDIR $APP_PATH
 
 COPY docker-entrypoint.sh /usr/local/bin/
-COPY ./app $APP_PATH/app
-COPY ./instance $APP_PATH/instance
+COPY ./app app/
+COPY ./instance instance/
 COPY requirements.txt requirements.txt
 COPY package.json package.json
-COPY run.py $APP_PATH/run.py
+COPY run.py run.py
 COPY gunicorn_config.py /opt/gunicorn_config.py
 
 RUN chmod +x /usr/local/bin/docker-entrypoint.sh

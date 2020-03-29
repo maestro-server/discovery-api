@@ -1,6 +1,5 @@
-FROM alpine:3.11
-RUN apk add --no-cache python3-dev && \
-    apk add --no-cache --virtual .build-deps g++ && \
+FROM python:alpine3.11
+RUN apk add --no-cache --virtual .build-deps g++ && \
     apk add --no-cache build-base && \
     apk add --no-cache linux-headers && \
     apk add --no-cache curl-dev  && \

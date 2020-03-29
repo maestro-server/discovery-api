@@ -1,4 +1,4 @@
 #!/bin/sh
 
 chown -R app:app .
-su-exec app /usr/bin/gunicorn --config /opt/gunicorn_config.py run:app
+su-exec app /usr/local/bin/gunicorn --config /opt/application/gunicorn_config.py run:app
