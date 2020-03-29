@@ -9,7 +9,7 @@ COPY ./instance instance/
 COPY requirements.txt requirements.txt
 COPY package.json package.json
 COPY run.py run.py
-COPY gunicorn_config.py /opt/gunicorn_config.py
+COPY gunicorn_config.py gunicorn_config.py
 
 RUN chmod +x /usr/local/bin/docker-entrypoint.sh
 RUN addgroup -S app && adduser -S app -G app
