@@ -1,12 +1,10 @@
-FROM python:alpine3.11
-RUN apk add --no-cache --virtual .build-deps g++ && \
-    apk add --no-cache build-base && \
-    apk add --no-cache linux-headers && \
-    apk add --no-cache curl-dev  && \
-    apk add --no-cache libressl-dev && \
-    apk add --no-cache tini && \
-    apk add --no-cache su-exec && \
-    apk add --no-cache libffi-dev && \
-    ln -s /usr/include/locale.h /usr/include/xlocale.h && \
-    apk del --no-cache --purge .build-deps && \
-    rm -rf /var/cache/apk/*
+FROM python:3.8-slim
+
+RUN apt-get -y update && \
+	apt-get -y install --no-install-recommends \
+	curl \
+	gcc \
+	openssl \
+    build-essential \
+	libcurl4-openssl-dev \
+	libssl-dev \
