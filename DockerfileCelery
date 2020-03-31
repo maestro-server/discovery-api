@@ -24,7 +24,6 @@ USER app
 
 COPY ./app app/
 COPY ./instance instance/
-COPY ./assets assets/
 COPY package.json package.json
 COPY run.py run.py
 
