@@ -1,0 +1,142 @@
+npm-debug.log
+assets
+build
+devtools
+docs
+node_modules
+tasks
+test
+lib
+nootebooks
+development
+.*
+
+.DS_Store
+.env
+.env.test
+.env.production
+.env.development
+.idea/
+.happypack/
+public/static/
+public/*
+coverage/
+.nyc_output/
+artifacts/
+tmp/
+*.md
+
+npm-debug.log
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# Distribution / packaging
+.Python
+env/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+.idea/
+.idea/workspace.xml
+bin/
+pyenv.cfg
+
+# PyInstaller
+#  Usually these files are written by a python script from a template
+#  before PyInstaller builds the exe, so as to inject date/other infos into it.
+*.manifest
+*.spec
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+.hypothesis/
+
+# Translations
+*.mo
+*.pot
+
+# Django stuff:
+*.log
+local_settings.py
+
+# Flask stuff:
+.webassets-cache
+
+# Scrapy stuff:
+.scrapy
+
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# pyenv
+.python-version
+
+# celery beat schedule file
+celerybeat-schedule
+
+# SageMath parsed files
+*.sage.py
+
+# dotenv
+.env
+
+# virtualenv
+.venv
+venv/
+ENV/
+
+# Spyder project settings
+.spyderproject
+.spyproject
+
+# Rope project settings
+.ropeproject
+
+# mkdocs documentation
+/site
+
+# mypy
+.mypy_cache/
+
+/Include
+include/
+/Scripts
+/Lib
+/tcl
+pip-selfcheck.json
+share/
+etc/
+
+.vs/
+*.pyproj
+*.sln
+pyvenv.cfg
+.gitattributes
