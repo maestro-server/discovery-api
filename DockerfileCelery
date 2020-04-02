@@ -22,9 +22,6 @@ ENV PATH="/home/app/venv/bin:$PATH"
 WORKDIR /home/app
 USER app
 
-COPY ./app app/
-COPY ./instance instance/
-COPY package.json package.json
-COPY run.py run.py
+COPY ./ ./
 
 CMD ["celery", "-A", "app.celery", "worker", "-l", "info"]

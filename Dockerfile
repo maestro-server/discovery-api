@@ -22,10 +22,6 @@ ENV PATH="/home/app/venv/bin:$PATH"
 WORKDIR /home/app
 USER app
 
-COPY ./app app/
-COPY ./instance instance/
-COPY package.json package.json
-COPY run.py run.py
-COPY gunicorn_config.py gunicorn_config.py
+COPY ./ ./
 
 CMD ["gunicorn", "--config", "./gunicorn_config.py", "run:app"]
