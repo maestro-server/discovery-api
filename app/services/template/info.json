@@ -148,7 +148,7 @@
           {
             "comp": "p",
             "validate": "",
-            "html": "Details on <a href='http://docs.maestroserver.io/en/latest/userguide/cloud_inventory/autodiscovery/azure.html' target='_blank'>Maestro Azure</a>. </br>Can see more on <a href='https://docs.microsoft.com/en-us/azure/active-directory/develop/howto-create-service-principal-portal' target='_blank'>Portal Azure - Services</a>",
+            "html": "More details about the setup <a href='http://docs.maestroserver.io/en/latest/userguide/cloud_inventory/autodiscovery/azure.html' target='_blank'>Maestro Azure</a>. </br>Can see more on <a href='https://docs.microsoft.com/en-us/azure/active-directory/develop/howto-create-service-principal-portal' target='_blank'>Portal Azure - Services</a>",
             "metas": {
               "name": "aws-p"
             }
@@ -200,7 +200,7 @@
           {
             "comp": "p",
             "validate": "",
-            "html": "Details on <a href='http://docs.maestroserver.io/en/latest/userguide/cloud_inventory/autodiscovery/digitalocean.html' target='_blank'>Maestro Digital Ocean</a>. </br>Can see more on <a href='https://www.digitalocean.com/docs/api/create-personal-access-token/' target='_blank'>Portal Digital Ocean - Tokens</a>",
+            "html": "More details about the setup <a href='http://docs.maestroserver.io/en/latest/userguide/cloud_inventory/autodiscovery/digitalocean.html' target='_blank'>Maestro Digital Ocean</a>. </br>Can see more on <a href='https://www.digitalocean.com/docs/api/create-personal-access-token/' target='_blank'>Portal Digital Ocean - Tokens</a>",
             "metas": {
               "name": "aws-p"
             }
@@ -261,7 +261,7 @@
           {
             "comp": "p",
             "validate": "",
-            "html": "Details on <a href='http://docs.maestroserver.io/en/latest/userguide/cloud_inventory/autodiscovery/digitalocean.html' target='_blank'>Maestro Digital Ocean</a>. </br>Can see more on <a href='https://www.digitalocean.com/community/tutorials/how-to-create-a-digitalocean-space-and-api-key' target='_blank'>Portal Digital Ocean - Spaces</a>",
+            "html": "More details about the setup <a href='http://docs.maestroserver.io/en/latest/userguide/cloud_inventory/autodiscovery/digitalocean.html' target='_blank'>Maestro Digital Ocean</a>. </br>Can see more on <a href='https://www.digitalocean.com/community/tutorials/how-to-create-a-digitalocean-space-and-api-key' target='_blank'>Portal Digital Ocean - Spaces</a>",
             "metas": {
               "name": "aws-p"
             }
