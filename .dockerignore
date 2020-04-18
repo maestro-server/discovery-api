@@ -140,4 +140,6 @@ etc/
 *.sln
 pyvenv.cfg
 .gitattributes
-Dockerfile*
+Dockerfile
+DockerfileCelery
+DockerfileGCCPython
