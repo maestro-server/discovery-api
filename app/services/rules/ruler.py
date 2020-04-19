@@ -13,14 +13,20 @@ class Ruler(object):
         return source
 
     @staticmethod
-    def switch(source, batch, default=None):
+    def switch(source, batch, default=None, capitalize=False):
         fields = source.split('|')
         for field in fields:
             result = get(batch, field)
             if result:
+                if capitalize:
+                    result = result.capitalize()
                 return result
 
         return default
+
+    @staticmethod
+    def switchCapitalized(source, batch, default=None):
+        return Ruler.switch(source, batch, default, True)
 
     @staticmethod
     def arrMultiCatcher(source, batch):

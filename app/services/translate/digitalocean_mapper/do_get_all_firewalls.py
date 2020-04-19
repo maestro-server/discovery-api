@@ -16,7 +16,7 @@ def rules(conn):
         'updated_at': {'call': 'switch', 'source': 'created_at'},
 
         'family': {'call': 'setV', 'source': 'Firewall'},
-        'status': {'call': 'switch', 'source': 'status'},
+        'status': {'call': 'switchCapitalized', 'source': 'status'},
         'active': {'call': 'switchOptions',
                    'source': {'field': 'status',
                               'options': {

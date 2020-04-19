@@ -21,7 +21,7 @@ def rules(conn):
         'created_at': {'call': 'switch', 'source': 'created_at'},
         'updated_at': {'call': 'switch', 'source': 'created_at'},
 
-        'status': {'call': 'switch', 'source': 'status'},
+        'status': {'call': 'switchCapitalized', 'source': 'status'},
         'active': {'call': 'switchOptions',
                    'source': {'field': 'status',
                               'options': {

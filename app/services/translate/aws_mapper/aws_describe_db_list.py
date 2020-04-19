@@ -39,7 +39,7 @@ def rules(conn):
                  }
                  },
 
-        'status': {'call': 'switch', 'source': 'DBInstanceStatus'},
+        'status': {'call': 'switchCapitalized', 'source': 'DBInstanceStatus'},
         'read_status': {'call': 'switch', 'source': 'StatusInfos.Status'},
 
         'datacenters': {'call': 'fctDcApp',

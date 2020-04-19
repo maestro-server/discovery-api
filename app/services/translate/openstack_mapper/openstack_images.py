@@ -5,7 +5,7 @@ def rules(conn):
         'metadata': {'call': 'switch', 'source': 'description'},
         'size': {'call': 'switch', 'source': 'size'},
         'unique_id': {'call': 'switch', 'source': 'id'},
-        'status': {'call': 'switch', 'source': 'status'},
+        'status': {'call': 'switchCapitalized', 'source': 'status'},
         'progress': {'call': 'switch', 'source': 'progress'},
         'service': {'call': 'switch', 'source': 'service'},
         'min_disk': {'call': 'switch', 'source': 'min_disk'},

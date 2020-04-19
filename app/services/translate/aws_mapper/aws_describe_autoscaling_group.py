@@ -19,7 +19,7 @@ def rules(conn):
                      'vpc_zone_identifier': {'call': 'switch', 'source': 'VPCZoneIdentifier'},
                  }
                  },
-        'status': {'call': 'switch', 'source': 'Status'},
+        'status': {'call': 'switchCapitalized', 'source': 'Status'},
 
         'datacenters': {'call': 'fctDcApp',
                         'source': {**conn}},

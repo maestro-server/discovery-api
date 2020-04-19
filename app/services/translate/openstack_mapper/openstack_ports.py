@@ -5,7 +5,7 @@ def rules(conn):
         'description': {'call': 'switch', 'source': 'description'},
         'mac_address': {'call': 'switch', 'source': 'mac_address'},
         'service': {'call': 'switch', 'source': 'service'},
-        'status': {'call': 'switch', 'source': 'status'},
+        'status': {'call': 'switchCapitalized', 'source': 'status'},
         'project_id': {'call': 'switch', 'source': 'project_id'},
         'fixed_ips': {'call': 'switch', 'source': 'fixed_ips'},
         'subnet_ids': {'call': 'switch', 'source': 'subnet_ids'},

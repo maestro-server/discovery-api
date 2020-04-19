@@ -13,7 +13,7 @@ def rules(conn):
         'datacenters': {'call': 'fctDcBuckets',
                         'source': {**conn}},
 
-        'status': {'call': 'switch', 'source': 'status'},
+        'status': {'call': 'switchCapitalized', 'source': 'status'},
         'active': {'call': 'switchOptions',
                    'source': {'field': 'status',
                               'options': {

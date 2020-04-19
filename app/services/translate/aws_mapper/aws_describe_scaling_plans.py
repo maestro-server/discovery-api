@@ -13,7 +13,7 @@ def rules(conn):
                      'scaling_instructions': {'call': 'switch', 'source': 'ScalingInstructions'}
                  }
                  },
-        'status': {'call': 'switch', 'source': 'StatusCode'},
+        'status': {'call': 'switchCapitalized', 'source': 'StatusCode'},
         'status_message': {'call': 'switch', 'source': 'StatusMessage'},
 
         'datacenters': {'call': 'fctDcApp',

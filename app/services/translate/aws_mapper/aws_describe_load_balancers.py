@@ -19,7 +19,7 @@ def rules(conn):
                  },
         'datacenters': {'call': 'fctDcApp',
                         'source': {**conn}},
-        'status': {'call': 'switch', 'source': 'State.Code'},
+        'status': {'call': 'switchCapitalized', 'source': 'State.Code'},
         'active': {'call': 'switchOptions',
                    'source': {'field': 'State.Code',
                               'options': {'failed': False, 'active_impaired': False},

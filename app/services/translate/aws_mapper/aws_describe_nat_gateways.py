@@ -15,7 +15,7 @@ def rules(conn):
                         'source': {**conn}},
         'environment': {'call': 'arrCatcher',
                         'source': {'field': 'Tags', 'sKey': 'Key', 's': 'environment', 'catcher': 'Value'}},
-        'status': {'call': 'switch', 'source': 'State'},
+        'status': {'call': 'switchCapitalized', 'source': 'State'},
         'tags': {'call': 'fctTags', 'source': 'Tags'},
         'active': {'call': 'switchOptions',
                    'source': {'field': 'State',

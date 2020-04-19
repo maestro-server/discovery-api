@@ -7,7 +7,7 @@ def rules(conn):
         'progress': {'call': 'switch', 'source': 'progress'},
         'project_id': {'call': 'switch', 'source': 'project_id'},
         'volume_size': {'call': 'switch', 'source': 'size'},
-        'status': {'call': 'switch', 'source': 'status'},
+        'status': {'call': 'switchCapitalized', 'source': 'status'},
         'created_at': {'call': 'switch', 'source': 'created_at'},
         'updated_at': {'call': 'switch', 'source': 'created_at'},
         'datacenters': {'call': 'fctDcApp',

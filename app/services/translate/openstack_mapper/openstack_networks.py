@@ -2,7 +2,7 @@ def rules(conn):
     return {
         'unique_id': {'call': 'switch', 'source': 'id'},
         'description': {'call': 'switch', 'source': 'description'},
-        'status': {'call': 'switch', 'source': 'status'},
+        'status': {'call': 'switchCapitalized', 'source': 'status'},
         'subnet_ids': {'call': 'switch', 'source': 'subnet_ids'},
         'project_id': {'call': 'switch', 'source': 'project_id'},
         'mtu': {'call': 'switch', 'source': 'mtu'},

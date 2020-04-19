@@ -19,7 +19,7 @@ def rules(conn):
                  },
 
 
-        'status': {'call': 'switch', 'source': 'Status'},
+        'status': {'call': 'switchCapitalized', 'source': 'Status'},
         'state': {'call': 'switch', 'source': 'Enabled'},
         'datacenters': {'call': 'fctDcApp',
                         'source': {**conn}},

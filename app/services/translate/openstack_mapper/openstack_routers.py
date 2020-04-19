@@ -9,7 +9,7 @@ def rules(conn):
         'external_gateway_info': {'call': 'switch', 'source': 'external_gateway_info'},
         'project_id': {'call': 'switch', 'source': 'project_id'},
         'availability_zone_hints': {'call': 'switch', 'source': 'availability_zone_hints'},
-        'status': {'call': 'switch', 'source': 'status'},
+        'status': {'call': 'switchCapitalized', 'source': 'status'},
         'description': {'call': 'switch', 'source': 'description'},
         'own': {'call': 'setV', 'source': 1},
         'family': {'call': 'setV', 'source': 'RouteTable'},
