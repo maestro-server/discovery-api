@@ -9,9 +9,6 @@ def rules(conn):
         'datacenters': {'call': 'fctDc',
                         'source': {**conn}},
 
-        'created_at': {'call': 'now'},
-        'updated_at': {'call': 'now'},
-
         'environment': {'call': 'switch', 'source': 'tags.environment'},
         'subnets': {'call': 'serialize', 'source': 'subnets'},
         'routes': {'call': 'serialize', 'source': 'routes'},
