@@ -1,7 +1,7 @@
 
 import re
 from .ruler import Ruler
-from pydash.objects import get
+from pydash.objects import get, omit
 from .libs.sync_foreign import sync_apps
 from pydash.objects import pick_by
 from pydash.utilities import identity
@@ -181,3 +181,8 @@ class RulerAWS(Ruler):
             result += sync_apps(tentity, source, '_id')
 
         return result
+
+    @staticmethod
+    def checksum(source, batch):
+        batch = omit(batch, ['ResponseMetadata', 'RetryAttempts'])
+        return Ruler.checksum(source, batch)
