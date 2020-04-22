@@ -101,5 +101,4 @@ class RulerAzure(Ruler):
     @staticmethod
     def checksum(source, batch):
         serialized = batch.serialize()
-        dsort = OrderedDict(sorted(serialized.items(), key=lambda x: x[0]))
-        return sha1(repr(dsort).encode('utf-8')).hexdigest()
+        return Ruler.checksum(source, serialized)

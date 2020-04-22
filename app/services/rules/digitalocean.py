@@ -95,5 +95,4 @@ class RulerDigitalOcean(Ruler):
     @staticmethod
     def checksum(source, batch):
         batch = omit(batch, ['checksum', 'backup_ids', 'next_backup_window'])
-        dsort = OrderedDict(sorted(batch.items(), key=lambda x: x[0]))
-        return sha1(repr(dsort).encode('utf-8')).hexdigest()
+        return Ruler.checksum(source, batch)
