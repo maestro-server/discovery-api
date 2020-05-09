@@ -17,15 +17,14 @@ To test out the demo, [Demo Online](http://demo.maestroserver.io "Demo Online")
 
 # Maestro Server - Discovery API #
 
-Discovery App service to connect and crawler provider
+Discovery App is a crawler accountable to connect to cloud providers.
 
-- Encharge to manager and authenticate in each provider
-- Crawler the data and record into db
-- Consume batch insert data
+* To manager and authenticate on each cloud provider
+* Translate cloud data to maestro data.
 
 ![arch](http://docs.maestroserver.io/en/latest/_images/discovery.png)
 
-**Core API, organized by modules:**
+**Core API:**
 
 * API Rest
 * Worker - Scan
@@ -39,7 +38,7 @@ Discovery App service to connect and crawler provider
 * Celery
 * RabbitMq
 
-## Service relations ##
+## Connect to: ##
 * Maestro Data
 
 ## Setup #
