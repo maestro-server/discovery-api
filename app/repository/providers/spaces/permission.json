@@ -1,0 +1,17 @@
+{
+  "permissions": {
+      "storage-object-list": [
+        {
+          "access": "list_buckets",
+          "command": "s3",
+          "entity": "applications",
+          "family": "ObjectStorage",
+          "provider": "Spaces (DigitalOcean)",
+          "result_path": "Buckets",
+          "key_comparer": "unique_id",
+          "vars": [],
+          "init_job": true
+        }
+      ]
+    }
+}

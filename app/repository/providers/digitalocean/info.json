@@ -1,0 +1,59 @@
+{
+  "icon": "icon-digital-ocean",
+  "label": "Digital Ocean",
+  "method": ["Api Token"],
+  "dc": "Digital Ocean",
+  "data": [
+    {
+      "label": "Secret token",
+      "authClass": "Digital Ocean",
+      "method": [
+        {
+          "label": "Api Token"
+        }
+      ],
+      "service": "token_do",
+      "template": {
+        "intro": "Please add your Api token.",
+        "dc": [
+          true,
+          false
+        ],
+        "conn": [
+          {
+            "comp": "bs-input",
+            "validate": "required",
+            "metas": {
+              "class": "mt20",
+              "name": "token",
+              "label": "Token*"
+            }
+          }
+        ],
+        "extra": [
+          {
+            "comp": "accordion",
+            "validate": "",
+            "panel": [
+              {
+                "header": "Get App Token",
+                "body": "To create a new token, enter on dashboard: <ol><li>Click the API link in the main navigation</li><li>Takes you to to the Applications & API</li> <li>On the Tokens/Keys tab. In the Personal access tokens section</li> <li>Click the Generate New Token.</li></ol>"
+              }
+            ],
+            "metas": {
+              "name": "aws-p"
+            }
+          },
+          {
+            "comp": "p",
+            "validate": "",
+            "html": "More details about the setup <a href='http://docs.maestroserver.io/en/latest/userguide/cloud_inventory/autodiscovery/digitalocean.html' target='_blank'>Maestro Digital Ocean</a>. </br>Can see more on <a href='https://www.digitalocean.com/docs/api/create-personal-access-token/' target='_blank'>Portal Digital Ocean - Tokens</a>",
+            "metas": {
+              "name": "aws-p"
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -1,5 +1,5 @@
-
 import time
+
 
 class CacheMemory(object):
     _cache_ = {}
@@ -13,7 +13,7 @@ class CacheMemory(object):
             if cls._cache_[key][cls.EXPIRES] > time.time():
                 return cls._cache_[key][cls.VALUE]
             else:
-                del cls._cache_[key] # Delete the item if it has expired
+                del cls._cache_[key]  # Delete the item if it has expired
                 return None
         except KeyError:
             return None
@@ -33,4 +33,4 @@ class CacheMemory(object):
     def clean(cls):
         """Remove all expired items from the cache"""
         for key in cls._cache_.keys():
-            cls.get(key) # Attempting to fetch an expired item deletes it
+            cls.get(key)  # Attempting to fetch an expired item deletes it

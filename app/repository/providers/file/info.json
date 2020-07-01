@@ -1,0 +1,216 @@
+{
+  "label": "File",
+  "icon": "fa fa-file",
+  "method": ["Json files"],
+  "data":
+  [
+    {
+      "label": "Upload file",
+      "service": "upload_file",
+      "template": {
+        "intro": "Upload a json file.",
+        "dc": [
+          true,
+          false
+        ],
+        "conn": [
+          {
+            "comp": "uploader",
+            "validate": "required",
+            "metas": {
+              "class": "mt20",
+              "name": "artifacts",
+              "imgSize": "hidden",
+              "inputSize": "",
+              "slabel": "Upload your file",
+              "multiple": true,
+              "validType": "text",
+              "label": "Upload file",
+              "help": "Accept multiple files"
+            }
+          }
+        ],
+        "extra": [
+          {
+            "comp": "accordion",
+            "validate": "",
+            "panel": [
+              {
+                "header": "Get file template",
+                "body": "<ol><li>- Json template</li></ol>"
+              }
+            ],
+            "metas": {
+              "name": "aws-p"
+            }
+          },
+          {
+            "comp": "p",
+            "validate": "",
+            "html": "Details on <a href='http://docs.maestroserver.io/en/latest/userguide/cloud_inventory/autodiscovery/file.html' target='_blank'>Maestro import</a>.",
+            "metas": {
+              "name": "aws-p"
+            }
+          }
+        ]
+      }
+    },
+
+    {
+      "label": "Get over SSH",
+      "service": "ssh_file",
+      "template": {
+        "intro": "Get files by SSH.",
+        "dc": [
+          true,
+          false
+        ],
+        "conn": [
+          {
+            "comp": "bs-input",
+            "validate": "required",
+            "metas": {
+              "class": "mt20",
+              "name": "host",
+              "label": "Host"
+            }
+          },
+          {
+            "comp": "bs-input",
+            "validate": "required",
+            "metas": {
+              "class": "mt20",
+              "name": "port",
+              "label": "Port",
+              "value": 22
+            }
+          },
+          {
+            "comp": "bs-input",
+            "validate": "required",
+            "metas": {
+              "class": "mt20",
+              "name": "user",
+              "label": "Username"
+            }
+          },
+          {
+            "comp": "bs-input",
+            "validate": "required",
+            "metas": {
+              "class": "mt20",
+              "name": "path",
+              "label": "Ansible facts directory",
+              "placeholder": "/opt/files/"
+            }
+          },
+          {
+            "comp": "bs-input",
+            "validate": "required",
+            "metas": {
+              "class": "mt20",
+              "type": "textarea",
+              "name": "key",
+              "label": "SSH private key"
+            }
+          }
+        ],
+        "extra": [
+          {
+            "comp": "accordion",
+            "validate": "",
+            "panel": [
+              {
+                "header": "Get file template",
+                "body": "<ol><li>- Json template</li></ol>"
+              }
+            ],
+            "metas": {
+              "name": "aws-p"
+            }
+          },
+          {
+            "comp": "p",
+            "validate": "",
+            "html": "Details on <a href='http://docs.maestroserver.io/en/latest/userguide/cloud_inventory/autodiscovery/file.html' target='_blank'>Maestro import</a>.",
+            "metas": {
+              "name": "aws-p"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "label": "Get from S3",
+      "service": "s3_file",
+      "template": {
+        "intro": "Get files from S3.",
+        "dc": [
+          true,
+          false
+        ],
+        "conn": [
+          {
+            "comp": "bs-input",
+            "validate": "required",
+            "metas": {
+              "class": "mt20",
+              "name": "bucket",
+              "label": "Bucket name"
+            }
+          },
+          {
+            "comp": "bs-input",
+            "validate": "required",
+            "metas": {
+              "name": "path",
+              "label": "Bucket path",
+              "placeholder": "/"
+            }
+          },
+          {
+            "comp": "bs-input",
+            "validate": "required",
+            "metas": {
+              "class": "mt20",
+              "name": "access",
+              "label": "AWS AccessKey ID*"
+            }
+          },
+          {
+            "comp": "bs-input",
+            "validate": "required",
+            "metas": {
+              "name": "secret",
+              "type": "password",
+              "label": "AWS SecretAccess Key*"
+            }
+          }
+        ],
+        "extra": [
+          {
+            "comp": "accordion",
+            "validate": "",
+            "panel": [
+              {
+                "header": "Get file template",
+                "body": "<ol><li>- Json template</li></ol>"
+              }
+            ],
+            "metas": {
+              "name": "aws-p"
+            }
+          },
+          {
+            "comp": "p",
+            "validate": "",
+            "html": "Details on <a href='http://docs.maestroserver.io/en/latest/userguide/cloud_inventory/autodiscovery/file.html' target='_blank'>Maestro import</a>.",
+            "metas": {
+              "name": "aws-p"
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

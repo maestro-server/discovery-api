@@ -1,0 +1,249 @@
+{
+  "label": "Terraform",
+  "icon": "icon-terraform",
+  "method": ["TF state >=0.12"],
+  "data":
+  [
+    {
+      "label": "Upload file",
+      "service": "upload_terraform",
+      "template": {
+        "intro": "Upload the tf state file.",
+        "dc": [
+          true,
+          false
+        ],
+        "conn": [
+          {
+            "comp": "uploader",
+            "validate": "required",
+            "metas": {
+              "class": "mt20",
+              "name": "artifacts",
+              "imgSize": "hidden",
+              "inputSize": "",
+              "slabel": "Upload your tf state",
+              "multiple": true,
+              "validType": "text",
+              "label": "Terraform state file",
+              "help": "Accept multiple files"
+            }
+          }
+        ],
+        "extra": [
+          {
+            "comp": "accordion",
+            "validate": "",
+            "panel": [
+              {
+                "header": "Get your tf state",
+                "body": "<ol><li>Terraform uses tf file state to create plans and make changes to your infrastructure</li><li>TF states version need to be >0.12</li></ol>"
+              }
+            ],
+            "metas": {
+              "name": "aws-p"
+            }
+          },
+          {
+            "comp": "p",
+            "validate": "",
+            "html": "Details on <a href='http://docs.maestroserver.io/en/latest/userguide/cloud_inventory/autodiscovery/terraform.html' target='_blank'>Maestro Terraform</a>. </br>More about <a href='https://www.terraform.io/docs/state/index.html' target='_blank'>Terraform state file</a>",
+            "metas": {
+              "name": "aws-p"
+            }
+          },
+          {
+            "comp": "p",
+            "validate": "",
+            "html": "Supports: <ol><li>aws</li><li>azure</li><li>vmsphere</li></ol>",
+            "metas": {
+              "name": "aws-p"
+            }
+          }
+        ]
+      }
+    },
+
+    {
+      "label": "Get over SSH",
+      "service": "ssh_terraform",
+      "template": {
+        "intro": "Get tf files by SSH.",
+        "dc": [
+          true,
+          false
+        ],
+        "conn": [
+          {
+            "comp": "bs-input",
+            "validate": "required",
+            "metas": {
+              "class": "mt20",
+              "name": "host",
+              "label": "Host"
+            }
+          },
+          {
+            "comp": "bs-input",
+            "validate": "required",
+            "metas": {
+              "class": "mt20",
+              "name": "port",
+              "label": "Port",
+              "value": 22
+            }
+          },
+          {
+            "comp": "bs-input",
+            "validate": "required",
+            "metas": {
+              "class": "mt20",
+              "name": "user",
+              "label": "Username"
+            }
+          },
+          {
+            "comp": "bs-input",
+            "validate": "required",
+            "metas": {
+              "class": "mt20",
+              "name": "path",
+              "label": "Tf state directory",
+              "placeholder": "/opt/tf-files/",
+              "help": "Maestro gets all states files, including subdirectories"
+            }
+          },
+          {
+            "comp": "bs-input",
+            "validate": "required",
+            "metas": {
+              "class": "mt20",
+              "type": "textarea",
+              "name": "key",
+              "label": "SSH private key"
+            }
+          }
+        ],
+        "extra": [
+          {
+            "comp": "accordion",
+            "validate": "",
+            "panel": [
+              {
+                "header": "Set a ssh user",
+                "body": "Create a ssh user and private key"
+              },
+              {
+                "header": "Get your tf state",
+                "body": "<ol><li>Terraform uses tf file state to create plans and make changes to your infrastructure</li><li>TF states version need to be >0.12</li></ol>"
+              }
+            ],
+            "metas": {
+              "name": "aws-p"
+            }
+          },
+          {
+            "comp": "p",
+            "validate": "",
+            "html": "Details on <a href='http://docs.maestroserver.io/en/latest/userguide/cloud_inventory/autodiscovery/terraform.html' target='_blank'>Maestro Terraform</a>. </br>More about <a href='https://www.terraform.io/docs/state/index.html' target='_blank'>Terraform state file</a>",
+            "metas": {
+              "name": "aws-p"
+            }
+          },
+          {
+            "comp": "p",
+            "validate": "",
+            "html": "Supports: <ol><li>aws</li><li>azure</li><li>vmsphere</li></ol>",
+            "metas": {
+              "name": "aws-p"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "label": "Get on S3",
+      "service": "s3_terraform",
+      "template": {
+        "intro": "Get tf files on S3. You can create a read only aws key and secret to ",
+        "dc": [
+          true,
+          false
+        ],
+        "conn": [
+          {
+            "comp": "bs-input",
+            "validate": "required",
+            "metas": {
+              "class": "mt20",
+              "name": "bucket",
+              "label": "Bucket name"
+            }
+          },
+          {
+            "comp": "bs-input",
+            "validate": "required",
+            "metas": {
+              "name": "path",
+              "label": "Bucket path",
+              "placeholder": "/"
+            }
+          },
+          {
+            "comp": "bs-input",
+            "validate": "required",
+            "metas": {
+              "class": "mt20",
+              "name": "access",
+              "label": "AWS AccessKey ID*"
+            }
+          },
+          {
+            "comp": "bs-input",
+            "validate": "required",
+            "metas": {
+              "name": "secret",
+              "type": "password",
+              "label": "AWS SecretAccess Key*"
+            }
+          }
+        ],
+        "extra": [
+          {
+            "comp": "accordion",
+            "validate": "",
+            "panel": [
+              {
+                "header": "Get AWS Key and Secret Key",
+                "body": "<ol><li>The IAM need to have s3:ListObject and s3:GetObjects permissions</li></ol>"
+              },
+              {
+                "header": "Get your tf state",
+                "body": "<ol><li>Terraform uses tf file state to create plans and make changes to your infrastructure</li><li>TF states version need to be >0.12</li></ol>"
+              }
+            ],
+            "metas": {
+              "name": "aws-p"
+            }
+          },
+          {
+            "comp": "p",
+            "validate": "",
+            "html": "Details on <a href='http://docs.maestroserver.io/en/latest/userguide/cloud_inventory/autodiscovery/terraform.html' target='_blank'>Maestro Terraform</a>. </br>More about <a href='https://www.terraform.io/docs/state/index.html' target='_blank'>Terraform state file</a>",
+            "metas": {
+              "name": "aws-p"
+            }
+          },
+          {
+            "comp": "p",
+            "validate": "",
+            "html": "Supports: <ol><li>aws</li><li>azure</li><li>vmsphere</li></ol>",
+            "metas": {
+              "name": "aws-p"
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

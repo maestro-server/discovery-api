@@ -1,14 +1,9 @@
-
 from pydash.objects import get
-from app.services.api.aws import AWS
-from app.services.api.openstack import OpenStack
-from app.services.api.digitalocean import DigitalOcean
-from app.services.api.s3 import S3
-from app.services.api.azure import Azure
+from app.repository.providers.connectorIndex import ConnectorIndex
+
 
 class FactoryAPI(object):
-
-    able = {'AWS': AWS, 'OpenStack': OpenStack, 'Digital Ocean': DigitalOcean, 'Spaces (DO)': S3, 'Azure': Azure}
+    able = ConnectorIndex.connectors()
 
     def __init__(self, access, conn):
         self.access = access
@@ -22,7 +17,7 @@ class FactoryAPI(object):
     def translateRegion(self, data):
         return data.split(' ')[0]
 
-    def execute(self, options, params = []):
+    def execute(self, options, params=[]):
         res = self.run(options=options, params=params)
         return {'cmd': options, 'region': self.region, 'result': res}
 
@@ -36,12 +31,11 @@ class FactoryAPI(object):
         return not self.provider.getPag()
 
     def run(self, options, params):
-
         provider = self.able[self.srv]
         self.provider = provider(access=self.access, region=self.region, conn=self.conn, opts=options.get('conf', {}))
 
-        return self.provider\
-            .setPathResult(options['result_path'])\
-            .batchParams(params)\
-            .select(options['command'])\
+        return self.provider \
+            .setPathResult(options['result_path']) \
+            .batchParams(params) \
+            .select(options['command']) \
             .execute(options['access'])

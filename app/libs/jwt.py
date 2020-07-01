@@ -1,6 +1,6 @@
-
 import jwt
 from app import app
+
 
 class Jwt(object):
 

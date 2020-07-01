@@ -1,10 +1,10 @@
-
 import datetime
 from hashlib import sha1
 from pydash.objects import get
 from collections import OrderedDict
 from .libs.sync_foreign import sync_apps
 from app.services.iterators.iRuler import IteratorRuler
+
 
 class Ruler(object):
 
@@ -95,6 +95,14 @@ class Ruler(object):
             }
             tags.append(clean)
         return tags
+
+    @staticmethod
+    def fctAccountant(source, batch):
+        return [Ruler.switch('_id', source)]
+
+    @staticmethod
+    def countItem(source, batch):
+        return len(Ruler.switch(source, batch, []))
 
     @staticmethod
     def now(source, batch):

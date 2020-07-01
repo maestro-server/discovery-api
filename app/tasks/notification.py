@@ -1,9 +1,9 @@
-
 import datetime
 from app.views import app
 from app import celery
 from app.services.privateAuth.decorators.external_private_token import create_jwt
 from app.repository.externalMaestro import ExternalMaestro
+
 
 @celery.task(name="notification.api")
 def task_notification(msg, conn_id, task, status='success'):

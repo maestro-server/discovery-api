@@ -67,8 +67,8 @@ class CrawlerApps(Resource):
         }]
         """
 
-        result = providersRules('rules')
-        require = result.get('permissions', {}).get(datacenter, {}).get(task)
+        result = providersRules(datacenter)
+        require = result.get('permissions', {}).get(task)
 
         if require:
             return self.crawlerFactory(instance, task, require)
@@ -91,7 +91,7 @@ class CrawlerApps(Resource):
                 for iregion, region in enumerate(connector['regions']):
                     lasted = lastp[0] == ireq and lastp[1] == iregion
 
-                    task_setup(connector['dc_id'], task, region)
+                    task_setup(connector['dc_id'], task, connector['_id'], region)
                     self.spawnScan(connector, region, task, commands, lasted)
 
         except Exception as error:

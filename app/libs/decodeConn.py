@@ -1,7 +1,7 @@
-
 from app.libs.jwt import Jwt
 from app.error import FactoryInvalid
 from app.tasks.notification import task_notification
+
 
 def decodeConn(conn, conn_id, task):
     try:

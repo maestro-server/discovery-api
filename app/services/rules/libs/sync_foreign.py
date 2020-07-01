@@ -1,11 +1,10 @@
-
 import json
 from pydash.objects import pick
 from app.libs.cache import CacheMemory
 from app.repository.externalMaestroData import ExternalMaestroData
 
-def sync_apps(tentity, source, key='name'):
 
+def sync_apps(tentity, source, key='name'):
     tentity = tentity.split(',')
     apps = []
 
@@ -19,7 +18,6 @@ def sync_apps(tentity, source, key='name'):
 
 
 def request_apps(app, source, key):
-
     obj = CacheMemory.get(app)
     if not obj:
         query = json.dumps({key: app})
@@ -32,6 +30,7 @@ def request_apps(app, source, key):
             CacheMemory.set(app, obj)
 
     return obj
+
 
 def shrink_arr(results):
     sapps = []

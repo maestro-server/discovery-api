@@ -1,0 +1,224 @@
+{
+  "label": "Ansible",
+  "icon": "icon-ansible",
+  "method": ["Facts gathering", "Ansible CMDB"],
+  "data":
+  [
+    {
+      "label": "Upload file",
+      "service": "upload_ansible",
+      "template": {
+        "intro": "Upload it the ansible fact gathering and/or service facts.",
+        "dc": [
+          true,
+          false
+        ],
+        "conn": [
+          {
+            "comp": "uploader",
+            "validate": "required",
+            "metas": {
+              "class": "mt20",
+              "name": "artifacts",
+              "imgSize": "hidden",
+              "inputSize": "",
+              "slabel": "Upload your ansible facts",
+              "multiple": true,
+              "validType": "text",
+              "label": "Ansible fact file",
+              "help": "Accept multiple files"
+            }
+          }
+        ],
+        "extra": [
+          {
+            "comp": "accordion",
+            "validate": "",
+            "panel": [
+              {
+                "header": "Generating ansible fact",
+                "body": "<ol><li>You can generate the ansible facts running <em class='label label-default'>ansible all -m setup out/</em></li><li>Ansible will generate one file per host</li></ol>"
+              }
+            ],
+            "metas": {
+              "name": "aws-p"
+            }
+          },
+          {
+            "comp": "p",
+            "validate": "",
+            "html": "Details on <a href='http://docs.maestroserver.io/en/latest/userguide/cloud_inventory/autodiscovery/ansible.html' target='_blank'>Maestro Ansible</a>. </br>More about <a href='https://docs.ansible.com/ansible/latest/modules/setup_module.html' target='_blank'>Ansible setup module</a>",
+            "metas": {
+              "name": "aws-p"
+            }
+          }
+        ]
+      }
+    },
+
+    {
+      "label": "Get over SSH",
+      "service": "ssh_ansible",
+      "template": {
+        "intro": "Get ansible facts by SSH.",
+        "dc": [
+          true,
+          false
+        ],
+        "conn": [
+          {
+            "comp": "bs-input",
+            "validate": "required",
+            "metas": {
+              "class": "mt20",
+              "name": "host",
+              "label": "Host"
+            }
+          },
+          {
+            "comp": "bs-input",
+            "validate": "required",
+            "metas": {
+              "class": "mt20",
+              "name": "port",
+              "label": "Port",
+              "value": 22
+            }
+          },
+          {
+            "comp": "bs-input",
+            "validate": "required",
+            "metas": {
+              "class": "mt20",
+              "name": "user",
+              "label": "Username"
+            }
+          },
+          {
+            "comp": "bs-input",
+            "validate": "required",
+            "metas": {
+              "class": "mt20",
+              "name": "path",
+              "label": "Ansible facts directory",
+              "placeholder": "/opt/ansible-facts/"
+            }
+          },
+          {
+            "comp": "bs-input",
+            "validate": "required",
+            "metas": {
+              "class": "mt20",
+              "type": "textarea",
+              "name": "key",
+              "label": "SSH private key"
+            }
+          }
+        ],
+        "extra": [
+          {
+            "comp": "accordion",
+            "validate": "",
+            "panel": [
+              {
+                "header": "Set a ssh user",
+                "body": "Create a ssh user and private key"
+              },
+              {
+                "header": "Generating ansible fact",
+                "body": "<ol><li>You can generate the ansible facts running <em class='label label-default'>ansible all -m setup /opt/ansible-facts/</em></li></ol>"
+              }
+            ],
+            "metas": {
+              "name": "aws-p"
+            }
+          },
+          {
+            "comp": "p",
+            "validate": "",
+            "html": "Details on <a href='http://docs.maestroserver.io/en/latest/userguide/cloud_inventory/autodiscovery/ansible.html' target='_blank'>Maestro Ansible</a>. </br>More about <a href='https://docs.ansible.com/ansible/latest/modules/setup_module.html' target='_blank'>Ansible setup module</a>",
+            "metas": {
+              "name": "aws-p"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "label": "Get from S3",
+      "service": "s3_ansible",
+      "template": {
+        "intro": "Get ansible facts from S3.",
+        "dc": [
+          true,
+          false
+        ],
+        "conn": [
+          {
+            "comp": "bs-input",
+            "validate": "required",
+            "metas": {
+              "class": "mt20",
+              "name": "bucket",
+              "label": "Bucket name"
+            }
+          },
+          {
+            "comp": "bs-input",
+            "validate": "required",
+            "metas": {
+              "name": "path",
+              "label": "Bucket path",
+              "placeholder": "/"
+            }
+          },
+          {
+            "comp": "bs-input",
+            "validate": "required",
+            "metas": {
+              "class": "mt20",
+              "name": "access",
+              "label": "AWS AccessKey ID*"
+            }
+          },
+          {
+            "comp": "bs-input",
+            "validate": "required",
+            "metas": {
+              "name": "secret",
+              "type": "password",
+              "label": "AWS SecretAccess Key*"
+            }
+          }
+        ],
+        "extra": [
+          {
+            "comp": "accordion",
+            "validate": "",
+            "panel": [
+              {
+                "header": "Get AWS Key and Secret Key",
+                "body": "<ol><li>The IAM need to have s3:ListObject and s3:GetObjects permissions</li></ol>"
+              },
+              {
+                "header": "Generating ansible fact",
+                "body": "<ol><li>You can generate the ansible facts running <em class='label label-default'>ansible all -m setup /opt/ansible-facts/</em></li><li>Ansible will generate one file per host.</li></ol>"
+              }
+            ],
+            "metas": {
+              "name": "aws-p"
+            }
+          },
+          {
+            "comp": "p",
+            "validate": "",
+            "html": "Details on <a href='http://docs.maestroserver.io/en/latest/userguide/cloud_inventory/autodiscovery/ansible.html' target='_blank'>Maestro Ansible</a>. </br>More about <a href='https://docs.ansible.com/ansible/latest/modules/setup_module.html' target='_blank'>Ansible setup module</a>",
+            "metas": {
+              "name": "aws-p"
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

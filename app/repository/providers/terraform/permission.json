@@ -1,0 +1,85 @@
+{
+  "permissions": {
+      "server-list": [
+        {
+          "access": "statefile_instances",
+          "command": "s3",
+          "entity": "servers",
+          "result_path": "resources",
+          "single_result_path": "",
+          "key_comparer": "ipv4_private",
+          "conf": {
+            "filter": {"type": ["aws_instance"]}
+          },
+          "vars": [
+            {
+              "name": "MaxKeys",
+              "env": "MAESTRO_SCAN_QTD",
+              "default": 200,
+              "type": "int"
+            }
+          ],
+          "init_job": true
+        }
+      ],
+      "volumes-list": [
+          {
+            "access": "statefile_volumes",
+            "command": "s3",
+            "entity": "volumes",
+            "result_path": "resources",
+            "single_result_path": "",
+            "key_comparer": "unique_id",
+            "family": "TFInstance",
+            "conf": {
+              "filter": {"type": ["aws_instance"]}
+            },
+            "single_translate_hook": {
+              "hook": "mapReduceOnList",
+              "opts": {
+                "field": ["attributes.ebs_block_device", "attributes.root_block_device"]
+              }
+            },
+            "hooks": [
+              {
+                "key": "name",
+                "hook": "terraform",
+                "method": "fallbackVolumeName"
+              }
+            ],
+            "vars": [
+              {
+                "name": "MaxKeys",
+                "env": "MAESTRO_SCAN_QTD",
+                "default": 200,
+                "type": "int"
+              }
+            ],
+            "init_job": true
+          }
+        ],
+      "storage-list": [
+          {
+            "access": "statefile_ebs",
+            "command": "s3",
+            "entity": "volumes",
+            "result_path": "resources",
+            "single_result_path": "",
+            "key_comparer": "unique_id",
+            "family": "TFEbs",
+            "conf": {
+              "filter": {"type": ["aws_ebs_volume"]}
+            },
+            "vars": [
+              {
+                "name": "MaxKeys",
+                "env": "MAESTRO_SCAN_QTD",
+                "default": 200,
+                "type": "int"
+              }
+            ],
+            "init_job": true
+          }
+        ]
+    }
+}

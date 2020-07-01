@@ -63,6 +63,7 @@ discovery-celery:
     - "CELERY_BROKER_URL=amqp://rabbitmq:5672"
     - "MAESTRO_DATA_URI=http://data:5010"
     - "MAESTRO_AUDIT_URI=http://audit:10900"
+    - "MAESTRO_SERVER_URI=http://server:8888"
 ```
 
 #### Dev Env ####
@@ -123,6 +124,7 @@ apidoc -i app/controller/ -o docs/
 |------------------------------|--------------------------|--------------------------------------------|
 | MAESTRO_DATA_URI             | http://localhost:5005    | Data App - API URL                         |
 | MAESTRO_AUDIT_URI            | http://localhost:10900   | Audit App - API URL                        |
+| MAESTRO_SERVER_URI           | http://localhost:8888    | Server App - API URL                       |
 | MAESTRO_WEBSOCKET_URI        | http://localhost:8000    | Webosocket App - API URL                   |
 |                              |                          |                                            |
 | FLASK_ENV                    | development|production   |                                            | 

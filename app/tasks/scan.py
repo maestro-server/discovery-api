@@ -14,7 +14,6 @@ from .ws import task_ws
 
 
 def iterTranslate(conn, conn_id, options, task, result, tlasted):
-
     if isinstance(result, list):
         return task_translate.delay(conn, conn_id, options, task, result, tlasted)
 
@@ -23,9 +22,8 @@ def iterTranslate(conn, conn_id, options, task, result, tlasted):
             iterTranslate(conn, conn_id, options, task, generator, tlasted)
         return
 
-    if hasattr(result, '__iter__'): #get chunk of iterator, transform to list and send for translate task
+    if hasattr(result, '__iter__'):  # get chunk of iterator, transform to list and send for translate task
         iterTranslate(conn, conn_id, options, task, list(result), tlasted)
-
 
 
 @celery.task(name="scan.api")
@@ -43,7 +41,7 @@ def task_scan(conn, conn_id, task, options, lasted=False, vars=[]):
             task_last.delay(conn, task, options)
             raise ValueError('Empty result')
 
-        tlasted = lasted and Crawler.isLast() #lasted of regions and lasted of scan iter
+        tlasted = lasted and Crawler.isLast()  # lasted of regions and lasted of scan iter
         key = iterTranslate(conn, conn_id, options, task, result['result'], tlasted)
 
         if Crawler.isLast() == False:

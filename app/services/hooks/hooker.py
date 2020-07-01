@@ -1,9 +1,8 @@
+from app.repository.providers.hooksIndex import HooksIndex
 
-from .azure import HookedAzure
-from .aws import HookedAWS
 
 class Hooker(object):
-    _register = {"Azure": HookedAzure, "AWS": HookedAWS}
+    _register = HooksIndex.hooks()
 
     def __init__(self, rules, conn):
         self._rules = rules

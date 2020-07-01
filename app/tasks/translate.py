@@ -29,7 +29,7 @@ def task_translate(conn, conn_id, options, task, result, lasted=False):
             key = task_insert.delay(conn, conn_id, task, translate, options, tlasted)
             insert_id.append(str(key))
 
-            tkey = task_tracker.delay(translate, conn['dc_id'], conn['region'], task, options)
+            tkey = task_tracker.delay(translate, conn['dc_id'], conn['region'], task, conn_id, options)
             tracker_id.append(str(tkey))
 
     if len(insert_id) == 0:

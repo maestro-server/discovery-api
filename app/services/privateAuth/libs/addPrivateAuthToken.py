@@ -1,8 +1,7 @@
-
 from app.libs.appInfo import appInfo
 from app.services.privateAuth.auth import PrivateAuth
 
-def createToken():
 
+def create_token():
     info = appInfo()
     return PrivateAuth.create_token(info)

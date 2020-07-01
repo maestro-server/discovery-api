@@ -1,0 +1,70 @@
+{
+  "icon": "icon-aws",
+  "label": "AWS",
+  "method": ["AWS Access Key(IAM)"],
+  "dc": "AWS",
+  "data": [
+    {
+      "label": "IAM - Access and Secret key",
+      "service": "iam_aws",
+      "template": {
+        "intro": "Please add your AWS Access Key ID and Secret Access Key.",
+        "dc": [
+          true,
+          true
+        ],
+        "conn": [
+          {
+            "comp": "bs-input",
+            "validate": "required",
+            "metas": {
+              "class": "mt20",
+              "name": "access",
+              "label": "AWS AccessKey ID*"
+            }
+          },
+          {
+            "comp": "bs-input",
+            "validate": "required",
+            "metas": {
+              "name": "secret",
+              "type": "password",
+              "label": "AWS SecretAccess Key*"
+            }
+          }
+        ],
+        "extra": [
+          {
+            "comp": "accordion",
+            "validate": "",
+            "panel": [
+              {
+                "header": "Go to IAM service",
+                "body": "Login on was account and go to iam services."
+              },
+              {
+                "header": "Create a user - SecurityAudit",
+                "body": "<ol><li>Go to user tab</li><li>Add user, name access type it's programmatic access</li><li>Attach policy direct on user</li><li>Select <b>SecurityAudit policy</b></li></ol>"
+              },
+              {
+                "header": "Get AWS Key and Secret Key",
+                "body": "Copy and paste the aws key and secret key"
+              }
+            ],
+            "metas": {
+              "name": "aws-p"
+            }
+          },
+          {
+            "comp": "p",
+            "validate": "",
+            "html": "Details on <a href='http://docs.maestroserver.io/en/latest/userguide/cloud_inventory/autodiscovery/aws.html' target='_blank'>Maestro AWS</a>. </br>Can see more on <a href='https://aws.amazon.com/blogs/security/wheres-my-secret-access-key/' target='_blank'>Portal AWS - Keys</a>",
+            "metas": {
+              "name": "aws-p"
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

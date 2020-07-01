@@ -1,0 +1,216 @@
+{
+  "permissions": {
+      "server-list": [
+        {
+          "access": "servers",
+          "command": "compute",
+          "entity": "servers",
+          "result_path": "",
+          "single_result_path": "",
+          "key_comparer": "ipv4_private",
+          "vars": [
+            {
+              "name": "limit",
+              "env": "MAESTRO_SCAN_QTD",
+              "default": 200,
+              "type": "int"
+            },
+            {
+              "name": "details",
+              "env": "MAESTRO_OPENSTACK_DETAILS",
+              "default": true,
+              "type": "bool"
+            }
+          ],
+          "init_job": true
+        }
+      ],
+      "loadbalance-list": [
+        {
+          "access": "load_balancers",
+          "command": "load_balancer",
+          "entity": "applications",
+          "family": "Loadbalance",
+          "provider": "OpenStack (HaProxy)",
+          "result_path": "",
+          "single_result_path": "",
+          "key_comparer": "unique_id",
+          "vars": [
+            {
+              "name": "limit",
+              "env": "MAESTRO_SCAN_QTD",
+              "default": 200,
+              "type": "int"
+            }
+          ],
+          "init_job": true
+        }
+      ],
+      "volumes-list": [
+        {
+          "access": "volumes",
+          "command": "block_store",
+          "entity": "volumes",
+          "result_path": "",
+          "single_result_path": "",
+          "key_comparer": "unique_id",
+          "vars": [
+            {
+              "name": "limit",
+              "env": "MAESTRO_SCAN_QTD",
+              "default": 200,
+              "type": "int"
+            }
+          ],
+          "init_job": true
+        }
+      ],
+      "snapshot-list": [
+        {
+          "access": "snapshots",
+          "command": "block_store",
+          "entity": "snapshots",
+          "result_path": "",
+          "single_result_path": "",
+          "key_comparer": "unique_id",
+          "vars": [
+            {
+              "name": "limit",
+              "env": "MAESTRO_SCAN_QTD",
+              "default": 200,
+              "type": "int"
+            }
+          ],
+          "init_job": true
+        }
+      ],
+      "images-list": [
+        {
+          "access": "images",
+          "command": "compute",
+          "entity": "images",
+          "result_path": "",
+          "single_result_path": "",
+          "key_comparer": "unique_id",
+          "vars": [
+            {
+              "name": "limit",
+              "env": "MAESTRO_SCAN_QTD",
+              "default": 200,
+              "type": "int"
+            }
+          ],
+          "init_job": true
+        }
+      ],
+      "security-list": [
+        {
+          "access": "security_groups",
+          "command": "network",
+          "entity": "networks",
+          "family": "SecurityGroup",
+          "result_path": "",
+          "single_result_path": "",
+          "key_comparer": "unique_id",
+          "vars": [
+            {
+              "name": "limit",
+              "env": "MAESTRO_SCAN_QTD",
+              "default": 200,
+              "type": "int"
+            }
+          ],
+          "init_job": true
+        }
+      ],
+      "flavor-list": [
+        {
+          "access": "flavors",
+          "command": "compute",
+          "entity": "flavors",
+          "result_path": "",
+          "single_result_path": "",
+          "key_comparer": "unique_id",
+          "vars": [
+            {
+              "name": "limit",
+              "env": "MAESTRO_SCAN_QTD",
+              "default": 200,
+              "type": "int"
+            }
+          ],
+          "init_job": true
+        }
+      ],
+      "network-list": [
+        {
+          "access": "networks",
+          "command": "network",
+          "entity": "networks",
+          "result_path": "",
+          "single_result_path": "",
+          "key_comparer": "unique_id",
+          "vars": [
+            {
+              "name": "limit",
+              "env": "MAESTRO_SCAN_QTD",
+              "default": 200,
+              "type": "int"
+            }
+          ],
+          "init_job": true
+        },
+        {
+          "access": "subnets",
+          "command": "network",
+          "entity": "networks",
+          "result_path": "",
+          "single_result_path": "",
+          "key_comparer": "unique_id",
+          "vars": [
+            {
+              "name": "limit",
+              "env": "MAESTRO_SCAN_QTD",
+              "default": 200,
+              "type": "int"
+            }
+          ],
+          "init_job": true
+        },
+        {
+          "access": "ports",
+          "command": "network",
+          "entity": "networks",
+          "result_path": "",
+          "single_result_path": "",
+          "key_comparer": "unique_id",
+          "vars": [
+            {
+              "name": "limit",
+              "env": "MAESTRO_SCAN_QTD",
+              "default": 200,
+              "type": "int"
+            }
+          ],
+          "init_job": true
+        },
+        {
+          "access": "routers",
+          "command": "network",
+          "entity": "networks",
+          "result_path": "",
+          "single_result_path": "",
+          "key_comparer": "unique_id",
+          "vars": [
+            {
+              "name": "limit",
+              "env": "MAESTRO_SCAN_QTD",
+              "default": 200,
+              "type": "int"
+            }
+          ],
+          "init_job": true
+        }
+      ]
+    }
+}

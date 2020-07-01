@@ -2,6 +2,7 @@ import json
 from app.libs.logger import logger
 from .maestroRequest import MaestroRequest
 
+
 class ExternalMaestro(object):
     def __init__(self, base, tftm="json", requester=MaestroRequest):
         self._base = base
@@ -15,8 +16,8 @@ class ExternalMaestro(object):
         self._headers = headers
         return self
 
-    def set_fomart(self, format):
-        self._format = format
+    def set_fomart(self, cformat):
+        self._format = cformat
         return self
 
     def get_raw(self):
@@ -58,7 +59,6 @@ class ExternalMaestro(object):
     def post_request(self, path, body={}):
         self._results = self.request(path, body, 'post')
         return self
-
 
     def createRootURI(self, path):
         if self._base:

@@ -1,8 +1,7 @@
-
-
 from flask_restful import Resource
 from app.libs.providersRules import providersRules
 from app.services.privateAuth import private_auth
+
 
 class CrawlerDcs(Resource):
     @private_auth
@@ -26,6 +25,6 @@ class CrawlerDcs(Resource):
             }
         }
         """
-        result = providersRules('rules').get('permissions', {}).get(datacenter)
+        result = providersRules(datacenter).get('permissions', {})
         if result:
             return result

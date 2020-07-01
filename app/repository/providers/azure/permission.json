@@ -1,0 +1,175 @@
+{
+  "permissions": {
+      "server-list": [
+        {
+          "access": "virtual_machines",
+          "command": "compute",
+          "entity": "servers",
+          "result_path": "value",
+          "key_comparer": "ipv4_private",
+          "conf": {
+            "exec": "list_all"
+          },
+          "hooks": [
+            {"key": "ipv4_private", "hook": "sub_azure", "method": "ipv4Private"},
+            {"key": "ipv4_public", "hook": "sub_azure", "method": "ipv4Public"},
+            {"key": "cpu|memory", "hook": "sub_azure", "method": "cpuAndMemoryByInstanceType"}
+          ],
+          "vars": [
+            {
+              "name": "per_page",
+              "env": "MAESTRO_SCAN_QTD",
+              "default": 50,
+              "type": "int"
+            }
+          ],
+          "init_job": true
+        }
+      ],
+      "volumes-list": [
+        {
+          "access": "disks",
+          "command": "compute",
+          "entity": "volumes",
+          "result_path": "value",
+          "key_comparer": "unique_id",
+          "conf": {
+            "exec": "list"
+          },
+          "vars": [
+            {
+              "name": "per_page",
+              "env": "MAESTRO_SCAN_QTD",
+              "default": 50,
+              "type": "int"
+            }
+          ],
+          "init_job": true
+        }
+      ],
+      "snapshot-list": [
+        {
+          "access": "snapshots",
+          "command": "compute",
+          "entity": "snapshots",
+          "result_path": "value",
+          "key_comparer": "unique_id",
+          "conf": {
+            "exec": "list"
+          },
+          "vars": [
+            {
+              "name": "per_page",
+              "env": "MAESTRO_SCAN_QTD",
+              "default": 50,
+              "type": "int"
+            }
+          ],
+          "init_job": true
+        }
+      ],
+      "images-list": [
+        {
+          "access": "images",
+          "command": "compute",
+          "entity": "images",
+          "result_path": "value",
+          "key_comparer": "unique_id",
+          "conf": {
+            "exec": "list"
+          },
+          "vars": [
+            {
+              "name": "per_page",
+              "env": "MAESTRO_SCAN_QTD",
+              "default": 50,
+              "type": "int"
+            }
+          ],
+          "init_job": true
+        }
+      ],
+      "network-list": [
+        {
+          "access": "network_interfaces",
+          "command": "network",
+          "entity": "networks",
+          "family": "NetworkInterface",
+          "result_path": "value",
+          "key_comparer": "unique_id",
+          "conf": {
+            "exec": "list_all"
+          },
+          "vars": [
+            {
+              "name": "per_page",
+              "env": "MAESTRO_SCAN_QTD",
+              "default": 50,
+              "type": "int"
+            }
+          ],
+          "init_job": true
+        },
+        {
+          "access": "public_ip_addresses",
+          "command": "network",
+          "entity": "networks",
+          "family": "PublicIpAddress",
+          "result_path": "value",
+          "key_comparer": "unique_id",
+          "conf": {
+            "exec": "list_all"
+          },
+          "vars": [
+            {
+              "name": "per_page",
+              "env": "MAESTRO_SCAN_QTD",
+              "default": 50,
+              "type": "int"
+            }
+          ],
+          "init_job": true
+        },
+        {
+          "access": "route_tables",
+          "command": "network",
+          "entity": "networks",
+          "family": "RouteTables",
+          "result_path": "value",
+          "key_comparer": "unique_id",
+          "conf": {
+            "exec": "list_all"
+          },
+          "vars": [
+            {
+              "name": "per_page",
+              "env": "MAESTRO_SCAN_QTD",
+              "default": 50,
+              "type": "int"
+            }
+          ],
+          "init_job": true
+        },
+        {
+          "access": "virtual_networks",
+          "command": "network",
+          "entity": "networks",
+          "family": "VirtualNetwork",
+          "result_path": "value",
+          "key_comparer": "unique_id",
+          "conf": {
+            "exec": "list_all"
+          },
+          "vars": [
+            {
+              "name": "per_page",
+              "env": "MAESTRO_SCAN_QTD",
+              "default": 50,
+              "type": "int"
+            }
+          ],
+          "init_job": true
+        }
+      ]
+    }
+}

@@ -1,0 +1,3 @@
+from .terraform_describe_servers import rules as rules_terraform_servers
+from .terraform_describe_storage import rules as rules_terraform_storage
+from .terraform_describe_volumes import rules as rules_terraform_volumes

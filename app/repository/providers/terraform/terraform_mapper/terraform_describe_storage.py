@@ -1,0 +1,35 @@
+def rules(conn):
+    return {
+        'name': {'call': 'switch',
+                      'source': 'attributes.tags.Name'},
+        'unique_id': {'call': 'switch',
+                      'source': 'attributes.id'},
+        'size': {'call': 'switch',
+                      'source': 'attributes.size'},
+        'iops': {'call': 'switch',
+                      'source': 'attributes.iops'},
+        'volume_type': {'call': 'switch',
+                      'source': 'attributes.type'},
+        'encrypted': {'call': 'switch',
+                      'source': 'attributes.encrypted'},
+        'availability_zone': {'call': 'switch',
+                      'source': 'attributes.availability_zone'},
+        'kms_key_id': {'call': 'switch',
+                      'source': 'attributes.kms_key_id'},
+        'snapshot_id': {'call': 'switch',
+                       'source': 'attributes.snapshot_id'},
+
+        'tags': {'call': 'fctTags', 'source': 'attributes.tags'},
+
+        'datacenters': {'call': 'fctDc',
+                        'source': {**conn}},
+        'active': {'call': 'setV', 'source': True},
+        'owner': {'call': 'fctOwner',
+                  'source': {**conn}},
+        'family': {'call': 'setV', 'source': 'TerraformTracked'},
+        'accountant': {'call': 'fctAccountant', 'source': {**conn}},
+        'roles': {'call': 'fctRoles',
+                  'source': {**conn}},
+        'checksum': {'call': 'checksum',
+                     'source': None}
+    }

@@ -1,6 +1,8 @@
+import builtins
+import os
 
-import os, builtins
 from pydash.objects import get, set_
+
 
 class Normalize(object):
 
@@ -17,7 +19,6 @@ class Normalize(object):
             clear.append({item['name']: typed})
 
         return clear
-
 
     @staticmethod
     def singleKeyObjectIdToStr(data, key):

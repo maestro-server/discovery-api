@@ -22,7 +22,7 @@ def get_data_list(result, key, owner_user, conn_id, entity):
     query = json.dumps({key: ids, 'roles._id': owner_user})
 
     return ExternalMaestroData(entity_id=conn_id) \
-        .post_request(path="%s" % (entity), body={'query': query}) \
+        .post_request(path="%s" % entity, body={'query': query}) \
         .get_results('items')
 
 
@@ -30,15 +30,15 @@ def get_data_list(result, key, owner_user, conn_id, entity):
 @celery.task(name="insert.api")
 def task_insert(conn, conn_id, task, result, options, lasted=False):
 
-    key = get(options, 'key_comparer')
+    key_comparer = get(options, 'key_comparer')
     owner_user = get(conn, 'owner_user._id')
 
     if not owner_user:
         task_notification.delay(msg="Missing Owner User/Team in this connection.", conn_id=conn_id, task=task, status='danger')
         raise PermissionError('[Insert Task] Missing Owner')
 
-    content = get_data_list(result, key, owner_user, conn_id, options['entity'])
-    body = MergeAPI(content=content, key_comparer=key).merge(result)
+    content = get_data_list(result, key_comparer, owner_user, conn_id, options['entity'])
+    body = MergeAPI(content=content, key_comparer=key_comparer).merge(result)
 
     if len(body) > 0:
         hooks = options.get('hooks')
@@ -64,6 +64,6 @@ def task_insert(conn, conn_id, task, result, options, lasted=False):
         'lasted': lasted,
         'conn_id': conn_id,
         'task': task,
-        'notification-id': str(key),
+        'notification-id': str(key_comparer),
         'body': len(body)
     }

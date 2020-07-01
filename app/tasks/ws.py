@@ -1,7 +1,7 @@
-
 from pydash.objects import get
 from app import celery
 from app.repository.externalMaestroWS import ExternalMaestroWS
+
 
 @celery.task(name="ws.api")
 def task_ws(conn, conn_id, task, status='success'):

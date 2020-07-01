@@ -1,6 +1,5 @@
+from pydash.objects import defaults, get
 
-from pydash.objects import defaults, get, merge
-from app.services.rules.ruler import Ruler
 
 class FilterAPI(object):
 

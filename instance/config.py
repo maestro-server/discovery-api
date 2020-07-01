@@ -10,6 +10,7 @@ from dotenv import load_dotenv, find_dotenv
 
 load_dotenv(find_dotenv())
 
+
 class Config(object):
     TESTING = os.environ.get("TESTING", False)
     RESTFUL_JSON = {'cls': DateTimeEncoder}
@@ -23,6 +24,7 @@ class Config(object):
     MAESTRO_DATA_URI = os.environ.get("MAESTRO_DATA_URI", "http://localhost:5010")
     MAESTRO_AUDIT_URI = os.environ.get("MAESTRO_AUDIT_URI", "http://localhost:10900")
     MAESTRO_WEBSOCKET_URI = os.environ.get("MAESTRO_WEBSOCKET_URI", "http://localhost:8000")
+    MAESTRO_SERVER_URI = os.environ.get("MAESTRO_SERVER_URI", "http://localhost:8888")
 
     MAESTRO_COUNTDOWN_LAST = int(os.environ.get("MAESTRO_COUNTDOWN_LAST", 10))
     MAESTRO_COUNTDOWN_WS = int(os.environ.get("MAESTRO_COUNTDOWN_WS", 1))

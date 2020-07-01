@@ -1,0 +1,55 @@
+{
+  "permissions": {
+    "server-list": [
+      {
+        "access": "ansible_facts",
+        "command": "s3",
+        "entity": "servers",
+        "result_path": "ansible_facts",
+        "single_result_path": "",
+        "key_comparer": "ipv4_private",
+        "vars": [
+          {
+            "name": "MaxKeys",
+            "env": "MAESTRO_SCAN_QTD",
+            "default": 200,
+            "type": "int"
+          }
+        ],
+        "hooks": [
+          {
+            "key": "name",
+            "hook": "ansible",
+            "method": "fallbackName"
+          }
+        ],
+        "init_job": true
+      }
+    ],
+    "volumes-list": [
+      {
+        "access": "ansible_devices",
+        "command": "s3",
+        "entity": "volumes",
+        "result_path": "ansible_facts",
+        "single_result_path": "",
+        "single_translate_hook": {
+          "hook": "mapReduceOnDict",
+          "opts": {
+            "field": ["ansible_devices"]
+          }
+        },
+        "key_comparer": "unique_id",
+        "vars": [
+          {
+            "name": "MaxKeys",
+            "env": "MAESTRO_SCAN_QTD",
+            "default": 200,
+            "type": "int"
+          }
+        ],
+        "init_job": true
+      }
+    ]
+  }
+}

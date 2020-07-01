@@ -1,10 +1,9 @@
-
 from app import celery
 from app.repository.externalMaestroAudit import ExternalMaestroAudit
 
+
 @celery.task(name="external_audit.api")
 def task_external_audit(path, tmp, method="post"):
-
     rfunction = "%s_request" % method
 
     try:

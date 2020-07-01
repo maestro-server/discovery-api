@@ -1,23 +1,21 @@
-
 from pydash.objects import pick_by, assign, get
 from pydash.utilities import identity
 
-class IteratorRuler(object):
 
+class IteratorRuler(object):
     _translate = {}
 
     def __init__(self):
         self._translate = {}
 
-    def push_data(self, data, single, merged = False):
+    def push_data(self, data, single, merged=False):
         if merged is True:
             assign(self._translate, data)
 
         if merged is not True:
             self._translate[single] = data
 
-
-    def batch(self, items, Ruler, source = {}):
+    def batch(self, items, Ruler, source={}):
         for key, item in items:
             res = getattr(Ruler, item.get('call'))(item.get('source'), source)
 

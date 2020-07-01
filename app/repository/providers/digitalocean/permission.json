@@ -1,0 +1,157 @@
+{
+  "name": "Digital Ocean",
+  "permissions": {
+      "server-list": [
+        {
+          "access": "get_all_droplets",
+          "command": "",
+          "entity": "servers",
+          "result_path": "droplets",
+          "single_result_path": "",
+          "key_comparer": "ipv4_private",
+          "vars": [
+            {
+              "name": "per_page",
+              "env": "MAESTRO_SCAN_QTD",
+              "default": 200,
+              "type": "int"
+            }
+          ],
+          "init_job": true
+        }
+      ],
+      "volumes-list": [
+        {
+          "access": "get_all_volumes",
+          "command": "",
+          "entity": "volumes",
+          "result_path": "volumes",
+          "key_comparer": "unique_id",
+          "vars": [
+            {
+              "name": "per_page",
+              "env": "MAESTRO_SCAN_QTD",
+              "default": 200,
+              "type": "int"
+            }
+          ],
+          "init_job": true
+        }
+      ],
+      "images-list": [
+        {
+          "access": "get_my_images",
+          "command": "",
+          "entity": "images",
+          "result_path": "images",
+          "key_comparer": "unique_id",
+          "vars": [
+            {
+              "name": "per_page",
+              "env": "MAESTRO_SCAN_QTD",
+              "default": 200,
+              "type": "int"
+            }
+          ],
+          "init_job": true
+        }
+      ],
+      "loadbalance-list": [
+        {
+          "access": "get_all_load_balancers",
+          "command": "",
+          "entity": "applications",
+          "family": "Loadbalance",
+          "provider": "LB (DigitalOcean)",
+          "result_path": "load_balancers",
+          "key_comparer": "unique_id",
+          "vars": [
+            {
+              "name": "per_page",
+              "env": "MAESTRO_SCAN_QTD",
+              "default": 200,
+              "type": "int"
+            }
+          ],
+          "init_job": true
+        }
+      ],
+      "snapshot-list": [
+        {
+          "access": "get_all_snapshots",
+          "command": "",
+          "entity": "snapshots",
+          "result_path": "snapshots",
+          "key_comparer": "unique_id",
+          "vars": [
+            {
+              "name": "per_page",
+              "env": "MAESTRO_SCAN_QTD",
+              "default": 200,
+              "type": "int"
+            }
+          ],
+          "init_job": true
+        }
+      ],
+      "cdns-list": [
+        {
+          "access": "get_all_cdns",
+          "command": "",
+          "entity": "applications",
+          "family": "CDN",
+          "provider": "CDN (DigitalOcean)",
+          "result_path": "endpoints",
+          "key_comparer": "unique_id",
+          "vars": [
+            {
+              "name": "per_page",
+              "env": "MAESTRO_SCAN_QTD",
+              "default": 200,
+              "type": "int"
+            }
+          ],
+          "init_job": true
+        }
+      ],
+      "container-orchestration-list": [
+        {
+          "access": "get_all_kubernetes",
+          "command": "",
+          "entity": "applications",
+          "family": "ContainerOrchestration",
+          "provider": "Kubernetes (DigitalOcean)",
+          "result_path": "kubernetes_clusters",
+          "key_comparer": "unique_id",
+          "vars": [
+            {
+              "name": "per_page",
+              "env": "MAESTRO_SCAN_QTD",
+              "default": 200,
+              "type": "int"
+            }
+          ],
+          "init_job": true
+        }
+      ],
+      "network-list": [
+        {
+          "access": "get_all_firewalls",
+          "command": "",
+          "entity": "networks",
+          "family": "Firewall",
+          "result_path": "firewalls",
+          "key_comparer": "unique_id",
+          "vars": [
+            {
+              "name": "per_page",
+              "env": "MAESTRO_SCAN_QTD",
+              "default": 200,
+              "type": "int"
+            }
+          ],
+          "init_job": true
+        }
+      ]
+    }
+}

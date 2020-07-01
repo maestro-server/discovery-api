@@ -1,14 +1,50 @@
-
 import os
 import json
 from app import app
+from pydash import pick
 
 
-def providersRules(action):
-    root_path = os.path.join(app.root_path, '..')
-    file = open(root_path + '/app/services/template/' + action + '.json')
-    json_data = file.read()
-    data = json.loads(json_data)
+def get_files(path, type):
+    files = []
+    for r, d, f in os.walk(path):
+        for file in f:
+            if '%s.json' % type in file:
+                files.append(os.path.join(r, file))
+    return files
 
-    file.close()
-    return data
+
+def get_info(file):
+    with open(file, 'r') as f:
+        return json.load(f)
+
+
+def providersRules(provider=""):
+    files = file_extract('permission', provider)
+
+    return data_extract(files, ["name"])
+
+
+def providersInfo(provider=""):
+    files = file_extract('info', provider)
+
+    return {
+        "providers": data_extract(sorted(files), ["icon", "label", "method"])
+    }
+
+
+def file_extract(name, provider):
+    root_path = os.path.join(app.root_path, '')
+    path = '%s/repository/providers/%s' % (root_path, provider)
+    return get_files(path, name)
+
+
+def data_extract(files, filter):
+    if len(files) == 1:
+        return get_info(files[0])
+
+    extract = []
+    for f in files:
+        data = get_info(f)
+        extract.append(pick(data, filter))
+
+    return extract

@@ -1,0 +1,90 @@
+{
+  "icon": "icon-openstack",
+  "label": "Openstack",
+  "method": ["Api (Horizon)"],
+  "dc": "Openstack",
+  "data": [
+    {
+      "label": "Api",
+      "authClass": "OpenStack",
+      "template": {
+        "intro": "Hit: All information may be found in Access & Security page inside of GUI OpenStack",
+        "dc": [
+          true,
+          true
+        ],
+        "conn": [
+          {
+            "comp": "bs-input",
+            "validate": "required",
+            "metas": {
+              "class": "mt20",
+              "name": "username",
+              "label": "Username ID*"
+            }
+          },
+          {
+            "comp": "bs-input",
+            "validate": "required",
+            "metas": {
+              "name": "password",
+              "type": "password",
+              "label": "Password*"
+            }
+          }
+        ],
+        "extra": [
+          {
+            "comp": "bs-select",
+            "validate": "required",
+            "metas": {
+              "name": "api_version",
+              "label": "Api Version",
+              "options": [
+                "2",
+                "3"
+              ],
+              "placeholder": "Select a API Version"
+            }
+          },
+          {
+            "comp": "bs-input",
+            "validate": "required",
+            "metas": {
+              "name": "url",
+              "label": "Auth URL*",
+              "help": "It's keystone url",
+              "placeholder": "https://keystone.br-maestro-server.com.br:5000/v2.0"
+            }
+          },
+          {
+            "comp": "bs-input",
+            "validate": "required",
+            "metas": {
+              "name": "project",
+              "label": "Project Id*",
+              "placeholder": "33aa1afc-03fe-43b8-8201-4e0d3b4b8ab5"
+            }
+          },
+          {
+            "comp": "bs-input",
+            "validate": "required",
+            "metas": {
+              "name": "user_domain_id",
+              "label": "User Domain Id*",
+              "placeholder": "default"
+            }
+          },
+          {
+            "comp": "p",
+            "validate": "",
+            "html": "Details on <a href='http://docs.maestroserver.io/en/latest/userguide/cloud_inventory/autodiscovery/openstack.html' target='_blank'>Maestro OpenStack</a>. </br>Can see more on <a href='https://developer.openstack.org/api-guide/quick-start/api-quick-start.html' target='_blank'>Portal OpenStack - Identity</a>",
+            "metas": {
+              "name": "aws-p"
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

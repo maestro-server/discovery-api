@@ -1,5 +1,5 @@
 
-from app.libs.providersRules import providersRules
+from app.libs.providersRules import providersRules, providersInfo
 from flask_restful import Resource
 
 from app.services.privateAuth import private_auth
@@ -7,7 +7,7 @@ from app.services.privateAuth import private_auth
 
 class Available(Resource):
     @private_auth
-    def get(self, action):
+    def get(self, action, provider=""):
         """
         @api {get} /available/<action> 1. Available template connections
         @apiName GetAvailCrawler
@@ -27,10 +27,18 @@ class Available(Resource):
             "resources": []
         }
         """
-        if action in ['info', 'rules']:
-            data = providersRules(action)
-            return {
-                "items": [
-                    {"value": data}
-                ]
-            }
+
+        data = {}
+
+        if action == 'info':
+            data = providersInfo(provider)
+
+        if action == 'rules':
+            data = providersRules(provider)
+
+        return {
+            "items": [
+                {"value": data}
+            ]
+        }
+

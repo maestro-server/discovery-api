@@ -1,0 +1,23 @@
+{
+  "permissions": {
+      "server-list": [
+        {
+          "access": "maestro_template",
+          "command": "s3",
+          "entity": "servers",
+          "result_path": "",
+          "single_result_path": "",
+          "key_comparer": "ipv4_private",
+          "vars": [
+            {
+              "name": "MaxKeys",
+              "env": "MAESTRO_SCAN_QTD",
+              "default": 200,
+              "type": "int"
+            }
+          ],
+          "init_job": true
+        }
+      ]
+    }
+}

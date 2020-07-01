@@ -1,0 +1,69 @@
+{
+  "icon": "icon-digital-ocean",
+  "label": "Spaces",
+  "method": ["Spaces Token"],
+  "dc": "Digital Ocean",
+  "data": [
+    {
+      "icon": "icon-digital-ocean",
+      "label": "Access and secret key",
+      "authClass": "S3",
+      "service": "spaces_do",
+      "method": [
+        {
+          "label": "Spaces Token"
+        }
+      ],
+      "template": {
+        "intro": "Please add your Spaces token.",
+        "dc": [
+          true,
+          true
+        ],
+        "conn": [
+          {
+            "comp": "bs-input",
+            "validate": "required",
+            "metas": {
+              "class": "mt20",
+              "name": "access",
+              "label": "Space AccessKey ID*"
+            }
+          },
+          {
+            "comp": "bs-input",
+            "validate": "required",
+            "metas": {
+              "name": "secret",
+              "type": "password",
+              "label": "Space SecretAccess Key*"
+            }
+          }
+        ],
+        "extra": [
+          {
+            "comp": "accordion",
+            "validate": "",
+            "panel": [
+              {
+                "header": "Get Spaces Token",
+                "body": "To create a new token, enter on dashboard: <ol><li>Click the API link in the main navigation</li><li>Takes you to to the Spaces token</li><li>On the Tokens/Keys tab.</li> <li>Click the Generate New Token on Spaces, get the key and secret key.</li></ol>"
+              }
+            ],
+            "metas": {
+              "name": "aws-p"
+            }
+          },
+          {
+            "comp": "p",
+            "validate": "",
+            "html": "More details about the setup <a href='http://docs.maestroserver.io/en/latest/userguide/cloud_inventory/autodiscovery/digitalocean.html' target='_blank'>Maestro Digital Ocean</a>. </br>Can see more on <a href='https://www.digitalocean.com/community/tutorials/how-to-create-a-digitalocean-space-and-api-key' target='_blank'>Portal Digital Ocean - Spaces</a>",
+            "metas": {
+              "name": "aws-p"
+            }
+          }
+        ]
+      }
+    }
+  ]
+}
