@@ -1,6 +1,7 @@
 def rules(conn):
     return {
-        'name': {'call': 'switch', 'source': 'hostname'},
+        'name': {'call': 'switch', 'source': 'name'},
+        'hostname': {'call': 'switch', 'source': 'hostname'},
         'ipv4_private': {'call': 'switch', 'source': 'ipv4_private'},
         'ipv4_public': {'call': 'switch', 'source': 'ipv4_public'},
         'role': {'call': 'switch', 'source': 'role'},
@@ -12,9 +13,9 @@ def rules(conn):
         'memory': {'call': 'switch', 'source': 'memory'},
 
         'auth': {'call': 'switch', 'source': 'auth'},
-        'active': {'call': 'switch', 'source': 'active'},
         'status': {'call': 'switch', 'source': 'status'},
 
+        'active': {'call': 'setV', 'source': True},
         'datacenters': {'call': 'fctDc',
                         'source': {**conn}},
 

@@ -1,13 +1,108 @@
 {
   "permissions": {
-      "server-list": [
+      "server-import": [
         {
           "access": "maestro_template",
           "command": "s3",
           "entity": "servers",
-          "result_path": "",
+          "result_path": "servers",
           "single_result_path": "",
           "key_comparer": "ipv4_private",
+          "vars": [
+            {
+              "name": "MaxKeys",
+              "env": "MAESTRO_SCAN_QTD",
+              "default": 200,
+              "type": "int"
+            }
+          ],
+          "init_job": true
+        }
+      ],
+      "applications-import": [
+        {
+          "access": "maestro_applications",
+          "command": "s3",
+          "entity": "applications",
+          "result_path": "applications",
+          "single_result_path": "",
+          "key_comparer": "name",
+          "vars": [
+            {
+              "name": "MaxKeys",
+              "env": "MAESTRO_SCAN_QTD",
+              "default": 200,
+              "type": "int"
+            }
+          ],
+          "init_job": true
+        }
+      ],
+      "volumes-import": [
+        {
+          "access": "maestro_volumes",
+          "command": "s3",
+          "entity": "volumes",
+          "result_path": "volumes",
+          "single_result_path": "",
+          "key_comparer": "name",
+          "vars": [
+            {
+              "name": "MaxKeys",
+              "env": "MAESTRO_SCAN_QTD",
+              "default": 200,
+              "type": "int"
+            }
+          ],
+          "init_job": true
+        }
+      ],
+      "snapshots-import": [
+        {
+          "access": "maestro_snapshots",
+          "command": "s3",
+          "entity": "snapshots",
+          "result_path": "snapshots",
+          "single_result_path": "",
+          "key_comparer": "name",
+          "vars": [
+            {
+              "name": "MaxKeys",
+              "env": "MAESTRO_SCAN_QTD",
+              "default": 200,
+              "type": "int"
+            }
+          ],
+          "init_job": true
+        }
+      ],
+      "images-import": [
+        {
+          "access": "maestro_images",
+          "command": "s3",
+          "entity": "images",
+          "result_path": "images",
+          "single_result_path": "",
+          "key_comparer": "name",
+          "vars": [
+            {
+              "name": "MaxKeys",
+              "env": "MAESTRO_SCAN_QTD",
+              "default": 200,
+              "type": "int"
+            }
+          ],
+          "init_job": true
+        }
+      ],
+      "flavors-import": [
+        {
+          "access": "maestro_flavors",
+          "command": "s3",
+          "entity": "flavors",
+          "result_path": "flavors",
+          "single_result_path": "",
+          "key_comparer": "name",
           "vars": [
             {
               "name": "MaxKeys",

@@ -11,7 +11,7 @@ class FileSSH(AuthSSH):
 
             for line in output:
                 json = self.make_result(line)
-                if json and isinstance(json, list):
+                if json:
                     results = results + json
 
             return results

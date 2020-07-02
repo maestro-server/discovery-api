@@ -16,7 +16,7 @@ class FileS3(AuthS3):
             for key in output.get('Contents'):
                 json = self.get_content(key['Key'])
 
-                if json and isinstance(json, list):
+                if json:
                     results = results + json
 
             return results

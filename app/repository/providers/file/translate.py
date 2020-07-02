@@ -17,7 +17,12 @@ class MapperFile(Mapper):
 
     def mapp(self):
         mapper = {
-            'maestro_template': rules_servers(self.conn)
+            'maestro_template': rules_servers(self.conn),
+            'maestro_applications': rules_applications(self.conn),
+            'maestro_volumes': rules_volumes(self.conn),
+            'maestro_snapshots': rules_snapshots(self.conn),
+            'maestro_images': rules_images(self.conn),
+            'maestro_flavors': rules_flavors(self.conn)
         }
 
         return mapper[self.command]
