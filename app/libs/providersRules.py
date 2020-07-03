@@ -33,7 +33,7 @@ def providersInfo(provider=""):
 
 
 def file_extract(name, provider):
-    root_path = os.path.join(app.root_path, '')
+    root_path = os.path.join(app.root_path, '.')
     path = '%s/repository/providers/%s' % (root_path, provider)
     return get_files(path, name)
 

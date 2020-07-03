@@ -8,7 +8,7 @@
       "label": "Upload file",
       "service": "upload_ansible",
       "template": {
-        "intro": "Upload it the ansible fact gathering and/or service facts.",
+        "intro": "Upload it the ansible fact gathering.",
         "dc": [
           true,
           false
@@ -37,7 +37,7 @@
             "panel": [
               {
                 "header": "Generating ansible fact",
-                "body": "<ol><li>You can generate the ansible facts running <em class='label label-default'>ansible all -m setup out/</em></li><li>Ansible will generate one file per host</li></ol>"
+                "body": "<ol><li>You can generate the ansible facts running <em class='label label-default'>ansible -m setup --tree out/ all</em></li><li>Ansible will generate one file per host</li></ol>"
               }
             ],
             "metas": {
@@ -126,7 +126,7 @@
               },
               {
                 "header": "Generating ansible fact",
-                "body": "<ol><li>You can generate the ansible facts running <em class='label label-default'>ansible all -m setup /opt/ansible-facts/</em></li></ol>"
+                "body": "<ol><li>You can generate the ansible facts running <em class='label label-default'>ansible -m setup --tree out/ all</em></li></ol>"
               }
             ],
             "metas": {
@@ -202,7 +202,7 @@
               },
               {
                 "header": "Generating ansible fact",
-                "body": "<ol><li>You can generate the ansible facts running <em class='label label-default'>ansible all -m setup /opt/ansible-facts/</em></li><li>Ansible will generate one file per host.</li></ol>"
+                "body": "<ol><li>You can generate the ansible facts running <em class='label label-default'>ansible -m setup --tree out/ all</em></li><li>Ansible will generate one file per host.</li></ol>"
               }
             ],
             "metas": {
