@@ -2,7 +2,6 @@ import os
 import json
 from app import app
 from pydash import pick
-from app.libs.logger import logger
 
 def get_files(path, type):
     files = []

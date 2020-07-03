@@ -1,6 +1,6 @@
 from app.services.connector.connector import Connector
 from app.repository.externalMaestroServer import ExternalMaestroServer
-
+from app.libs.logger import logger
 
 class AuthUpload(Connector):
 
@@ -19,10 +19,12 @@ class AuthUpload(Connector):
         pass
 
     def make_result(self, path):
-        result = ExternalMaestroServer() \
+        results = ExternalMaestroServer() \
             .list_request(path="users/upload/file?filename=%s" % path) \
             .get_results(self._path_result)
-        return result
+
+        logger.error(results)
+        return results
 
     def execute(self):
         pass
