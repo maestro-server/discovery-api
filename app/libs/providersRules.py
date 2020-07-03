@@ -2,7 +2,7 @@ import os
 import json
 from app import app
 from pydash import pick
-
+from app.libs.logger import logger
 
 def get_files(path, type):
     files = []
@@ -33,8 +33,9 @@ def providersInfo(provider=""):
 
 
 def file_extract(name, provider):
-    root_path = os.path.join(app.root_path, '.')
-    path = '%s/repository/providers/%s' % (root_path, provider)
+    provider = provider.lower()
+    root_path = os.path.join(app.root_path, '')
+    path = '%srepository/providers/%s' % (root_path, provider)
     return get_files(path, name)
 
 
