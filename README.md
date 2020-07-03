@@ -125,7 +125,7 @@ apidoc -i app/controller/ -o docs/
 | MAESTRO_DATA_URI             | http://localhost:5005    | Data App - API URL                         |
 | MAESTRO_AUDIT_URI            | http://localhost:10900   | Audit App - API URL                        |
 | MAESTRO_SERVER_URI           | http://localhost:8888    | Server App - API URL                       |
-| MAESTRO_WEBSOCKET_URI        | http://localhost:8000    | Webosocket App - API URL                   |
+| MAESTRO_WEBSOCKET_URI        | http://localhost:8000    | Websocket App - API URL                   |
 |                              |                          |                                            |
 | FLASK_ENV                    | development|production   |                                            | 
 | MAESTRO_GWORKERS             | 2                        | Gunicorn multi process                     |
