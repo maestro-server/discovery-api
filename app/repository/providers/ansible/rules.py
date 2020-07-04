@@ -1,8 +1,9 @@
 import re
 from app.services.rules.ruler import Ruler
-from pydash.objects import pick_by, omit
+from pydash.objects import get, pick_by, omit
 from pydash.utilities import identity
 from .helper.makeStorageUniqueId import makeStorageUniqueId
+from app.repository.libs.storageSizeConverter import multiple_ten
 
 
 class RulerAnsible(Ruler):
@@ -86,7 +87,10 @@ class RulerAnsible(Ruler):
     @staticmethod
     def getSize(source, batch):
         size = Ruler.switch(source, batch)
-        return int(re.search(r'\d+', size).group())
+        multipler = re.search(r'[A-Z]{2}', size).group()
+        ss = int(re.search(r'\d+', size).group())
+
+        return multiple_ten(ss, multipler)
 
     @staticmethod
     def getUniqueId(_, batch):
@@ -96,7 +100,8 @@ class RulerAnsible(Ruler):
     @staticmethod
     def getSingleMount(source, uuid):
         for value in source:
-            if value.get('uuid') == uuid:
+            myuuid = get(value, 'uuid', get(value, 'links.uuids[0]'))
+            if myuuid == uuid:
                 return {
                     'device': value.get('device'),
                     'mount': value.get('mount'),
