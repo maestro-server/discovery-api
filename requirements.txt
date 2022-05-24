@@ -9,7 +9,7 @@ Flask-RESTful==0.3.8
 openstacksdk==0.45.0
 pycurl==7.43.0.5
 pydash==4.7.6
-PyJWT==1.7.1
+PyJWT==2.4.0
 pymongo==3.11.0
 python-digitalocean==1.15.0
 python-dotenv==0.12.0
